@@ -1,3 +1,4 @@
+namespace app.schema_flexwork;
 using { Country, managed, cuid } from '@sap/cds/common';
 type LocationID : String(13);
 type UserID : String(12);
@@ -35,16 +36,18 @@ entity SAPOfficeData {
   block : String(2);
   floor : Integer;
   totalSeat : Integer;
-  adminID : Association to Users;
+  unassignSeat : Integer;
+  admin : Association to Users;
 };
 
 entity Teams {
      key teamID : TeamID;
+     key locationID : LocationID; //added
      teamName : String(50);
      employeeCount : Integer;
      maxSeatPercent : Integer;
-     managerID : Association to Users;
-     headManagerID : Association to Users;
+     manager : Association to Users;
+     headManager : Association to Users;
   };
 
  entity TeamEmployeeMaster {
