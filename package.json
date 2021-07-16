@@ -10,9 +10,6 @@
         "express": "^4",
         "hdb": "^0.18.3"
     },
-    "devDependencies": {
-        "sqlite3": "^5.0.2"
-    },
     "scripts": {
         "start": "cds run"
     },
