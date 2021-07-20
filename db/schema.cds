@@ -38,11 +38,12 @@ entity SAPOfficeData {
   totalSeat : Integer;
   unassignSeat : Integer;
   admin : Association to Users;
+  Teams: Association to many Teams on  $self.locationID = locationID;
 };
 
 entity Teams {
      key teamID : TeamID;
-     key locationID : LocationID; //added
+     key locationID : Association to SAPOfficeData;
      teamName : String(50);
      employeeCount : Integer;
      maxSeatPercent : Integer;
