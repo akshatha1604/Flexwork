@@ -65,7 +65,8 @@
             "minUI5Version": "1.76.0",
             "libs": {
                 "sap.ui.core": {},
-                "sap.fe.templates": {}
+                "sap.fe.templates": {},
+                "sap.f": {}
             }
         },
         "models": {
@@ -89,17 +90,26 @@
                 {
                     "pattern": ":?query:",
                     "name": "SAPOfficeDataList",
-                    "target": "SAPOfficeDataList"
+                    "target": [
+                        "SAPOfficeDataList"
+                    ]
                 },
                 {
                     "pattern": "SAPOfficeData({key}):?query:",
                     "name": "SAPOfficeDataObjectPage",
-                    "target": "SAPOfficeDataObjectPage"
+                    "target": [
+                        "SAPOfficeDataList",
+                        "SAPOfficeDataObjectPage"
+                    ]
                 },
                 {
                     "pattern": "SAPOfficeData({key})/Teams({key2}):?query:",
                     "name": "TeamsObjectPage",
-                    "target": "TeamsObjectPage"
+                    "target": [
+                        "SAPOfficeDataList",
+                        "SAPOfficeDataObjectPage",
+                        "TeamsObjectPage"
+                    ]
                 }
             ],
             "targets": {
@@ -119,7 +129,9 @@
                                 }
                             }
                         }
-                    }
+                    },
+                    "controlAggregation": "beginColumnPages",
+                    "contextPattern": ""
                 },
                 "SAPOfficeDataObjectPage": {
                     "type": "Component",
@@ -137,7 +149,9 @@
                                 }
                             }
                         }
-                    }
+                    },
+                    "controlAggregation": "midColumnPages",
+                    "contextPattern": "/SAPOfficeData({key})"
                 },
                 "TeamsObjectPage": {
                     "type": "Component",
@@ -148,13 +162,28 @@
                             "editableHeaderContent": false,
                             "entitySet": "Teams"
                         }
-                    }
+                    },
+                    "controlAggregation": "endColumnPages",
+                    "contextPattern": "/SAPOfficeData({key})/Teams({key2})"
                 }
+            },
+            "config": {
+                "flexibleColumnLayout": {
+                    "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                    "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+                },
+                "routerClass": "sap.f.routing.Router"
             }
         },
         "contentDensities": {
             "compact": true,
             "cozy": true
+        },
+        "rootView": {
+            "viewName": "sap.fe.templates.RootContainer.view.Fcl",
+            "type": "XML",
+            "async": true,
+            "id": "appRootView"
         }
     },
     "sap.platform.abap": {

@@ -573,6 +573,148 @@
     "AdminService.SAPOfficeData": {
       "kind": "entity",
       "@readonly": true,
+      "@UI.HeaderInfo.TypeName": "Location",
+      "@UI.HeaderInfo.TypeNamePlural": "Locations",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "locationID"
+      },
+      "@UI.SelectionFields": [
+        {
+          "=": "country_code"
+        },
+        {
+          "=": "city_ID"
+        },
+        {
+          "=": "office_ID"
+        },
+        {
+          "=": "block"
+        },
+        {
+          "=": "floor"
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "Value": {
+            "=": "locationID"
+          }
+        },
+        {
+          "Value": {
+            "=": "country_code"
+          }
+        },
+        {
+          "Value": {
+            "=": "city_ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "office_ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "block"
+          }
+        },
+        {
+          "Value": {
+            "=": "floor"
+          }
+        },
+        {
+          "Value": {
+            "=": "totalSeat"
+          }
+        }
+      ],
+      "@UI.Identification": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "locationID"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "country_code"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "city_ID"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          },
+          "Label": "City"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "office_ID"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          },
+          "Label": "Office"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "block"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "floor"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "totalSeat"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        }
+      ],
+      "@UI.Facets": [
+        {
+          "$Type": "UI.CollectionFacet",
+          "Label": "Location",
+          "ID": "Location",
+          "Facets": [
+            {
+              "$Type": "UI.ReferenceFacet",
+              "Target": "@UI.Identification",
+              "Label": "Location"
+            }
+          ]
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "Target": "Teams/@UI.LineItem",
+          "Label": "Teams"
+        }
+      ],
       "projection": {
         "from": {
           "ref": [
@@ -582,6 +724,7 @@
       },
       "elements": {
         "locationID": {
+          "@title": "Location ID",
           "key": true,
           "type": "app.schema_flexwork.LocationID",
           "length": 13
@@ -600,6 +743,7 @@
           ]
         },
         "city": {
+          "@title": "City",
           "type": "cds.Association",
           "target": "app.schema_flexwork.Cities",
           "keys": [
@@ -611,6 +755,7 @@
           ]
         },
         "office": {
+          "@title": "Office",
           "type": "cds.Association",
           "target": "app.schema_flexwork.Offices",
           "keys": [
@@ -633,13 +778,16 @@
           ]
         },
         "block": {
+          "@title": "Block",
           "type": "cds.String",
           "length": 2
         },
         "floor": {
+          "@title": "Floor",
           "type": "cds.Integer"
         },
         "totalSeat": {
+          "@title": "Total Seat",
           "type": "cds.Integer"
         },
         "unassignSeat": {
@@ -681,6 +829,115 @@
     },
     "AdminService.Teams": {
       "kind": "entity",
+      "@UI.HeaderInfo.TypeName": "Team Detail",
+      "@UI.HeaderInfo.TypeNamePlural": "Team Details",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "teamID"
+      },
+      "@UI.SelectionFields": [
+        {
+          "=": "teamID"
+        },
+        {
+          "=": "teamName"
+        },
+        {
+          "=": "manager_ID"
+        },
+        {
+          "=": "employeeCount"
+        },
+        {
+          "=": "maxSeatPercent"
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "Value": {
+            "=": "teamID"
+          }
+        },
+        {
+          "Value": {
+            "=": "teamName"
+          }
+        },
+        {
+          "Value": {
+            "=": "manager_ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "employeeCount"
+          }
+        },
+        {
+          "Value": {
+            "=": "maxSeatPercent"
+          }
+        }
+      ],
+      "@UI.Identification": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "teamID"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "teamName"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "manager_ID"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          },
+          "Label": "City"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "employeeCount"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          },
+          "Label": "Office"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "maxSeatPercent"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        }
+      ],
+      "@UI.Facets": [
+        {
+          "$Type": "UI.CollectionFacet",
+          "Label": "Team Details",
+          "ID": "Teams",
+          "Facets": [
+            {
+              "$Type": "UI.ReferenceFacet",
+              "Target": "@UI.Identification",
+              "Label": "Team Details"
+            }
+          ]
+        }
+      ],
       "projection": {
         "from": {
           "ref": [
@@ -690,6 +947,7 @@
       },
       "elements": {
         "teamID": {
+          "@title": "Team ID",
           "key": true,
           "type": "app.schema_flexwork.TeamID",
           "length": 20
@@ -707,16 +965,20 @@
           ]
         },
         "teamName": {
+          "@title": "Team Name",
           "type": "cds.String",
           "length": 50
         },
         "employeeCount": {
+          "@title": "Team Count",
           "type": "cds.Integer"
         },
         "maxSeatPercent": {
+          "@title": "Max Seat Percent",
           "type": "cds.Integer"
         },
         "manager": {
+          "@title": "Manager Name",
           "type": "cds.Association",
           "target": "app.schema_flexwork.Users",
           "keys": [
@@ -1462,6 +1724,19 @@
       }
     }
   },
+  "extensions": [
+    {
+      "annotate": "AdminService.SAPOfficeData",
+      "elements": {
+        "country_code": {
+          "@title": "Country"
+        },
+        "office_ID": {
+          "@title": "Office"
+        }
+      }
+    }
+  ],
   "meta": {
     "creator": "CDS Compiler v2.4.4",
     "flavor": "inferred"
