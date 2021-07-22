@@ -1,0 +1,1470 @@
+{
+  "namespace": "app.schema_flexwork",
+  "definitions": {
+    "app.schema_flexwork.LocationID": {
+      "kind": "type",
+      "type": "cds.String",
+      "length": 13
+    },
+    "app.schema_flexwork.UserID": {
+      "kind": "type",
+      "type": "cds.String",
+      "length": 12
+    },
+    "app.schema_flexwork.TeamID": {
+      "kind": "type",
+      "type": "cds.String",
+      "length": 20
+    },
+    "app.schema_flexwork.SeatID": {
+      "kind": "type",
+      "type": "cds.String",
+      "length": 15
+    },
+    "app.schema_flexwork.DayCode": {
+      "kind": "type",
+      "type": "cds.String",
+      "length": 2
+    },
+    "app.schema_flexwork.Cities": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "name": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "app.schema_flexwork.Offices": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "name": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "app.schema_flexwork.Buildings": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "name": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "app.schema_flexwork.Users": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "app.schema_flexwork.UserID",
+          "length": 12
+        },
+        "name": {
+          "type": "cds.String"
+        },
+        "locationID": {
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
+        }
+      }
+    },
+    "app.schema_flexwork.SAPOfficeData": {
+      "kind": "entity",
+      "elements": {
+        "locationID": {
+          "key": true,
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
+        },
+        "country": {
+          "@title": "{i18n>Country}",
+          "@description": "{i18n>CountryCode.Description}",
+          "type": "Country",
+          "target": "sap.common.Countries",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "city": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Cities",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "office": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Offices",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "building": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Buildings",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "block": {
+          "type": "cds.String",
+          "length": 2
+        },
+        "floor": {
+          "type": "cds.Integer"
+        },
+        "totalSeat": {
+          "type": "cds.Integer"
+        },
+        "unassignSeat": {
+          "type": "cds.Integer"
+        },
+        "admin": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Teams": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "app.schema_flexwork.Teams",
+          "on": [
+            {
+              "ref": [
+                "$self",
+                "locationID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "locationID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "app.schema_flexwork.Teams": {
+      "kind": "entity",
+      "elements": {
+        "teamID": {
+          "key": true,
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "locationID": {
+          "key": true,
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.SAPOfficeData",
+          "keys": [
+            {
+              "ref": [
+                "locationID"
+              ]
+            }
+          ]
+        },
+        "teamName": {
+          "type": "cds.String",
+          "length": 50
+        },
+        "employeeCount": {
+          "type": "cds.Integer"
+        },
+        "maxSeatPercent": {
+          "type": "cds.Integer"
+        },
+        "manager": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "headManager": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "app.schema_flexwork.TeamEmployeeMaster": {
+      "kind": "entity",
+      "elements": {
+        "employeeID": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "app.schema_flexwork.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "teamID": {
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "role": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.TeamMemberRoles",
+          "keys": [
+            {
+              "ref": [
+                "roleCode"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "app.schema_flexwork.TeamMemberRoles": {
+      "kind": "entity",
+      "elements": {
+        "roleCode": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "app.schema_flexwork.SeatMaster": {
+      "kind": "entity",
+      "elements": {
+        "seatID": {
+          "key": true,
+          "type": "app.schema_flexwork.SeatID",
+          "length": 15
+        },
+        "locationID": {
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
+        }
+      }
+    },
+    "app.schema_flexwork.TeamSeatMapping": {
+      "kind": "entity",
+      "elements": {
+        "seatID": {
+          "key": true,
+          "type": "app.schema_flexwork.SeatID",
+          "length": 15
+        },
+        "locationID": {
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
+        },
+        "teamID": {
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "monitorCount": {
+          "type": "cds.Integer"
+        },
+        "facility1": {
+          "type": "cds.Integer"
+        },
+        "facility2": {
+          "type": "cds.Integer"
+        },
+        "facility3": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "app.schema_flexwork.Privileges": {
+      "kind": "entity",
+      "elements": {
+        "UserID": {
+          "key": true,
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "PrivilegeID": {
+          "type": "cds.Integer",
+          "enum": {
+            "Full": {
+              "val": 1
+            },
+            "Countrywise": {
+              "val": 2
+            },
+            "Citywise": {
+              "val": 3
+            },
+            "Officewise": {
+              "val": 4
+            },
+            "Buildingwise": {
+              "val": 5
+            },
+            "Blockwise": {
+              "val": 6
+            },
+            "Floorwise": {
+              "val": 7
+            }
+          }
+        }
+      }
+    },
+    "app.schema_flexwork.Booking": {
+      "kind": "entity",
+      "includes": [
+        "cuid",
+        "managed"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "bookingID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "seatID": {
+          "type": "app.schema_flexwork.SeatID",
+          "length": 15
+        },
+        "employeeID": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "bookedBy": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "bookingDate": {
+          "type": "cds.Date"
+        },
+        "dayCode": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.DayCodes",
+          "keys": [
+            {
+              "ref": [
+                "dayCode"
+              ]
+            }
+          ]
+        },
+        "status": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.BookingStatus",
+          "keys": [
+            {
+              "ref": [
+                "bookingStatus"
+              ]
+            }
+          ]
+        },
+        "attendance": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.AttendanceStatus",
+          "keys": [
+            {
+              "ref": [
+                "attendanceStatus"
+              ]
+            }
+          ]
+        },
+        "isGroupBooking": {
+          "type": "cds.Boolean"
+        },
+        "isDeleted": {
+          "type": "cds.Boolean"
+        }
+      }
+    },
+    "app.schema_flexwork.BookingStatus": {
+      "kind": "entity",
+      "elements": {
+        "bookingStatus": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "app.schema_flexwork.AttendanceStatus": {
+      "kind": "entity",
+      "elements": {
+        "attendanceStatus": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "app.schema_flexwork.DayCodes": {
+      "kind": "entity",
+      "elements": {
+        "dayCode": {
+          "key": true,
+          "type": "app.schema_flexwork.DayCode",
+          "length": 2
+        },
+        "fromTime": {
+          "type": "cds.Time"
+        },
+        "toTime": {
+          "type": "cds.Time"
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 80
+        }
+      }
+    },
+    "AdminService": {
+      "@source": "service.cds",
+      "kind": "service"
+    },
+    "AdminService.SAPOfficeData": {
+      "kind": "entity",
+      "@readonly": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.SAPOfficeData"
+          ]
+        }
+      },
+      "elements": {
+        "locationID": {
+          "key": true,
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
+        },
+        "country": {
+          "@title": "{i18n>Country}",
+          "@description": "{i18n>CountryCode.Description}",
+          "type": "Country",
+          "target": "AdminService.Countries",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "city": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Cities",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "office": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Offices",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "building": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Buildings",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "block": {
+          "type": "cds.String",
+          "length": 2
+        },
+        "floor": {
+          "type": "cds.Integer"
+        },
+        "totalSeat": {
+          "type": "cds.Integer"
+        },
+        "unassignSeat": {
+          "type": "cds.Integer"
+        },
+        "admin": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Teams": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "AdminService.Teams",
+          "on": [
+            {
+              "ref": [
+                "$self",
+                "locationID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "locationID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "AdminService.Teams": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.Teams"
+          ]
+        }
+      },
+      "elements": {
+        "teamID": {
+          "key": true,
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "locationID": {
+          "key": true,
+          "type": "cds.Association",
+          "target": "AdminService.SAPOfficeData",
+          "keys": [
+            {
+              "ref": [
+                "locationID"
+              ]
+            }
+          ]
+        },
+        "teamName": {
+          "type": "cds.String",
+          "length": 50
+        },
+        "employeeCount": {
+          "type": "cds.Integer"
+        },
+        "maxSeatPercent": {
+          "type": "cds.Integer"
+        },
+        "manager": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "headManager": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "AdminService.TeamSeatMapping": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.TeamSeatMapping"
+          ]
+        }
+      },
+      "elements": {
+        "seatID": {
+          "key": true,
+          "type": "app.schema_flexwork.SeatID",
+          "length": 15
+        },
+        "locationID": {
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
+        },
+        "teamID": {
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "monitorCount": {
+          "type": "cds.Integer"
+        },
+        "facility1": {
+          "type": "cds.Integer"
+        },
+        "facility2": {
+          "type": "cds.Integer"
+        },
+        "facility3": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "Language": {
+      "kind": "type",
+      "@title": "{i18n>Language}",
+      "@description": "{i18n>LanguageCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Languages",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Currency": {
+      "kind": "type",
+      "@title": "{i18n>Currency}",
+      "@description": "{i18n>CurrencyCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Currencies",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Country": {
+      "kind": "type",
+      "@title": "{i18n>Country}",
+      "@description": "{i18n>CountryCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Countries",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "sap.common": {
+      "kind": "context"
+    },
+    "sap.common.Languages": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>LanguageCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Countries": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Currencies": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "symbol": {
+          "@title": "{i18n>CurrencySymbol}",
+          "type": "cds.String",
+          "length": 5
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.CodeList": {
+      "kind": "aspect",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        }
+      }
+    },
+    "cuid": {
+      "kind": "aspect",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        }
+      }
+    },
+    "managed": {
+      "kind": "aspect",
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        }
+      }
+    },
+    "temporal": {
+      "kind": "aspect",
+      "elements": {
+        "validFrom": {
+          "@cds.valid.from": true,
+          "type": "cds.Timestamp"
+        },
+        "validTo": {
+          "@cds.valid.to": true,
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "User": {
+      "kind": "type",
+      "@title": "{i18n>UserID}",
+      "@description": "{i18n>UserID.Description}",
+      "type": "cds.String",
+      "length": 255
+    },
+    "sap.common.Languages.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>LanguageCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        }
+      }
+    },
+    "sap.common.Countries.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "sap.common.Currencies.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "AdminService.Countries": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.common.Countries"
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "AdminService.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "AdminService.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "AdminService.Countries.texts": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@odata.draft.enabled": false,
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.common.Countries.texts"
+          ]
+        }
+      },
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v2.4.4",
+    "flavor": "inferred"
+  },
+  "$version": "2.0"
+}

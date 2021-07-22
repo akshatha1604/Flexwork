@@ -7,6 +7,7 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^5",
+    "@sap/hana-client": "^2.9.23",
     "express": "^4",
     "hdb": "^0.18.3"
   },
@@ -53,9 +54,11 @@
   },
   "sapux": [
     "app/admin_data",
-    "app/admin_lrop"
+    "app/admin_lrop",
+    "app/adminui"
   ],
   "devDependencies": {
+    "@sap/hdi-deploy": "4.1.0",
     "@sap/ux-specification": "^1.90.4"
   }
 }

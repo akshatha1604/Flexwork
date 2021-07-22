@@ -1,7 +1,7 @@
 {
     "files.exclude": {
         "**/.gitignore": true,
-        "**/.git": true,
+        "**/.git": false,
         "**/.vscode": true
     },
     "eslint.validate": [
