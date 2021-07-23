@@ -234,6 +234,27 @@
               ]
             }
           ]
+        },
+        "to_Seats": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "app.schema_flexwork.TeamSeatMapping",
+          "on": [
+            {
+              "ref": [
+                "$self",
+                "locationID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "locationID"
+              ]
+            }
+          ]
         }
       }
     },
@@ -936,6 +957,11 @@
               "Label": "Team Details"
             }
           ]
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "Target": "to_Seats/@UI.LineItem",
+          "Label": "Seat Detail"
         }
       ],
       "projection": {
@@ -999,11 +1025,67 @@
               ]
             }
           ]
+        },
+        "to_Seats": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "AdminService.TeamSeatMapping",
+          "on": [
+            {
+              "ref": [
+                "$self",
+                "locationID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "locationID"
+              ]
+            }
+          ]
         }
       }
     },
     "AdminService.TeamSeatMapping": {
       "kind": "entity",
+      "@UI.HeaderInfo.TypeName": "Team Seat Detail",
+      "@UI.HeaderInfo.TypeNamePlural": "Team Seat Details",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "teamID"
+      },
+      "@UI.SelectionFields": [
+        {
+          "=": "seatID"
+        },
+        {
+          "=": "locationID"
+        },
+        {
+          "=": "teamID"
+        },
+        {
+          "=": "monitorCount"
+        },
+        {
+          "=": "facility1"
+        },
+        {
+          "=": "facility2"
+        },
+        {
+          "=": "facility3"
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "Value": {
+            "=": "seatID"
+          }
+        }
+      ],
       "projection": {
         "from": {
           "ref": [
@@ -1013,6 +1095,7 @@
       },
       "elements": {
         "seatID": {
+          "@title": "Seat No.",
           "key": true,
           "type": "app.schema_flexwork.SeatID",
           "length": 15

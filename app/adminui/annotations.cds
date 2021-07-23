@@ -1,6 +1,5 @@
 using AdminService as service from '../../srv/service';
 
-
 annotate service.SAPOfficeData // header-level annotations
 {
     locationID   @title : 'Location ID';
@@ -182,5 +181,67 @@ annotate service.Teams with @( // header-level annotations
             Target : '@UI.Identification',
             Label  : 'Team Details'
         }]
-    }]
+          // 2nd facet for seat details.
+        },
+        {
+            $Type  : 'UI.ReferenceFacet',
+            Target : 'to_Seats/@UI.LineItem',
+            Label  : 'Seat Detail'
+        }]
+);
+
+annotate service.TeamSeatMapping // header-level annotations
+{
+    seatID @title : 'Seat No.';    
+}
+
+annotate service.TeamSeatMapping with @( // header-level annotations
+
+    UI.HeaderInfo      : {
+        TypeName       : 'Team Seat Detail',
+        TypeNamePlural : 'Team Seat Details',
+        Title          : {Value : teamID}
+    },
+
+    UI.SelectionFields : [
+        seatID,
+        locationID,
+        teamID,
+        monitorCount,
+        facility1,
+        facility2,
+        facility3
+    ],
+
+    UI.LineItem        : [
+                          //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.acceptTravel',   Label  : '{i18n>AcceptTravel}'   },
+                          //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.rejectTravel',   Label  : '{i18n>RejectTravel}'   },
+                          //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.deductDiscount', Label  : '{i18n>DeductDiscount}' },
+                         {Value : seatID}],
+
+    // UI.Identification  : [
+    //     {
+    //         $Type             : 'UI.DataField',
+    //         Value             : seatID,
+    //         ![@UI.Importance] : #High
+    //     },
+    //     {
+    //         $Type             : 'UI.DataField',
+    //         Value             : monitorCount,
+    //         ![@UI.Importance] : #High,
+    //         Label             : 'No.Of Monitors'
+    //     },
+    //     {
+    //         $Type             : 'UI.DataField',
+    //         Value             : facility1,
+    //         ![@UI.Importance] : #High,
+    //         Label             : ' Phone Extension'
+    //     },
+    //     {
+    //         $Type             : 'UI.DataField',
+    //         Value             : facility2,
+    //         ![@UI.Importance] : #High,
+    //         Label             : 'Laptop Lock'
+    //     },
+    // ],
 );

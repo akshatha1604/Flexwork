@@ -11,5 +11,6 @@ FROM app_schema_flexwork_Teams AS L
 WITH ASSOCIATIONS (
   MANY TO ONE JOIN localized_app_schema_flexwork_SAPOfficeData AS locationID ON (locationID.locationID = locationID_locationID),
   MANY TO ONE JOIN app_schema_flexwork_Users AS manager ON (manager.ID = manager_ID),
-  MANY TO ONE JOIN app_schema_flexwork_Users AS headManager ON (headManager.ID = headManager_ID)
+  MANY TO ONE JOIN app_schema_flexwork_Users AS headManager ON (headManager.ID = headManager_ID),
+  MANY TO MANY JOIN app_schema_flexwork_TeamSeatMapping AS to_Seats ON (locationID_locationID = locationID_locationID)
 )
