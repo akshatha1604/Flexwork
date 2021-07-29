@@ -181,9 +181,9 @@ annotate service.Teams with @( // header-level annotations
             Target : '@UI.Identification',
             Label  : 'Team Details'
         }]
-          // 2nd facet for seat details.
         },
-        {
+          // 2nd facet for seat details.
+         {
             $Type  : 'UI.ReferenceFacet',
             Target : 'to_Seats/@UI.LineItem',
             Label  : 'Seat Detail'
@@ -213,11 +213,26 @@ annotate service.TeamSeatMapping with @( // header-level annotations
         facility3
     ],
 
+  Capabilities.DeleteRestrictions : {  Deletable : true },
+//     }
+//  Capabilities.NavigationRestrictions : {
+//     RestrictedProperties : [
+//         {
+//            NavigationProperty : to_Seats,
+//             InsertRestrictions : {
+//                 Insertable : true
+//             }
+//         }
+//     ]
+//   },
+
     UI.LineItem        : [
-                          //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.acceptTravel',   Label  : '{i18n>AcceptTravel}'   },
-                          //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.rejectTravel',   Label  : '{i18n>RejectTravel}'   },
-                          //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.deductDiscount', Label  : '{i18n>DeductDiscount}' },
-                         {Value : seatID}],
+                              { $Type  : 'UI.DataFieldForAction',
+                                Action : 'AdminService.addSeat', 
+                                Label  : '{i18n>Add Seats}',
+                                 },
+                                // Visible, Enabled },
+                          {Value : seatID}],
 
     // UI.Identification  : [
     //     {

@@ -465,11 +465,8 @@
           "type": "User",
           "length": 255
         },
-        "bookingID": {
-          "key": true,
-          "type": "cds.UUID"
-        },
         "seatID": {
+          "key": true,
           "type": "app.schema_flexwork.SeatID",
           "length": 15
         },
@@ -593,7 +590,6 @@
     },
     "AdminService.SAPOfficeData": {
       "kind": "entity",
-      "@readonly": true,
       "@UI.HeaderInfo.TypeName": "Location",
       "@UI.HeaderInfo.TypeNamePlural": "Locations",
       "@UI.HeaderInfo.Title.Value": {
@@ -1079,7 +1075,13 @@
           "=": "facility3"
         }
       ],
+      "@Capabilities.DeleteRestrictions.Deletable": true,
       "@UI.LineItem": [
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "AdminService.addSeat",
+          "Label": "{i18n>Add Seats}"
+        },
         {
           "Value": {
             "=": "seatID"
@@ -1119,6 +1121,16 @@
         },
         "facility3": {
           "type": "cds.Integer"
+        }
+      },
+      "actions": {
+        "addSeat": {
+          "kind": "action",
+          "@sap.applicable.path": "addSeats"
+        },
+        "removeSeat": {
+          "kind": "action",
+          "@sap.applicable.path": "removeSeats"
         }
       }
     },

@@ -100,7 +100,7 @@ entity Privileges {
 };
 
 entity Booking : cuid, managed {
-    key bookingID      : UUID;
+    key //bookingID      : UUID;
         seatID         : SeatID;
         employeeID     : Association to Users;
         bookedBy       : Association to Users;

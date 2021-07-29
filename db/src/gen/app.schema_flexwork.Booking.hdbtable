@@ -5,8 +5,7 @@ COLUMN TABLE app_schema_flexwork_Booking (
   createdBy NVARCHAR(255),
   modifiedAt TIMESTAMP,
   modifiedBy NVARCHAR(255),
-  bookingID NVARCHAR(36) NOT NULL,
-  seatID NVARCHAR(15),
+  seatID NVARCHAR(15) NOT NULL,
   employeeID_ID NVARCHAR(12),
   bookedBy_ID NVARCHAR(12),
   bookingDate DATE,
@@ -15,7 +14,7 @@ COLUMN TABLE app_schema_flexwork_Booking (
   attendance_attendanceStatus NVARCHAR(2),
   isGroupBooking BOOLEAN,
   isDeleted BOOLEAN,
-  PRIMARY KEY(ID, bookingID)
+  PRIMARY KEY(ID, seatID)
 ) WITH ASSOCIATIONS (
   MANY TO ONE JOIN app_schema_flexwork_Users AS employeeID ON (employeeID.ID = employeeID_ID),
   MANY TO ONE JOIN app_schema_flexwork_Users AS bookedBy ON (bookedBy.ID = bookedBy_ID),
