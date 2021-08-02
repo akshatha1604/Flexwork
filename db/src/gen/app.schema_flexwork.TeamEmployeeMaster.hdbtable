@@ -5,6 +5,6 @@ COLUMN TABLE app_schema_flexwork_TeamEmployeeMaster (
   role_roleCode NVARCHAR(2),
   PRIMARY KEY(employeeID_ID)
 ) WITH ASSOCIATIONS (
-  MANY TO MANY JOIN app_schema_flexwork_Users AS employeeID ON (employeeID.ID = employeeID_ID),
+  MANY TO ONE JOIN app_schema_flexwork_Users AS employeeID ON (employeeID.ID = employeeID_ID),
   MANY TO ONE JOIN app_schema_flexwork_TeamMemberRoles AS role ON (role.roleCode = role_roleCode)
 )

@@ -45,7 +45,8 @@ entity SAPOfficeData {
         unassignSeat : Integer;
         admin        : Association to Users;
         Teams        : Association to many Teams
-                           on $self.locationID = locationID;
+                            on Teams.locationID = $self;
+                        //    on $self.locationID = locationID;
 };
 
 entity Teams {
@@ -57,11 +58,12 @@ entity Teams {
         manager        : Association to Users;
         headManager    : Association to Users;
         to_Seats       : Association to many TeamSeatMapping
-                             on $self.locationID = locationID;
+                             on //to_Seats.locationID = $self.locationID;
+                                 to_Seats.teamID = $self.teamID;
 };
 
 entity TeamEmployeeMaster {
-    key employeeID : Association to many Users;
+    key employeeID : Association to Users;
         teamID     : TeamID;
         role       : Association to TeamMemberRoles;
 };

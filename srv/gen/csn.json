@@ -169,14 +169,14 @@
           "on": [
             {
               "ref": [
-                "$self",
+                "Teams",
                 "locationID"
               ]
             },
             "=",
             {
               "ref": [
-                "locationID"
+                "$self"
               ]
             }
           ]
@@ -244,14 +244,15 @@
           "on": [
             {
               "ref": [
-                "$self",
-                "locationID"
+                "to_Seats",
+                "teamID"
               ]
             },
             "=",
             {
               "ref": [
-                "locationID"
+                "$self",
+                "teamID"
               ]
             }
           ]
@@ -264,9 +265,6 @@
         "employeeID": {
           "key": true,
           "type": "cds.Association",
-          "cardinality": {
-            "max": "*"
-          },
           "target": "app.schema_flexwork.Users",
           "keys": [
             {
@@ -830,14 +828,14 @@
           "on": [
             {
               "ref": [
-                "$self",
+                "Teams",
                 "locationID"
               ]
             },
             "=",
             {
               "ref": [
-                "locationID"
+                "$self"
               ]
             }
           ]
@@ -1031,14 +1029,15 @@
           "on": [
             {
               "ref": [
-                "$self",
-                "locationID"
+                "to_Seats",
+                "teamID"
               ]
             },
             "=",
             {
               "ref": [
-                "locationID"
+                "$self",
+                "teamID"
               ]
             }
           ]

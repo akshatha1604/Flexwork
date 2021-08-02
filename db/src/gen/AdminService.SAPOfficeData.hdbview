@@ -17,5 +17,5 @@ WITH ASSOCIATIONS (
   MANY TO ONE JOIN app_schema_flexwork_Offices AS office ON (office.ID = office_ID),
   MANY TO ONE JOIN app_schema_flexwork_Buildings AS building ON (building.ID = building_ID),
   MANY TO ONE JOIN app_schema_flexwork_Users AS admin ON (admin.ID = admin_ID),
-  MANY TO MANY JOIN AdminService_Teams AS Teams ON (locationID = locationID)
+  MANY TO MANY JOIN AdminService_Teams AS Teams ON (Teams.locationID_locationID = locationID)
 )
