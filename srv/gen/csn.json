@@ -1046,6 +1046,7 @@
     },
     "AdminService.TeamSeatMapping": {
       "kind": "entity",
+      "@odata.draft.enabled": true,
       "@UI.HeaderInfo.TypeName": "Team Seat Detail",
       "@UI.HeaderInfo.TypeNamePlural": "Team Seat Details",
       "@UI.HeaderInfo.Title.Value": {
@@ -1074,7 +1075,6 @@
           "=": "facility3"
         }
       ],
-      "@Capabilities.DeleteRestrictions.Deletable": true,
       "@UI.LineItem": [
         {
           "$Type": "UI.DataFieldForAction",

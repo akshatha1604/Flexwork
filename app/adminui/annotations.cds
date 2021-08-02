@@ -195,6 +195,7 @@ annotate service.TeamSeatMapping // header-level annotations
     seatID @title : 'Seat No.';    
 }
 
+annotate service.TeamSeatMapping with @odata.draft.enabled;
 annotate service.TeamSeatMapping with @( // header-level annotations
 
     UI.HeaderInfo      : {
@@ -213,7 +214,13 @@ annotate service.TeamSeatMapping with @( // header-level annotations
         facility3
     ],
 
-  Capabilities.DeleteRestrictions : {  Deletable : true },
+// Capabilities:{
+        // odata.draft.enabled: true,
+//   InsertRestrictions.Insertable: true,
+//   UpdateRestrictions.Updatable: false,
+//   DeleteRestrictions.Deletable: true,
+// },
+//   Capabilities.DeleteRestrictions : {  Deletable : true },
 //     }
 //  Capabilities.NavigationRestrictions : {
 //     RestrictedProperties : [
