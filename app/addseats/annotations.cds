@@ -1,5 +1,5 @@
 using AdminService as service from '../../srv/service';
-
+/*
 annotate service.SAPOfficeData // header-level annotations
 {
     locationID   @title : 'Location ID';
@@ -103,7 +103,7 @@ annotate service.SAPOfficeData with @( // header-level annotations
     ]
 );
 
-
+//annotate service.Teams with @odata.draft.enabled;
 annotate service.Teams // header-level annotations
 {
     teamID         @title : 'Team ID';
@@ -267,3 +267,4 @@ annotate service.TeamSeatMapping with @( // header-level annotations
     //     },
     // ],
 );
+*/

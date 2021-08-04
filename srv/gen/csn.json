@@ -465,16 +465,23 @@
         },
         "seatID": {
           "key": true,
-          "type": "app.schema_flexwork.SeatID",
-          "length": 15
-        },
-        "employeeID": {
           "type": "cds.Association",
-          "target": "app.schema_flexwork.Users",
+          "target": "app.schema_flexwork.TeamSeatMapping",
           "keys": [
             {
               "ref": [
-                "ID"
+                "seatID"
+              ]
+            }
+          ]
+        },
+        "employeeID": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.TeamEmployeeMaster",
+          "keys": [
+            {
+              "ref": [
+                "employeeID"
               ]
             }
           ]
@@ -1046,7 +1053,6 @@
     },
     "AdminService.TeamSeatMapping": {
       "kind": "entity",
-      "@odata.draft.enabled": true,
       "@UI.HeaderInfo.TypeName": "Team Seat Detail",
       "@UI.HeaderInfo.TypeNamePlural": "Team Seat Details",
       "@UI.HeaderInfo.Title.Value": {
@@ -1130,6 +1136,162 @@
         "removeSeat": {
           "kind": "action",
           "@sap.applicable.path": "removeSeats"
+        }
+      }
+    },
+    "SeatBooking": {
+      "@source": "service.cds",
+      "kind": "service"
+    },
+    "SeatBooking.Booking": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.Booking"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "seatID": {
+          "key": true,
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.TeamSeatMapping",
+          "keys": [
+            {
+              "ref": [
+                "seatID"
+              ]
+            }
+          ]
+        },
+        "employeeID": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.TeamEmployeeMaster",
+          "keys": [
+            {
+              "ref": [
+                "employeeID"
+              ]
+            }
+          ]
+        },
+        "bookedBy": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "bookingDate": {
+          "type": "cds.Date"
+        },
+        "dayCode": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.DayCodes",
+          "keys": [
+            {
+              "ref": [
+                "dayCode"
+              ]
+            }
+          ]
+        },
+        "status": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.BookingStatus",
+          "keys": [
+            {
+              "ref": [
+                "bookingStatus"
+              ]
+            }
+          ]
+        },
+        "attendance": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.AttendanceStatus",
+          "keys": [
+            {
+              "ref": [
+                "attendanceStatus"
+              ]
+            }
+          ]
+        },
+        "isGroupBooking": {
+          "type": "cds.Boolean"
+        },
+        "isDeleted": {
+          "type": "cds.Boolean"
         }
       }
     },

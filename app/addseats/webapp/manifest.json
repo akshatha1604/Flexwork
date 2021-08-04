@@ -1,0 +1,177 @@
+{
+    "_version": "1.32.0",
+    "sap.app": {
+        "id": "manageofficeseats.addseats",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "dataSources": {
+            "mainService": {
+                "uri": "/admin/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            }
+        },
+        "offline": false,
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "ui5template.fiorielements.v4.lrop",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "manageofficeseats-addseats-inbound": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "TeamSeatMapping",
+                    "action": "Create",
+                    "title": "Manage Office Seats",
+                    "subTitle": "",
+                    "icon": ""
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "1.76.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            }
+        },
+        "routing": {
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "TeamsList",
+                    "target": "TeamsList"
+                },
+                {
+                    "pattern": "Teams({key}):?query:",
+                    "name": "TeamsObjectPage",
+                    "target": "TeamsObjectPage"
+                },
+                {
+                    "pattern": "Teams({key})/to_Seats({key2}):?query:",
+                    "name": "TeamSeatMappingObjectPage",
+                    "target": "TeamSeatMappingObjectPage"
+                }
+            ],
+            "targets": {
+                "TeamsList": {
+                    "type": "Component",
+                    "id": "TeamsList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "entitySet": "Teams",
+                            "variantManagement": "Page",
+                            "navigation": {
+                                "Teams": {
+                                    "detail": {
+                                        "route": "TeamsObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "TeamsObjectPage": {
+                    "type": "Component",
+                    "id": "TeamsObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "Teams",
+                            "navigation": {
+                                "to_Seats": {
+                                    "detail": {
+                                        "route": "TeamSeatMappingObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "TeamSeatMappingObjectPage": {
+                    "type": "Component",
+                    "id": "TeamSeatMappingObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "TeamSeatMapping"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.platform.abap": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.platform.hcp": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": [],
+        "archeType": "transactional"
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "FlexWork"
+    }
+}

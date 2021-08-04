@@ -103,8 +103,8 @@ entity Privileges {
 
 entity Booking : cuid, managed {
     key //bookingID      : UUID;
-        seatID         : SeatID;
-        employeeID     : Association to Users;
+        seatID         : SeatID; //Association to TeamSeatMapping;
+        employeeID     : Association to Users;//TeamEmployeeMaster;
         bookedBy       : Association to Users;
         bookingDate    : Date;
         dayCode        : Association to DayCodes;
