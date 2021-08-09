@@ -1,7 +1,7 @@
 {
     "_version": "1.32.0",
     "sap.app": {
-        "id": "bookseat.seatooking",
+        "id": "seatbookingui",
         "type": "application",
         "i18n": "i18n/i18n.properties",
         "applicationVersion": {
@@ -26,15 +26,15 @@
         },
         "crossNavigation": {
             "inbounds": {
-                "bookseat-seatooking-inbound": {
+                "seatbookingui-inbound": {
                     "signature": {
                         "parameters": {},
                         "additionalParameters": "allowed"
                     },
-                    "semanticObject": "SeatBooking",
-                    "action": "Create",
-                    "title": "Seat Booking",
-                    "subTitle": "",
+                    "semanticObject": "seatbooking",
+                    "action": "display",
+                    "title": "Book Seat",
+                    "subTitle": "Book your seat in the office",
                     "icon": ""
                 }
             }

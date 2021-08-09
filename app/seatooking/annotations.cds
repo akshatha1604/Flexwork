@@ -1,1 +1,0 @@
-using SeatBooking as service from '../../srv/service';

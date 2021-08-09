@@ -72,6 +72,10 @@ modules:
       - bookseatseatooking.zip
       name: bookseatseatooking
       target-path: resources/
+    - artifacts:
+      - seatbookingui.zip
+      name: seatbookingui
+      target-path: resources/
 - name: adminui
   type: html5
   path: app/adminui
@@ -95,6 +99,16 @@ modules:
 - name: bookseatseatooking
   type: html5
   path: app/seatooking
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: seatbookingui
+  type: html5
+  path: app/seatbookingui
   build-parameters:
     build-result: dist
     builder: custom

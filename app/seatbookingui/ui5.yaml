@@ -1,6 +1,6 @@
 specVersion: '2.4'
 metadata:
-  name: 'seatooking'
+  name: 'seatbookingui'
 type: application
 server:
   customMiddleware:

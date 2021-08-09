@@ -477,11 +477,11 @@
         },
         "employeeID": {
           "type": "cds.Association",
-          "target": "app.schema_flexwork.TeamEmployeeMaster",
+          "target": "app.schema_flexwork.Users",
           "keys": [
             {
               "ref": [
-                "employeeID"
+                "ID"
               ]
             }
           ]
@@ -1129,15 +1129,15 @@
         }
       },
       "actions": {
-        "addSeat": {
-          "kind": "action",
-          "@sap.applicable.path": "addSeats"
-        },
         "removeSeat": {
           "kind": "action",
           "@sap.applicable.path": "removeSeats"
         }
       }
+    },
+    "AdminService.addSeat": {
+      "kind": "action",
+      "@sap.applicable.path": "addSeats"
     },
     "SeatBooking": {
       "@source": "service.cds",
@@ -1145,6 +1145,85 @@
     },
     "SeatBooking.Booking": {
       "kind": "entity",
+      "@odata.draft.enabled": true,
+      "@UI.HeaderInfo.TypeName": "Seat Booking",
+      "@UI.HeaderInfo.TypeNamePlural": "Seat Bookings",
+      "@UI.SelectionFields": [
+        {
+          "=": "seatID_seatID"
+        },
+        {
+          "=": "status_bookingStatus"
+        },
+        {
+          "=": "employeeID_ID"
+        },
+        {
+          "=": "bookedBy_ID"
+        },
+        {
+          "=": "bookingDate"
+        },
+        {
+          "=": "attendance_attendanceStatus"
+        },
+        {
+          "=": "dayCode_dayCode"
+        },
+        {
+          "=": "isGroupBooking"
+        },
+        {
+          "=": "isDeleted"
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "Value": {
+            "=": "seatID_seatID"
+          }
+        },
+        {
+          "Value": {
+            "=": "employeeID_ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "bookedBy_ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "bookingDate"
+          }
+        },
+        {
+          "Value": {
+            "=": "dayCode_dayCode"
+          }
+        },
+        {
+          "Value": {
+            "=": "status_bookingStatus"
+          }
+        },
+        {
+          "Value": {
+            "=": "attendance_attendanceStatus"
+          }
+        },
+        {
+          "Value": {
+            "=": "isGroupBooking"
+          }
+        },
+        {
+          "Value": {
+            "=": "isDeleted"
+          }
+        }
+      ],
       "projection": {
         "from": {
           "ref": [
@@ -1218,6 +1297,7 @@
           "length": 255
         },
         "seatID": {
+          "@title": "Seat ID",
           "key": true,
           "type": "cds.Association",
           "target": "app.schema_flexwork.TeamSeatMapping",
@@ -1230,17 +1310,19 @@
           ]
         },
         "employeeID": {
+          "@title": "Booked For",
           "type": "cds.Association",
-          "target": "app.schema_flexwork.TeamEmployeeMaster",
+          "target": "app.schema_flexwork.Users",
           "keys": [
             {
               "ref": [
-                "employeeID"
+                "ID"
               ]
             }
           ]
         },
         "bookedBy": {
+          "@title": "Booked By",
           "type": "cds.Association",
           "target": "app.schema_flexwork.Users",
           "keys": [
@@ -1252,9 +1334,11 @@
           ]
         },
         "bookingDate": {
+          "@title": "Booking Date",
           "type": "cds.Date"
         },
         "dayCode": {
+          "@title": "Timing",
           "type": "cds.Association",
           "target": "app.schema_flexwork.DayCodes",
           "keys": [
@@ -1266,6 +1350,7 @@
           ]
         },
         "status": {
+          "@title": "Booking Status",
           "type": "cds.Association",
           "target": "app.schema_flexwork.BookingStatus",
           "keys": [
@@ -1277,6 +1362,7 @@
           ]
         },
         "attendance": {
+          "@title": "Attended(Y/N)",
           "type": "cds.Association",
           "target": "app.schema_flexwork.AttendanceStatus",
           "keys": [
@@ -1288,12 +1374,34 @@
           ]
         },
         "isGroupBooking": {
+          "@title": " Group Booking(Y/N)",
           "type": "cds.Boolean"
         },
         "isDeleted": {
+          "@title": "Deleted(Y/N)",
           "type": "cds.Boolean"
         }
       }
+    },
+    "SeatBooking.quickBook": {
+      "kind": "action",
+      "@sap.applicable.path": "quickBook"
+    },
+    "SeatBooking.showAvailability": {
+      "kind": "action",
+      "@sap.applicable.path": "showAvailability"
+    },
+    "SeatBooking.updateBooking": {
+      "kind": "action",
+      "@sap.applicable.path": "updateBooking"
+    },
+    "SeatBooking.managerZone": {
+      "kind": "action",
+      "@sap.applicable.path": "managerZone"
+    },
+    "SeatBooking.seatMap": {
+      "kind": "action",
+      "@sap.applicable.path": "seatMap"
     },
     "Language": {
       "kind": "type",
