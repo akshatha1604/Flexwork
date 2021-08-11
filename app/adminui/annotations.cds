@@ -171,31 +171,32 @@ annotate service.Teams with @( // header-level annotations
     ],
 
     UI.Facets          : [
-                          //First facet for self..
-                         {
-        $Type  : 'UI.CollectionFacet',
-        Label  : 'Team Details',
-        ID     : 'Teams',
-        Facets : [{
-            $Type  : 'UI.ReferenceFacet',
-            Target : '@UI.Identification',
-            Label  : 'Team Details'
-        }]
+        //First facet for self..
+        {
+            $Type  : 'UI.CollectionFacet',
+            Label  : 'Team Details',
+            ID     : 'Teams',
+            Facets : [{
+                $Type  : 'UI.ReferenceFacet',
+                Target : '@UI.Identification',
+                Label  : 'Team Details'
+            }]
         },
-          // 2nd facet for seat details.
-         {
+        // 2nd facet for seat details.
+        {
             $Type  : 'UI.ReferenceFacet',
             Target : 'to_Seats/@UI.LineItem',
             Label  : 'Seat Detail'
-        }]
+        }
+    ]
 );
 
 annotate service.TeamSeatMapping // header-level annotations
 {
-    seatID @title : 'Seat No.';    
+    seatID @title : 'Seat No.';
 }
 
-annotate service.TeamSeatMapping with @odata.draft.enabled;
+//annotate service.TeamSeatMapping with @odata.draft.enabled;
 annotate service.TeamSeatMapping with @( // header-level annotations
 
     UI.HeaderInfo      : {
@@ -214,56 +215,63 @@ annotate service.TeamSeatMapping with @( // header-level annotations
         facility3
     ],
 
-// Capabilities:{
-        // odata.draft.enabled: true,
-//   InsertRestrictions.Insertable: true,
-//   UpdateRestrictions.Updatable: false,
-//   DeleteRestrictions.Deletable: true,
-// },
-//   Capabilities.DeleteRestrictions : {  Deletable : true },
-//     }
-//  Capabilities.NavigationRestrictions : {
-//     RestrictedProperties : [
-//         {
-//            NavigationProperty : to_Seats,
-//             InsertRestrictions : {
-//                 Insertable : true
-//             }
-//         }
-//     ]
-//   },
+    // Capabilities:{
+    // odata.draft.enabled: true,
+    //   InsertRestrictions.Insertable: true,
+    //   UpdateRestrictions.Updatable: false,
+    //   DeleteRestrictions.Deletable: true,
+    // },
+    //   Capabilities.DeleteRestrictions : {  Deletable : true },
+    //     }
+    //  Capabilities.NavigationRestrictions : {
+    //     RestrictedProperties : [
+    //         {
+    //            NavigationProperty : to_Seats,
+    //             InsertRestrictions : {
+    //                 Insertable : true
+    //             }
+    //         }
+    //     ]
+    //   },
 
     UI.LineItem        : [
-                              { $Type  : 'UI.DataFieldForAction',
-                                Action : 'AdminService.addSeat', 
-                                Label  : '{i18n>Add Seats}',
-                                 },
-                                // Visible, Enabled },
-                          {Value : seatID}],
+        // {
+        //     $Type  : 'UI.DataFieldForAction',
+        //     Action : 'AdminService.addSeat',
+        //     Label  : '{i18n>Add Seats}',
+        // },
+        {
+            $Type  : 'UI.DataFieldForAction',
+            Action : 'AdminService.removeSeat',
+            Label  : '{i18n>Remove Seats}',
+        },
+        // Visible, Enabled },
+        {Value : seatID}
+    ],
 
-    // UI.Identification  : [
-    //     {
-    //         $Type             : 'UI.DataField',
-    //         Value             : seatID,
-    //         ![@UI.Importance] : #High
-    //     },
-    //     {
-    //         $Type             : 'UI.DataField',
-    //         Value             : monitorCount,
-    //         ![@UI.Importance] : #High,
-    //         Label             : 'No.Of Monitors'
-    //     },
-    //     {
-    //         $Type             : 'UI.DataField',
-    //         Value             : facility1,
-    //         ![@UI.Importance] : #High,
-    //         Label             : ' Phone Extension'
-    //     },
-    //     {
-    //         $Type             : 'UI.DataField',
-    //         Value             : facility2,
-    //         ![@UI.Importance] : #High,
-    //         Label             : 'Laptop Lock'
-    //     },
-    // ],
+// UI.Identification  : [
+//     {
+//         $Type             : 'UI.DataField',
+//         Value             : seatID,
+//         ![@UI.Importance] : #High
+//     },
+//     {
+//         $Type             : 'UI.DataField',
+//         Value             : monitorCount,
+//         ![@UI.Importance] : #High,
+//         Label             : 'No.Of Monitors'
+//     },
+//     {
+//         $Type             : 'UI.DataField',
+//         Value             : facility1,
+//         ![@UI.Importance] : #High,
+//         Label             : ' Phone Extension'
+//     },
+//     {
+//         $Type             : 'UI.DataField',
+//         Value             : facility2,
+//         ![@UI.Importance] : #High,
+//         Label             : 'Laptop Lock'
+//     },
+// ],
 );

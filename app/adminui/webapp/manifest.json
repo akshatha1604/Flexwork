@@ -160,7 +160,23 @@
                     "options": {
                         "settings": {
                             "editableHeaderContent": false,
-                            "entitySet": "Teams"
+                            "entitySet": "Teams",
+                            "controlConfiguration": {
+                                "to_Seats/@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "enableExport": true,
+                                        "selectionMode": "Multi"
+                                    },
+                                     "actions": {
+                                        "addSeat": {
+                                            "press": "adminui.ext.controller.ObjectPageExt.openAddSeatDialog",
+                                            "text":"{i18n>addSeat}",
+                                            "enabled": true,
+                                            "visible": true                                         
+                                        }
+                                    }
+                                }
+                            }
                         }
                     },
                     "controlAggregation": "endColumnPages",
@@ -184,6 +200,41 @@
             "type": "XML",
             "async": true,
             "id": "appRootView"
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "adminui.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "Teams": {
+                                "EntitySet": "Teams",
+                                "Sections": {
+                                    "to_Seats::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_Seats::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionTeamDataSetSections12": {
+                                                "id": "ActionTeamDataSetSections1button2",
+                                                "text": "Add SeatsUI",
+                                                "press": "onClickActionAddSeats"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|SAPOfficeData|Teams": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "adminui.ext.fragments.addSeats"
+                        }
+                    }
+                }
+            }
         }
     },
     "sap.platform.abap": {

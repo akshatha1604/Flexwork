@@ -45,11 +45,16 @@ entity SAPOfficeData {
         unassignSeat : Integer;
         admin        : Association to Users;
         Teams        : Association to many Teams
-                            on Teams.locationID = $self;
-                        //    on $self.locationID = locationID;
+                           on Teams.locationID = $self;
+//    on $self.locationID = locationID;
 };
 
-entity Teams {
+entity Teams @(Capabilities : {
+    // entity-level
+    InsertRestrictions.Insertable : true,
+    UpdateRestrictions.Updatable  : true,
+    DeleteRestrictions.Deletable  : true
+}) {
     key teamID         : TeamID;
     key locationID     : Association to SAPOfficeData;
         teamName       : String(50);
@@ -59,7 +64,7 @@ entity Teams {
         headManager    : Association to Users;
         to_Seats       : Association to many TeamSeatMapping
                              on //to_Seats.locationID = $self.locationID;
-                                 to_Seats.teamID = $self.teamID;
+                             to_Seats.teamID = $self.teamID;
 };
 
 entity TeamEmployeeMaster {
@@ -103,15 +108,15 @@ entity Privileges {
 
 entity Booking : cuid, managed {
     key //bookingID      : UUID;
-        seatID         : SeatID;
-        employeeID     : Association to Users;
-        bookedBy       : Association to Users;
-        bookingDate    : Date;
-        dayCode        : Association to DayCodes;
-        status         : Association to BookingStatus;
-        attendance     : Association to AttendanceStatus;
-        isGroupBooking : Boolean;
-        isDeleted      : Boolean;
+    seatID         : SeatID;
+    employeeID     : Association to Users;
+    bookedBy       : Association to Users;
+    bookingDate    : Date;
+    dayCode        : Association to DayCodes;
+    status         : Association to BookingStatus;
+    attendance     : Association to AttendanceStatus;
+    isGroupBooking : Boolean;
+    isDeleted      : Boolean;
 };
 
 entity BookingStatus {

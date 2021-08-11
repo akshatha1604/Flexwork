@@ -1,0 +1,24 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core" core:require="{ext : 'adminui/ext/controller/ObjectPageExt'}">
+   
+        <Dialog title='Allocate new seat'>
+        <content>
+            <VBox width="430px">
+                <HBox>
+                    <!--<Text text='Group booking/ my booking/ booking of behalf'/>-->
+                    <RadioButtonGroup buttons="{NewChatModel>/radiobutton}" select="onCustomValueSelected">
+                        <buttons>
+                            <RadioButton text="{NewChatModel>Seat}"/>
+                        </buttons>
+                    </RadioButtonGroup>
+                </HBox>
+                <Input placeholder="enter seat no. in mentioned format"></Input>
+            </VBox>
+        </content>
+        <buttons>
+            <Button text="Save" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="message1"/>
+            <Button text="Cancel" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="ext.AddSeatCancelPress"/>
+              <Button text="test" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="adminui/ext/controller/ObjectPageExt/AddSeatCancelPress"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

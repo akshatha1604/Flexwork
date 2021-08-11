@@ -185,6 +185,9 @@
     },
     "app.schema_flexwork.Teams": {
       "kind": "entity",
+      "@Capabilities.InsertRestrictions.Insertable": true,
+      "@Capabilities.UpdateRestrictions.Updatable": true,
+      "@Capabilities.DeleteRestrictions.Deletable": true,
       "elements": {
         "teamID": {
           "key": true,
@@ -588,6 +591,9 @@
     },
     "AdminService.SAPOfficeData": {
       "kind": "entity",
+      "@Capabilities.Insertable": true,
+      "@Capabilities.Updatable": true,
+      "@Capabilities.Deletable": true,
       "@UI.HeaderInfo.TypeName": "Location",
       "@UI.HeaderInfo.TypeNamePlural": "Locations",
       "@UI.HeaderInfo.Title.Value": {
@@ -844,6 +850,9 @@
     },
     "AdminService.Teams": {
       "kind": "entity",
+      "@Capabilities.Insertable": true,
+      "@Capabilities.Updatable": true,
+      "@Capabilities.Deletable": true,
       "@UI.HeaderInfo.TypeName": "Team Detail",
       "@UI.HeaderInfo.TypeNamePlural": "Team Details",
       "@UI.HeaderInfo.Title.Value": {
@@ -958,6 +967,9 @@
           "Label": "Seat Detail"
         }
       ],
+      "@Capabilities.InsertRestrictions.Insertable": true,
+      "@Capabilities.UpdateRestrictions.Updatable": true,
+      "@Capabilities.DeleteRestrictions.Deletable": true,
       "projection": {
         "from": {
           "ref": [
@@ -1046,7 +1058,6 @@
     },
     "AdminService.TeamSeatMapping": {
       "kind": "entity",
-      "@odata.draft.enabled": true,
       "@UI.HeaderInfo.TypeName": "Team Seat Detail",
       "@UI.HeaderInfo.TypeNamePlural": "Team Seat Details",
       "@UI.HeaderInfo.Title.Value": {
@@ -1078,8 +1089,8 @@
       "@UI.LineItem": [
         {
           "$Type": "UI.DataFieldForAction",
-          "Action": "AdminService.addSeat",
-          "Label": "{i18n>Add Seats}"
+          "Action": "AdminService.removeSeat",
+          "Label": "{i18n>Remove Seats}"
         },
         {
           "Value": {
@@ -1123,15 +1134,15 @@
         }
       },
       "actions": {
-        "addSeat": {
-          "kind": "action",
-          "@sap.applicable.path": "addSeats"
-        },
         "removeSeat": {
           "kind": "action",
           "@sap.applicable.path": "removeSeats"
         }
       }
+    },
+    "AdminService.addSeat": {
+      "kind": "action",
+      "@sap.applicable.path": "addSeats"
     },
     "Language": {
       "kind": "type",
