@@ -1145,7 +1145,6 @@
     },
     "SeatBooking.Booking": {
       "kind": "entity",
-      "@odata.draft.enabled": true,
       "@UI.HeaderInfo.TypeName": "Seat Booking",
       "@UI.HeaderInfo.TypeNamePlural": "Seat Bookings",
       "@UI.SelectionFields": [
@@ -1178,6 +1177,31 @@
         }
       ],
       "@UI.LineItem": [
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "SeatBooking.quickBook",
+          "Label": "{i18n>Quick Book}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "SeatBooking.managerZone",
+          "Label": "{i18n>Manager Zone}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "SeatBooking.showAvailability",
+          "Label": "{i18n>Show Availability}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "SeatBooking.updateBooking",
+          "Label": "{i18n>Update Booking}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "SeatBooking.seatMap",
+          "Label": "{i18n>View Seat Map}"
+        },
         {
           "Value": {
             "=": "seatID_seatID"
@@ -1312,7 +1336,7 @@
         "employeeID": {
           "@title": "Booked For",
           "type": "cds.Association",
-          "target": "app.schema_flexwork.Users",
+          "target": "SeatBooking.Users",
           "keys": [
             {
               "ref": [
@@ -1323,8 +1347,21 @@
         },
         "bookedBy": {
           "@title": "Booked By",
+          "@Common.ValueList.Label": "{i18n>BookedBy}",
+          "@Common.ValueList.CollectionPath": "Users",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "bookedBy_ID",
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            }
+          ],
           "type": "cds.Association",
-          "target": "app.schema_flexwork.Users",
+          "target": "SeatBooking.Users",
           "keys": [
             {
               "ref": [
@@ -1380,6 +1417,31 @@
         "isDeleted": {
           "@title": "Deleted(Y/N)",
           "type": "cds.Boolean"
+        }
+      }
+    },
+    "SeatBooking.Users": {
+      "kind": "entity",
+      "@readonly": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.Users"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "app.schema_flexwork.UserID",
+          "length": 12
+        },
+        "name": {
+          "type": "cds.String"
+        },
+        "locationID": {
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
         }
       }
     },

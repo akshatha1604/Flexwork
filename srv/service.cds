@@ -15,6 +15,7 @@ service AdminService {
 
 service SeatBooking {
     entity Booking as projection on me.Booking;
+    @readonly entity Users as projection on me.Users;
 
     @sap.applicable.path : 'quickBook'
     action quickBook();

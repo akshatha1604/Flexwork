@@ -1,6 +1,6 @@
 using SeatBooking as service from '../../srv/service';
 
-annotate service.Booking with @odata.draft.enabled;
+// annotate service.Booking with @odata.draft.enabled;
 
 annotate service.Booking // header-level annotations
 {
@@ -35,18 +35,71 @@ annotate service.Booking with @( // header-level annotations
         isDeleted
     ],
     UI.LineItem        : [
-        //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.acceptTravel',   Label  : '{i18n>AcceptTravel}'   },
-        //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.rejectTravel',   Label  : '{i18n>RejectTravel}'   },
-        //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.deductDiscount', Label  : '{i18n>DeductDiscount}' },
+        {
+            $Type  : 'UI.DataFieldForAction',
+            Action : 'SeatBooking.quickBook',
+            Label  : '{i18n>Quick Book}'
+        },
+
+        {
+            $Type  : 'UI.DataFieldForAction',
+            Action : 'SeatBooking.managerZone',
+            Label  : '{i18n>Manager Zone}'
+        },
+
+        {
+            $Type  : 'UI.DataFieldForAction',
+            Action : 'SeatBooking.showAvailability',
+            Label  : '{i18n>Show Availability}'
+        },
+
+        {
+            $Type  : 'UI.DataFieldForAction',
+            Action : 'SeatBooking.updateBooking',
+            Label  : '{i18n>Update Booking}'
+        },
+
+        {
+            $Type  : 'UI.DataFieldForAction',
+            Action : 'SeatBooking.seatMap',
+            Label  : '{i18n>View Seat Map}'
+        },
+
         {Value : seatID_seatID},
         {Value : employeeID_ID},
         {Value : bookedBy_ID},
         {Value : bookingDate},
         {Value : dayCode_dayCode},
-        {Value : status_bookingStatus},    
-        {Value : attendance_attendanceStatus},       
-        {Value : isGroupBooking},    
+        {Value : status_bookingStatus},
+        {Value : attendance_attendanceStatus},
+        {Value : isGroupBooking},
         {Value : isDeleted}
     ]
-   
-);
+)
+
+// @Common.ValueList #bookedBy : {
+//     Label          : '{i18n>bookedBy}',
+//     CollectionPath : 'Users',
+//     Parameters     : [{
+//         $Type             : 'Common.ValueListParameterInOut',
+//         LocalDataProperty : bookedBy,
+//         ValueListProperty : 'ID'
+//     }]
+
+{
+//  matchDate @title:'{i18n>matchDate}';
+  bookedBy @(
+    Common: {
+      //Label: '{i18n>BookedBy}',
+      ValueList: {
+        Label: '{i18n>BookedBy}',
+        CollectionPath: 'Users',
+        Parameters:[
+	  { $Type:'Common.ValueListParameterInOut', 
+        LocalDataProperty: 'bookedBy_ID', ValueListProperty:'ID' },
+          { $Type:'Common.ValueListParameterDisplayOnly', ValueListProperty:'name' },
+		    ]
+      }
+    }
+  )
+};

@@ -12,6 +12,7 @@ type TeamID : String(20);
 type SeatID : String(15);
 type DayCode : String(2);
 
+
 entity Cities {
     key ID   : String(3);
         name : String;
