@@ -12,6 +12,7 @@ type TeamID : String(20);
 type SeatID : String(15);
 type DayCode : String(2);
 
+
 entity Cities {
     key ID   : String(3);
         name : String;
@@ -107,16 +108,15 @@ entity Privileges {
 };
 
 entity Booking : cuid, managed {
-    key //bookingID      : UUID;
-    seatID         : SeatID;
-    employeeID     : Association to Users;
-    bookedBy       : Association to Users;
-    bookingDate    : Date;
-    dayCode        : Association to DayCodes;
-    status         : Association to BookingStatus;
-    attendance     : Association to AttendanceStatus;
-    isGroupBooking : Boolean;
-    isDeleted      : Boolean;
+    key seatID         : Association to TeamSeatMapping;
+        employeeID     : Association to Users;
+        bookedBy       : Association to Users;
+        bookingDate    : Date;
+        dayCode        : Association to DayCodes;
+        status         : Association to BookingStatus;
+        attendance     : Association to AttendanceStatus;
+        isGroupBooking : Boolean;
+        isDeleted      : Boolean;
 };
 
 entity BookingStatus {

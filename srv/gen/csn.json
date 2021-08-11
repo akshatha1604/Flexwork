@@ -468,8 +468,15 @@
         },
         "seatID": {
           "key": true,
-          "type": "app.schema_flexwork.SeatID",
-          "length": 15
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.TeamSeatMapping",
+          "keys": [
+            {
+              "ref": [
+                "seatID"
+              ]
+            }
+          ]
         },
         "employeeID": {
           "type": "cds.Association",
@@ -1143,6 +1150,332 @@
     "AdminService.addSeat": {
       "kind": "action",
       "@sap.applicable.path": "addSeats"
+    },
+    "SeatBooking": {
+      "@source": "service.cds",
+      "kind": "service"
+    },
+    "SeatBooking.Booking": {
+      "kind": "entity",
+      "@UI.HeaderInfo.TypeName": "Seat Booking",
+      "@UI.HeaderInfo.TypeNamePlural": "Seat Bookings",
+      "@UI.SelectionFields": [
+        {
+          "=": "seatID_seatID"
+        },
+        {
+          "=": "status_bookingStatus"
+        },
+        {
+          "=": "employeeID_ID"
+        },
+        {
+          "=": "bookedBy_ID"
+        },
+        {
+          "=": "bookingDate"
+        },
+        {
+          "=": "attendance_attendanceStatus"
+        },
+        {
+          "=": "dayCode_dayCode"
+        },
+        {
+          "=": "isGroupBooking"
+        },
+        {
+          "=": "isDeleted"
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "SeatBooking.quickBook",
+          "Label": "{i18n>Quick Book}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "SeatBooking.managerZone",
+          "Label": "{i18n>Manager Zone}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "SeatBooking.showAvailability",
+          "Label": "{i18n>Show Availability}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "SeatBooking.updateBooking",
+          "Label": "{i18n>Update Booking}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "SeatBooking.seatMap",
+          "Label": "{i18n>View Seat Map}"
+        },
+        {
+          "Value": {
+            "=": "seatID_seatID"
+          }
+        },
+        {
+          "Value": {
+            "=": "employeeID_ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "bookedBy_ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "bookingDate"
+          }
+        },
+        {
+          "Value": {
+            "=": "dayCode_dayCode"
+          }
+        },
+        {
+          "Value": {
+            "=": "status_bookingStatus"
+          }
+        },
+        {
+          "Value": {
+            "=": "attendance_attendanceStatus"
+          }
+        },
+        {
+          "Value": {
+            "=": "isGroupBooking"
+          }
+        },
+        {
+          "Value": {
+            "=": "isDeleted"
+          }
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.Booking"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "seatID": {
+          "@title": "Seat ID",
+          "key": true,
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.TeamSeatMapping",
+          "keys": [
+            {
+              "ref": [
+                "seatID"
+              ]
+            }
+          ]
+        },
+        "employeeID": {
+          "@title": "Booked For",
+          "type": "cds.Association",
+          "target": "SeatBooking.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "bookedBy": {
+          "@title": "Booked By",
+          "@Common.ValueList.Label": "{i18n>BookedBy}",
+          "@Common.ValueList.CollectionPath": "Users",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "bookedBy_ID",
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            }
+          ],
+          "type": "cds.Association",
+          "target": "SeatBooking.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "bookingDate": {
+          "@title": "Booking Date",
+          "type": "cds.Date"
+        },
+        "dayCode": {
+          "@title": "Timing",
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.DayCodes",
+          "keys": [
+            {
+              "ref": [
+                "dayCode"
+              ]
+            }
+          ]
+        },
+        "status": {
+          "@title": "Booking Status",
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.BookingStatus",
+          "keys": [
+            {
+              "ref": [
+                "bookingStatus"
+              ]
+            }
+          ]
+        },
+        "attendance": {
+          "@title": "Attended(Y/N)",
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.AttendanceStatus",
+          "keys": [
+            {
+              "ref": [
+                "attendanceStatus"
+              ]
+            }
+          ]
+        },
+        "isGroupBooking": {
+          "@title": " Group Booking(Y/N)",
+          "type": "cds.Boolean"
+        },
+        "isDeleted": {
+          "@title": "Deleted(Y/N)",
+          "type": "cds.Boolean"
+        }
+      }
+    },
+    "SeatBooking.Users": {
+      "kind": "entity",
+      "@readonly": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.Users"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "app.schema_flexwork.UserID",
+          "length": 12
+        },
+        "name": {
+          "type": "cds.String"
+        },
+        "locationID": {
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
+        }
+      }
+    },
+    "SeatBooking.quickBook": {
+      "kind": "action",
+      "@sap.applicable.path": "quickBook"
+    },
+    "SeatBooking.showAvailability": {
+      "kind": "action",
+      "@sap.applicable.path": "showAvailability"
+    },
+    "SeatBooking.updateBooking": {
+      "kind": "action",
+      "@sap.applicable.path": "updateBooking"
+    },
+    "SeatBooking.managerZone": {
+      "kind": "action",
+      "@sap.applicable.path": "managerZone"
+    },
+    "SeatBooking.seatMap": {
+      "kind": "action",
+      "@sap.applicable.path": "seatMap"
     },
     "Language": {
       "kind": "type",

@@ -55,10 +55,13 @@
   "sapux": [
     "app/admin_data",
     "app/admin_lrop",
-    "app/adminui"
+    "app/adminui",
+    "app/addseats",
+    "app/seatooking",
+    "app/seatbookingui"
   ],
   "devDependencies": {
     "@sap/hdi-deploy": "4.1.0",
-    "@sap/ux-specification": "^1.90.4"
+    "@sap/ux-specification": "^1.90.6"
   }
 }

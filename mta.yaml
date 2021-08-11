@@ -64,9 +64,51 @@ modules:
       - adminui.zip
       name: adminui
       target-path: resources/
+    - artifacts:
+      - manageofficeseatsaddseats.zip
+      name: manageofficeseatsaddseats
+      target-path: resources/
+    - artifacts:
+      - bookseatseatooking.zip
+      name: bookseatseatooking
+      target-path: resources/
+    - artifacts:
+      - seatbookingui.zip
+      name: seatbookingui
+      target-path: resources/
 - name: adminui
   type: html5
   path: app/adminui
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: manageofficeseatsaddseats
+  type: html5
+  path: app/addseats
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: bookseatseatooking
+  type: html5
+  path: app/seatooking
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: seatbookingui
+  type: html5
+  path: app/seatbookingui
   build-parameters:
     build-result: dist
     builder: custom
