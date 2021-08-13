@@ -594,13 +594,11 @@
     },
     "AdminService": {
       "@source": "service.cds",
-      "kind": "service"
+      "kind": "service",
+      "@impl": "./AdminUIservice.js"
     },
     "AdminService.SAPOfficeData": {
       "kind": "entity",
-      "@Capabilities.Insertable": true,
-      "@Capabilities.Updatable": true,
-      "@Capabilities.Deletable": true,
       "@UI.HeaderInfo.TypeName": "Location",
       "@UI.HeaderInfo.TypeNamePlural": "Locations",
       "@UI.HeaderInfo.Title.Value": {
@@ -857,9 +855,6 @@
     },
     "AdminService.Teams": {
       "kind": "entity",
-      "@Capabilities.Insertable": true,
-      "@Capabilities.Updatable": true,
-      "@Capabilities.Deletable": true,
       "@UI.HeaderInfo.TypeName": "Team Detail",
       "@UI.HeaderInfo.TypeNamePlural": "Team Details",
       "@UI.HeaderInfo.Title.Value": {

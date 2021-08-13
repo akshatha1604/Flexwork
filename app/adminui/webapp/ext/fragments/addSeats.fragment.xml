@@ -1,24 +1,23 @@
 <core:FragmentDefinition xmlns="sap.m"
     xmlns:core="sap.ui.core" core:require="{ext : 'adminui/ext/controller/ObjectPageExt'}">
-   
-        <Dialog title='Allocate new seat'>
+        <Dialog title="{NewModel>/Property/title}">
         <content>
-            <VBox width="430px">
+            <VBox width="550px">
                 <HBox>
                     <!--<Text text='Group booking/ my booking/ booking of behalf'/>-->
-                    <RadioButtonGroup buttons="{NewChatModel>/radiobutton}" select="onCustomValueSelected">
+                    <RadioButtonGroup buttons="{NewModel>/radiobutton}" selectedIndex="{NewModel>/Property/SelectedIndex}"
+                     select="ext.onCustomValueSelected">
                         <buttons>
-                            <RadioButton text="{NewChatModel>Seat}"/>
+                            <RadioButton text="{NewModel>Seat}"/>
                         </buttons>
                     </RadioButtonGroup>
                 </HBox>
-                <Input placeholder="enter seat no. in mentioned format"></Input>
+                <Input placeholder="{NewModel>/Property/placeHolder}" value="{NewModel>/Property/inputField}"></Input>
             </VBox>
         </content>
         <buttons>
-            <Button text="Save" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="message1"/>
-            <Button text="Cancel" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="ext.AddSeatCancelPress"/>
-              <Button text="test" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="adminui/ext/controller/ObjectPageExt/AddSeatCancelPress"/>
+            <Button text="Save" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="ext.SaveSeatPress"/>
+            <Button text="Cancel" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="ext.AddSeatCancelPress"/>        
         </buttons>
     </Dialog>
 </core:FragmentDefinition>
