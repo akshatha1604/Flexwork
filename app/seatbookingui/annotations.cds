@@ -44,7 +44,7 @@ annotate service.Booking with @( // header-level annotations
         {
             $Type  : 'UI.DataFieldForAction',
             Action : 'SeatBooking.managerZone',
-            Label  : '{i18n>Manager Zone}'
+            Label  : '{i18n>ManagerZone}'
         },
 
         {
