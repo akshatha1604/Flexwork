@@ -21,21 +21,21 @@ service AdminService @(impl : './adminService.js') {
 service SeatBooking {
     entity Booking as projection on me.Booking;
 
-    @readonly
+   // @readonly
     entity Users   as projection on me.Users;
 
-    @sap.applicable.path : 'quickBook'
+  //  @sap.applicable.path : 'quickBook'
     action quickBook();
 
-    @sap.applicable.path : 'showAvailability'
+  //  @sap.applicable.path : 'showAvailability'
     action showAvailability();
 
-    @sap.applicable.path : 'updateBooking'
+  //  @sap.applicable.path : 'updateBooking'
     action updateBooking();
 
-    @sap.applicable.path : 'managerZone'
+  //  @sap.applicable.path : 'managerZone'
     action managerZone();
 
-    @sap.applicable.path : 'seatMap'
+  //  @sap.applicable.path : 'seatMap'
     action seatMap();
 }

@@ -101,5 +101,18 @@ annotate service.Booking with @( // header-level annotations
 		    ]
       }
     }
+  );
+   employeeID@(
+    Common: {
+      ValueList: {
+        Label: '{i18n>BookedFor}',
+        CollectionPath: 'Users',
+        Parameters:[
+	  { $Type:'Common.ValueListParameterInOut', 
+        LocalDataProperty: 'employeeID_ID', ValueListProperty:'ID' },
+          { $Type:'Common.ValueListParameterDisplayOnly', ValueListProperty:'name' },
+		    ]
+      }
+    }
   )
 };

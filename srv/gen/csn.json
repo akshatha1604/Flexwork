@@ -1359,6 +1359,19 @@
         },
         "employeeID": {
           "@title": "Booked For",
+          "@Common.ValueList.Label": "{i18n>BookedFor}",
+          "@Common.ValueList.CollectionPath": "Users",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "employeeID_ID",
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            }
+          ],
           "type": "cds.Association",
           "target": "SeatBooking.Users",
           "keys": [
@@ -1446,7 +1459,6 @@
     },
     "SeatBooking.Users": {
       "kind": "entity",
-      "@readonly": true,
       "projection": {
         "from": {
           "ref": [
@@ -1470,24 +1482,19 @@
       }
     },
     "SeatBooking.quickBook": {
-      "kind": "action",
-      "@sap.applicable.path": "quickBook"
+      "kind": "action"
     },
     "SeatBooking.showAvailability": {
-      "kind": "action",
-      "@sap.applicable.path": "showAvailability"
+      "kind": "action"
     },
     "SeatBooking.updateBooking": {
-      "kind": "action",
-      "@sap.applicable.path": "updateBooking"
+      "kind": "action"
     },
     "SeatBooking.managerZone": {
-      "kind": "action",
-      "@sap.applicable.path": "managerZone"
+      "kind": "action"
     },
     "SeatBooking.seatMap": {
-      "kind": "action",
-      "@sap.applicable.path": "seatMap"
+      "kind": "action"
     },
     "Language": {
       "kind": "type",
