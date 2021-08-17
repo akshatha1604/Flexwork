@@ -121,6 +121,14 @@
                         "settings": {
                             "entitySet": "SAPOfficeData",
                             "variantManagement": "Page",
+                            "controlConfiguration": {
+                                "SAPOfficeData/@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "type": "ResponsiveTable",
+                                        "selectionMode": "Single"
+                                    }
+                                }
+                            },
                             "navigation": {
                                 "SAPOfficeData": {
                                     "detail": {
@@ -141,6 +149,13 @@
                         "settings": {
                             "editableHeaderContent": false,
                             "entitySet": "SAPOfficeData",
+                            "controlConfiguration": {
+                                "Teams/@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "selectionMode": "Single"
+                                    }
+                                }
+                            },
                             "navigation": {
                                 "Teams": {
                                     "detail": {
@@ -164,15 +179,14 @@
                             "controlConfiguration": {
                                 "to_Seats/@com.sap.vocabularies.UI.v1.LineItem": {
                                     "tableSettings": {
-                                        "enableExport": true,
-                                        "selectionMode": "Multi"
+                                        "selectionMode": "Single"
                                     },
-                                     "actions": {
+                                    "actions": {
                                         "addSeat": {
                                             "press": "adminui.ext.controller.ObjectPageExt.openAddSeatDialog",
-                                            "text":"{i18n>addSeat}",
+                                            "text": "{i18n>addSeat}",
                                             "enabled": true,
-                                            "visible": true                                         
+                                            "visible": true
                                         }
                                     }
                                 }

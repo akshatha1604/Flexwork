@@ -84,6 +84,9 @@
     },
     "app.schema_flexwork.SAPOfficeData": {
       "kind": "entity",
+      "@Capabilities.InsertRestrictions.Insertable": true,
+      "@Capabilities.UpdateRestrictions.Updatable": true,
+      "@Capabilities.DeleteRestrictions.Deletable": false,
       "elements": {
         "locationID": {
           "key": true,
@@ -595,7 +598,7 @@
     "AdminService": {
       "@source": "service.cds",
       "kind": "service",
-      "@impl": "./AdminUIservice.js"
+      "@impl": "./adminService.js"
     },
     "AdminService.SAPOfficeData": {
       "kind": "entity",
@@ -741,6 +744,9 @@
           "Label": "Teams"
         }
       ],
+      "@Capabilities.InsertRestrictions.Insertable": true,
+      "@Capabilities.UpdateRestrictions.Updatable": true,
+      "@Capabilities.DeleteRestrictions.Deletable": false,
       "projection": {
         "from": {
           "ref": [
@@ -878,6 +884,11 @@
         }
       ],
       "@UI.LineItem": [
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "AdminService.removeTeam",
+          "Label": "Remove Team"
+        },
         {
           "Value": {
             "=": "teamID"
@@ -1056,6 +1067,14 @@
             }
           ]
         }
+      },
+      "actions": {
+        "removeTeam": {
+          "kind": "action",
+          "returns": {
+            "type": "cds.String"
+          }
+        }
       }
     },
     "AdminService.TeamSeatMapping": {
@@ -1138,13 +1157,11 @@
       "actions": {
         "removeSeat": {
           "kind": "action",
-          "@sap.applicable.path": "removeSeats"
+          "returns": {
+            "type": "cds.String"
+          }
         }
       }
-    },
-    "AdminService.addSeat": {
-      "kind": "action",
-      "@sap.applicable.path": "addSeats"
     },
     "SeatBooking": {
       "@source": "service.cds",

@@ -34,7 +34,12 @@ entity Users {
         locationID : LocationID; //Will be needed for Privileges
 };
 
-entity SAPOfficeData {
+entity SAPOfficeData @(Capabilities : {
+    // entity-level
+    InsertRestrictions.Insertable : true,
+    UpdateRestrictions.Updatable  : true,
+    DeleteRestrictions.Deletable  : false
+}) {
     key locationID   : LocationID;
         country      : Country;
         city         : Association to Cities;

@@ -132,6 +132,11 @@ annotate service.Teams with @( // header-level annotations
         //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.acceptTravel',   Label  : '{i18n>AcceptTravel}'   },
         //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.rejectTravel',   Label  : '{i18n>RejectTravel}'   },
         //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.deductDiscount', Label  : '{i18n>DeductDiscount}' },
+         {
+            $Type  : 'UI.DataFieldForAction',
+            Action : 'AdminService.removeTeam',
+            Label  : 'Remove Team',
+        },
         {Value : teamID},
         {Value : teamName},
         {Value : manager_ID},
