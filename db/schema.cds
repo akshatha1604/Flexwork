@@ -71,6 +71,8 @@ entity Teams @(Capabilities : {
         to_Seats       : Association to many TeamSeatMapping
                              on //to_Seats.locationID = $self.locationID;
                              to_Seats.teamID = $self.teamID;
+        // virtual teamName_ip : String(50);
+        // virtual teamID_ip   : TeamID;
 };
 
 entity TeamEmployeeMaster {

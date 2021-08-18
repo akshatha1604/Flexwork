@@ -262,6 +262,18 @@
               ]
             }
           ]
+        },
+        "teamName_ip": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.String",
+          "length": 50
+        },
+        "teamID_ip": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
         }
       }
     },
@@ -886,6 +898,11 @@
       "@UI.LineItem": [
         {
           "$Type": "UI.DataFieldForAction",
+          "Action": "AdminService.addTeam",
+          "Label": "Add Team"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
           "Action": "AdminService.removeTeam",
           "Label": "Remove Team"
         },
@@ -1066,6 +1083,18 @@
               ]
             }
           ]
+        },
+        "teamName_ip": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.String",
+          "length": 50
+        },
+        "teamID_ip": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
         }
       },
       "actions": {
@@ -1075,6 +1104,17 @@
             "type": "cds.String"
           }
         }
+      }
+    },
+    "AdminService.addTeam": {
+      "kind": "action",
+      "params": {
+        "teamName_ip": {
+          "type": "cds.String"
+        }
+      },
+      "returns": {
+        "type": "cds.String"
       }
     },
     "AdminService.TeamSeatMapping": {
