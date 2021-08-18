@@ -90,11 +90,6 @@
                     "pattern": ":?query:",
                     "name": "BookingList",
                     "target": "BookingList"
-                },
-                {
-                    "pattern": "Booking({key}):?query:",
-                    "name": "BookingObjectPage",
-                    "target": "BookingObjectPage"
                 }
             ],
             "targets": {
@@ -106,10 +101,18 @@
                         "settings": {
                             "entitySet": "Booking",
                             "variantManagement": "Page",
-                            "navigation": {
-                                "Booking": {
-                                    "detail": {
-                                        "route": "BookingObjectPage"
+                            "controlConfiguration": {
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "selectionMode": "Single"
+                                    },
+                                    "actions": {
+                                        "PlanBooking": {
+                                            "press": "seatbookingui.ext.controllers.planBooking.openPlanBookingDialog",
+                                            "text": "Plan a Booking",
+                                            "enabled": true,
+                                            "visible": true
+                                        }
                                     }
                                 }
                             }
