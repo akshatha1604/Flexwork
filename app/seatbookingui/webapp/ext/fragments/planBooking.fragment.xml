@@ -2,10 +2,9 @@
 	<Dialog title='Plan a booking'>
 		<content>
 			<VBox width="630px">
-            
-				<Text text='Group booking/ my booking/ booking of behalf'/>
+				<!-- <Text text='Group booking/ my booking/ booking of behalf'/> -->
 				<HBox>
-					<RadioButtonGroup buttons="{modelData>/radiobutton}" columns="3" selectedIndex="{modelData>/Property/index}" select="BookingTypeSelection">
+					<RadioButtonGroup buttons="{modelData>/radiobutton}" columns="3" selectedIndex="{modelData>/Property/index}" select="ext:BookingTypeSelection">
 						<buttons>
 							<RadioButton text="{modelData>type}"/>
 						</buttons>
@@ -16,7 +15,7 @@
 						<Text text='Booking for self' textAlign="Center" width="600px"/>
 					</HeaderContainer>
 					<HBox width="auto">
-						<fb:FilterBar reset="onReset" search="onSelectChange" useToolbar="false" showGoOnFB="true">
+						<fb:FilterBar reset="onReset" search="ext:onSelectChange" useToolbar="false" showGoOnFB="true">
 							<fb:filterItems>
 								<fb:FilterItem name="D" label="Date" visibleInFilterBar='true'>
 									<fb:control>
@@ -190,7 +189,7 @@
 				iconDensityAware="false" press="DialogBookOtherPress"/>
 			<Button text="Book for selection" type="Default" iconFirst="true" enabled="true" visible="{modelData>/Property/GroupBooking}"
 				iconDensityAware="false" press="GroupBooking"/>
-			<Button text="Cancel" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="PlanBookingCancelPress"/>
+			<Button text="Cancel" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="ext:PlanBookingCancelPress"/>
 		</buttons>
 	</Dialog>
 </core:FragmentDefinition>

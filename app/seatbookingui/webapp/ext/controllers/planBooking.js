@@ -9,7 +9,7 @@ sap.ui.define(
         return {
 
             openPlanBookingDialog: function (oContext) {
-
+                	sap.ui.core.BusyIndicator.show(0);
 		var Newdata = {
 			"radiobutton": [{
 				"type": "Individual Booking"
@@ -85,9 +85,21 @@ sap.ui.define(
 
 			oView.addDependent(this._oDialogonPlanBooking);
 		}
-		this._oDialogonPlanBooking.open();
+        this._oDialogonPlanBooking.open();
+          	sap.ui.core.BusyIndicator.hide();
 
-	}
+    },
+
+    onSelectChange: function (oContext) {
+      alert("search called");  
+    },
+
+     PlanBookingCancelPress: function ( ) {
+     this._oDialogonPlanBooking.close();
+    }
+    
+    
+
 
 
             // openPlanBookingDialog: function (oContext) {

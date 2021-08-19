@@ -262,18 +262,6 @@
               ]
             }
           ]
-        },
-        "teamName_ip": {
-          "@Core.Computed": true,
-          "virtual": true,
-          "type": "cds.String",
-          "length": 50
-        },
-        "teamID_ip": {
-          "@Core.Computed": true,
-          "virtual": true,
-          "type": "app.schema_flexwork.TeamID",
-          "length": 20
         }
       }
     },
@@ -1083,18 +1071,6 @@
               ]
             }
           ]
-        },
-        "teamName_ip": {
-          "@Core.Computed": true,
-          "virtual": true,
-          "type": "cds.String",
-          "length": 50
-        },
-        "teamID_ip": {
-          "@Core.Computed": true,
-          "virtual": true,
-          "type": "app.schema_flexwork.TeamID",
-          "length": 20
         }
       },
       "actions": {
@@ -1198,7 +1174,7 @@
         "removeSeat": {
           "kind": "action",
           "returns": {
-            "type": "cds.String"
+            "type": "cds.Integer"
           }
         }
       }
@@ -1388,7 +1364,7 @@
           "@title": "Seat ID",
           "key": true,
           "type": "cds.Association",
-          "target": "app.schema_flexwork.TeamSeatMapping",
+          "target": "SeatBooking.TeamSeatMapping",
           "keys": [
             {
               "ref": [
@@ -1454,7 +1430,7 @@
         "dayCode": {
           "@title": "Timing",
           "type": "cds.Association",
-          "target": "app.schema_flexwork.DayCodes",
+          "target": "SeatBooking.DayCodes",
           "keys": [
             {
               "ref": [
@@ -1466,7 +1442,7 @@
         "status": {
           "@title": "Booking Status",
           "type": "cds.Association",
-          "target": "app.schema_flexwork.BookingStatus",
+          "target": "SeatBooking.BookingStatus",
           "keys": [
             {
               "ref": [
@@ -1478,7 +1454,7 @@
         "attendance": {
           "@title": "Attended(Y/N)",
           "type": "cds.Association",
-          "target": "app.schema_flexwork.AttendanceStatus",
+          "target": "SeatBooking.AttendanceStatus",
           "keys": [
             {
               "ref": [
@@ -1494,6 +1470,419 @@
         "isDeleted": {
           "@title": "Deleted(Y/N)",
           "type": "cds.Boolean"
+        }
+      }
+    },
+    "SeatBooking.TeamSeatMapping": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.TeamSeatMapping"
+          ]
+        }
+      },
+      "elements": {
+        "seatID": {
+          "key": true,
+          "type": "app.schema_flexwork.SeatID",
+          "length": 15
+        },
+        "locationID": {
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
+        },
+        "teamID": {
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "monitorCount": {
+          "type": "cds.Integer"
+        },
+        "facility1": {
+          "type": "cds.Integer"
+        },
+        "facility2": {
+          "type": "cds.Integer"
+        },
+        "facility3": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "SeatBooking.SAPOfficeData": {
+      "kind": "entity",
+      "@Capabilities.InsertRestrictions.Insertable": true,
+      "@Capabilities.UpdateRestrictions.Updatable": true,
+      "@Capabilities.DeleteRestrictions.Deletable": false,
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.SAPOfficeData"
+          ]
+        }
+      },
+      "elements": {
+        "locationID": {
+          "key": true,
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
+        },
+        "country": {
+          "@title": "{i18n>Country}",
+          "@description": "{i18n>CountryCode.Description}",
+          "type": "Country",
+          "target": "SeatBooking.Countries",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "city": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Cities",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "office": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Offices",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "building": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Buildings",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "block": {
+          "type": "cds.String",
+          "length": 2
+        },
+        "floor": {
+          "type": "cds.Integer"
+        },
+        "totalSeat": {
+          "type": "cds.Integer"
+        },
+        "unassignSeat": {
+          "type": "cds.Integer"
+        },
+        "admin": {
+          "type": "cds.Association",
+          "target": "SeatBooking.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Teams": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "SeatBooking.Teams",
+          "on": [
+            {
+              "ref": [
+                "Teams",
+                "locationID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "SeatBooking.Teams": {
+      "kind": "entity",
+      "@Capabilities.InsertRestrictions.Insertable": true,
+      "@Capabilities.UpdateRestrictions.Updatable": true,
+      "@Capabilities.DeleteRestrictions.Deletable": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.Teams"
+          ]
+        }
+      },
+      "elements": {
+        "teamID": {
+          "key": true,
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "locationID": {
+          "key": true,
+          "type": "cds.Association",
+          "target": "SeatBooking.SAPOfficeData",
+          "keys": [
+            {
+              "ref": [
+                "locationID"
+              ]
+            }
+          ]
+        },
+        "teamName": {
+          "type": "cds.String",
+          "length": 50
+        },
+        "employeeCount": {
+          "type": "cds.Integer"
+        },
+        "maxSeatPercent": {
+          "type": "cds.Integer"
+        },
+        "manager": {
+          "type": "cds.Association",
+          "target": "SeatBooking.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "headManager": {
+          "type": "cds.Association",
+          "target": "SeatBooking.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "to_Seats": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "SeatBooking.TeamSeatMapping",
+          "on": [
+            {
+              "ref": [
+                "to_Seats",
+                "teamID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self",
+                "teamID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "SeatBooking.TeamEmployeeMaster": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.TeamEmployeeMaster"
+          ]
+        }
+      },
+      "elements": {
+        "employeeID": {
+          "key": true,
+          "type": "cds.Association",
+          "target": "SeatBooking.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "teamID": {
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "role": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.TeamMemberRoles",
+          "keys": [
+            {
+              "ref": [
+                "roleCode"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "SeatBooking.Privileges": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.Privileges"
+          ]
+        }
+      },
+      "elements": {
+        "UserID": {
+          "key": true,
+          "type": "cds.Association",
+          "target": "SeatBooking.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "PrivilegeID": {
+          "type": "cds.Integer",
+          "enum": {
+            "Full": {
+              "val": 1
+            },
+            "Countrywise": {
+              "val": 2
+            },
+            "Citywise": {
+              "val": 3
+            },
+            "Officewise": {
+              "val": 4
+            },
+            "Buildingwise": {
+              "val": 5
+            },
+            "Blockwise": {
+              "val": 6
+            },
+            "Floorwise": {
+              "val": 7
+            }
+          }
+        }
+      }
+    },
+    "SeatBooking.BookingStatus": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.BookingStatus"
+          ]
+        }
+      },
+      "elements": {
+        "bookingStatus": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "SeatBooking.AttendanceStatus": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.AttendanceStatus"
+          ]
+        }
+      },
+      "elements": {
+        "attendanceStatus": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "SeatBooking.DayCodes": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.DayCodes"
+          ]
+        }
+      },
+      "elements": {
+        "dayCode": {
+          "key": true,
+          "type": "app.schema_flexwork.DayCode",
+          "length": 2
+        },
+        "fromTime": {
+          "type": "cds.Time"
+        },
+        "toTime": {
+          "type": "cds.Time"
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 80
+        }
+      }
+    },
+    "SeatBooking.SeatMaster": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.SeatMaster"
+          ]
+        }
+      },
+      "elements": {
+        "seatID": {
+          "key": true,
+          "type": "app.schema_flexwork.SeatID",
+          "length": 15
+        },
+        "locationID": {
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
         }
       }
     },
@@ -2179,7 +2568,145 @@
         }
       }
     },
+    "SeatBooking.Countries": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.common.Countries"
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "SeatBooking.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "SeatBooking.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
     "AdminService.Countries.texts": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@odata.draft.enabled": false,
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.common.Countries.texts"
+          ]
+        }
+      },
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "SeatBooking.Countries.texts": {
       "kind": "entity",
       "@cds.autoexposed": true,
       "@odata.draft.enabled": false,
