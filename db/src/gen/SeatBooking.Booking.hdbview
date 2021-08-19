@@ -16,10 +16,10 @@ VIEW SeatBooking_Booking AS SELECT
   Booking_0.isDeleted
 FROM app_schema_flexwork_Booking AS Booking_0
 WITH ASSOCIATIONS (
-  MANY TO ONE JOIN app_schema_flexwork_TeamSeatMapping AS seatID ON (seatID.seatID = seatID_seatID),
+  MANY TO ONE JOIN SeatBooking_TeamSeatMapping AS seatID ON (seatID.seatID = seatID_seatID),
   MANY TO ONE JOIN SeatBooking_Users AS employeeID ON (employeeID.ID = employeeID_ID),
   MANY TO ONE JOIN SeatBooking_Users AS bookedBy ON (bookedBy.ID = bookedBy_ID),
-  MANY TO ONE JOIN app_schema_flexwork_DayCodes AS dayCode ON (dayCode.dayCode = dayCode_dayCode),
-  MANY TO ONE JOIN app_schema_flexwork_BookingStatus AS status ON (status.bookingStatus = status_bookingStatus),
-  MANY TO ONE JOIN app_schema_flexwork_AttendanceStatus AS attendance ON (attendance.attendanceStatus = attendance_attendanceStatus)
+  MANY TO ONE JOIN SeatBooking_DayCodes AS dayCode ON (dayCode.dayCode = dayCode_dayCode),
+  MANY TO ONE JOIN SeatBooking_BookingStatus AS status ON (status.bookingStatus = status_bookingStatus),
+  MANY TO ONE JOIN SeatBooking_AttendanceStatus AS attendance ON (attendance.attendanceStatus = attendance_attendanceStatus)
 )

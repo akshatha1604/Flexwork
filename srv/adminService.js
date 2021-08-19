@@ -8,7 +8,22 @@ module.exports = function () {
         }
         var val_teamID = req.params[1].teamID;
         const { TeamSeatMapping } = this.entities;
+        // //var count = TeamSeatMapping.count .where ({teamID: req.params[1].teamID, locationID: req.params[0].locationID});
+        // // count = Select.from("TeamSeatMapping") .having (func("count", TeamSeatMapping).where ({teamID: req.params[1].teamID, locationID: req.params[0].locationID}));
+        // // var count = TeamSeatMapping.count;
+        // const getSeatAssigned = await cds.transaction(req).run(SELECT .from (TeamSeatMapping) .where({teamID: req.params[1].teamID, locationID: req.params[0].locationID}));
+
+        // // var count = count(TeamSeatMapping);
+        // console.log(getSeatAssigned);
+        // var sql = "SELECT count(*) as total FROM TeamSeatMapping";
+        // var query = connection.query(sql, function (err, result) {
+
+        //     console.log("Total Records:- " + result[0].total);
+
+        // });
+        // console.log(count);
         const n = await DELETE.from(TeamSeatMapping).where({ seatId: seatNo });
+
         if (n > 0) {
             req.notify(204, 'Data Successfully deleted');
             return n;
@@ -46,6 +61,29 @@ module.exports = function () {
          var val_locationID = req.params[1].locationID_locationID;
       });
 };
+
+//  this.('addSeat', async(req) => {
+    //  const Teams  = Array.isArray(teamsData) ? teamsData : [teamsData];
+    //  Teams.forEach(team =>{ 
+    //      var count = func("count", this.entities.TeamSeatMapping ) .where ({teamID: Teams.teamID, locationID: Teams.locationID});
+    //      console.log(count);  
+    // console.log("Hi after");       
+
+    // if (req.params[2].seatID) {
+    //         seatNo = req.params[2].seatID;
+    //     }
+    //     const { TeamSeatMapping } = this.entities;
+    //     const n = await DELETE.from(TeamSeatMapping).where({ seatId: seatNo });
+    //     if (n > 0) {
+    //         req.notify(200, 'Data Successfully deleted');
+    //         //   var model = req._model;
+    //         //  model.refresh();
+    //     }
+    //     else {
+    //         req.error(400, "Deletion failed");
+    //     }
+
+    // });
 
 
 

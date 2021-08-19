@@ -262,6 +262,16 @@
               ]
             }
           ]
+        },
+        "seatAssigned": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
+        },
+        "seatUnassigned": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
         }
       }
     },
@@ -918,6 +928,16 @@
           "Value": {
             "=": "maxSeatPercent"
           }
+        },
+        {
+          "Value": {
+            "=": "seatAssigned"
+          }
+        },
+        {
+          "Value": {
+            "=": "seatUnassigned"
+          }
         }
       ],
       "@UI.Identification": [
@@ -1071,6 +1091,18 @@
               ]
             }
           ]
+        },
+        "seatAssigned": {
+          "@title": "Seats Assigned",
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
+        },
+        "seatUnassigned": {
+          "@title": "Seat Unassigned",
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
         }
       },
       "actions": {
@@ -1079,18 +1111,18 @@
           "returns": {
             "type": "cds.String"
           }
+        },
+        "addTeam": {
+          "kind": "action",
+          "params": {
+            "teamName_ip": {
+              "type": "cds.String"
+            }
+          },
+          "returns": {
+            "type": "cds.String"
+          }
         }
-      }
-    },
-    "AdminService.addTeam": {
-      "kind": "action",
-      "params": {
-        "teamName_ip": {
-          "type": "cds.String"
-        }
-      },
-      "returns": {
-        "type": "cds.String"
       }
     },
     "AdminService.TeamSeatMapping": {
@@ -1704,6 +1736,16 @@
               ]
             }
           ]
+        },
+        "seatAssigned": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
+        },
+        "seatUnassigned": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
         }
       }
     },

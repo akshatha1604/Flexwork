@@ -2,14 +2,14 @@ using AdminService as service from '../../srv/service';
 
 annotate service.SAPOfficeData // header-level annotations
 {
-    locationID   @title : 'Location ID';
-    country_code @title : 'Country';
-    city         @title : 'City';
-    office       @title : 'Office';
-    office_ID    @title : 'Office';
-    block        @title : 'Block';
-    floor        @title : 'Floor';
-    totalSeat    @title : 'Total Seat';   
+    locationID     @title : 'Location ID';
+    country_code   @title : 'Country';
+    city           @title : 'City';
+    office         @title : 'Office';
+    office_ID      @title : 'Office';
+    block          @title : 'Block';
+    floor          @title : 'Floor';
+    totalSeat      @title : 'Total Seat';
 }
 
 annotate service.SAPOfficeData with @( // header-level annotations
@@ -26,7 +26,7 @@ annotate service.SAPOfficeData with @( // header-level annotations
         office_ID,
         block,
         floor
-    ],    
+    ],
     UI.LineItem        : [
         //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.acceptTravel',   Label  : '{i18n>AcceptTravel}'   },
         //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.rejectTravel',   Label  : '{i18n>RejectTravel}'   },
@@ -111,6 +111,9 @@ annotate service.Teams // header-level annotations
     manager        @title : 'Manager Name';
     employeeCount  @title : 'Team Count';
     maxSeatPercent @title : 'Max Seat Percent';
+    seatAssigned   @title : 'Seats Assigned';
+    seatUnassigned @title : 'Seat Unassigned';
+
 }
 
 annotate service.Teams with @( // header-level annotations
@@ -132,22 +135,24 @@ annotate service.Teams with @( // header-level annotations
         //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.acceptTravel',   Label  : '{i18n>AcceptTravel}'   },
         //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.rejectTravel',   Label  : '{i18n>RejectTravel}'   },
         //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.deductDiscount', Label  : '{i18n>DeductDiscount}' },
-         {
+        {
             $Type  : 'UI.DataFieldForAction',
             Action : 'AdminService.addTeam',
             Label  : 'Add Team',
         },
-         {
+        {
             $Type  : 'UI.DataFieldForAction',
             Action : 'AdminService.removeTeam',
             Label  : 'Remove Team',
         },
-        
+
         {Value : teamID},
         {Value : teamName},
         {Value : manager_ID},
         {Value : employeeCount},
-        {Value : maxSeatPercent}
+        {Value : maxSeatPercent},
+        {Value : seatAssigned},
+        {Value : seatUnassigned}
     ],
 
 
