@@ -185,8 +185,8 @@
                                         "addSeat": {
                                             "press": "adminui.ext.controller.ObjectPageExt.openAddSeatDialog",
                                             "text": "{i18n>addSeat}",
-                                            "enabled": true,
-                                            "visible": true
+                                            "enabled": "{= ${ui>/editMode} === 'Editable'}",
+                                            "visible": "{= ${ui>/editMode} === 'Editable'}"
                                         }
                                     }
                                 }

@@ -225,7 +225,7 @@ annotate service.TeamSeatMapping with
 
     Capabilities : {
         InsertRestrictions.Insertable : false,
-        UpdateRestrictions.Updatable  : true,
+        UpdateRestrictions.Updatable  : false,
         DeleteRestrictions.Deletable  : true,
     },
 

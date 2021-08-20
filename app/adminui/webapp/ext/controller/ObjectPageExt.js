@@ -9,6 +9,9 @@ sap.ui.define(
     function (ODataModel, Token, JSONModel) {
         "use strict";
         return {
+            buttonHandling: function (oContext) {
+                return false;
+            },
 
             openAddSeatDialog: function (oContext) {
                 var contextData = oContext.getObject(oContext.sPath);
@@ -83,8 +86,8 @@ sap.ui.define(
                     "facility1": "",
                     "facility2": "",
                     "facility3": "",
-                    "HasActiveEntity": false,
-                    "HasDraftEntity":false,
+                 //   "HasActiveEntity": false,
+                   // "HasDraftEntity":false,
                     "IsActiveEntity": true,
                 };
                 $.get({
@@ -134,8 +137,8 @@ sap.ui.define(
                     "facility1": 0,
                     "facility2": 0,
                     "facility3": 0,
-                    "HasActiveEntity": false,
-                    "HasDraftEntity":false,
+                  //  "HasActiveEntity": false,
+                  //  "HasDraftEntity":false,
                     "IsActiveEntity": true
                 };
 

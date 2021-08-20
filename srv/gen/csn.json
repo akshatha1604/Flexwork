@@ -1344,8 +1344,8 @@
     "AdminService.TeamSeatMapping": {
       "kind": "entity",
       "@Capabilities.InsertRestrictions.Insertable": false,
-      "@Capabilities.UpdateRestrictions.Updatable": true,
-      "@Capabilities.DeleteRestrictions.Deletable": false,
+      "@Capabilities.UpdateRestrictions.Updatable": false,
+      "@Capabilities.DeleteRestrictions.Deletable": true,
       "@UI.HeaderInfo.TypeName": "Team Seat Detail",
       "@UI.HeaderInfo.TypeNamePlural": "Team Seat Details",
       "@UI.HeaderInfo.Title.Value": {
