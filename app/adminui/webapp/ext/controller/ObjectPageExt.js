@@ -23,11 +23,11 @@ sap.ui.define(
 
                 var Newdata = {
                     "radiobutton": [{
-                        "Seat": `Seat Range(0001-0005)`
+                        "Seat": `Seat Range(001-005)`
                     }, {
-                        "Seat": "Multiple seats, comma separated(0001,0002)"
+                        "Seat": "Multiple seats, comma separated(001,002)"
                     }, {
-                        "Seat": "Single Seat(0001)"
+                        "Seat": "Single Seat(001)"
                     }],
                     "Property": {
                         "inputField": "",
@@ -64,13 +64,13 @@ sap.ui.define(
                         sap.m.MessageToast.show("No option selected, kindly select an option above");
                         break;
                     case 0:
-                        placeHolder = "Enter the only seat no. (Exp: 0001-9999) as the currently selected format.";
+                        placeHolder = "Enter the only seat no. (Exp: 001-999) as the currently selected format.";
                         break;
                     case 1:
-                        placeHolder = "Enter the only seat no. (Exp: 0001,0002,..) as the currently selected format."
+                        placeHolder = "Enter the only seat no. (Exp: 001,002,..) as the currently selected format."
                         break;
                     case 2:
-                        placeHolder = "Enter the only seat no.(Exp: 0001) as the currently selected format.";
+                        placeHolder = "Enter the only seat no.(Exp: 001) as the currently selected format.";
                         break;
                 }
                 this._controller.getView().getModel("NewModel").setProperty("/Property/placeHolder", placeHolder);
@@ -86,8 +86,8 @@ sap.ui.define(
                     "facility1": "",
                     "facility2": "",
                     "facility3": "",
-                 //   "HasActiveEntity": false,
-                   // "HasDraftEntity":false,
+                    //   "HasActiveEntity": false,
+                    // "HasDraftEntity":false,
                     "IsActiveEntity": true,
                 };
                 $.get({
@@ -137,8 +137,8 @@ sap.ui.define(
                     "facility1": 0,
                     "facility2": 0,
                     "facility3": 0,
-                  //  "HasActiveEntity": false,
-                  //  "HasDraftEntity":false,
+                    //  "HasActiveEntity": false,
+                    //  "HasDraftEntity":false,
                     "IsActiveEntity": true
                 };
 
@@ -154,7 +154,7 @@ sap.ui.define(
                             if (oData.Property.inputField.includes("-")) {
                                 //add logic
                                 sap.m.MessageToast.show("Development in-progress, Please use single seat option");
-                             //   this._oDialogonAddSeats.close();
+                                //   this._oDialogonAddSeats.close();
                             } else {
                                 //add logic
                                 sap.m.MessageToast.show("Selected format and input is not same, Please retry in correct format");
@@ -163,23 +163,23 @@ sap.ui.define(
                         case 1:
                             if (oData.Property.inputField.includes(",")) {
                                 //add logic
-                                 sap.m.MessageToast.show("Development in-progress, Please use single seat option");
-                              //  this._oDialogonAddSeats.close();
+                                sap.m.MessageToast.show("Development in-progress, Please use single seat option");
+                                //  this._oDialogonAddSeats.close();
                             } else {
                                 //add logic
                                 sap.m.MessageToast.show("Selected format and input is not same, Please retry in correct format!");
                             }
                             break;
                         case 2:
-                            if (oData.Property.inputField.length === 4) {
-                                seatNo = oData.Property.locationID + oData.Property.inputField;
+                            if (oData.Property.inputField.length === 3) {
+                                seatNo = oData.Property.locationID + '-' + oData.Property.inputField;
                                 seatNos.push(seatNo);
 
                                 //   this.postDataToDB(oData, seatNos);
 
-                                //Get a call to find if given seat is valid seat like below. 
+                                //Get a call to find if given seat is valid seat like below.  and IsActiveEntity eq true
                                 var csrfToken, Currentdata = [], newData;
-                                var sFilterQuery = `seatID eq '${seatNo}' and IsActiveEntity eq true`;
+                                var sFilterQuery = `seatID eq '${seatNo}'`;
                                 $.get({
                                     url: "/admin/TeamSeatMapping",
                                     headers: {
@@ -197,8 +197,30 @@ sap.ui.define(
                                     var seatAlreadyAdded = Currentdata.value.find(function (item) {
                                         return item.seatID === seatNo;
                                     });
-
                                 }
+                                //Checking in draft table. 
+                                if (!seatAlreadyAdded) {
+                                    var sFilterQuery = `seatID eq '${seatNo}' and IsActiveEntity eq false`;
+                                    $.get({
+                                        url: "/admin/TeamSeatMapping",
+                                        headers: {
+                                            "x-csrf-token": "fetch"
+                                        }, data: {
+                                            $filter: sFilterQuery
+                                        },
+                                        success: function (data, status, xhr) {
+                                            csrfToken = xhr.getResponseHeader("x-csrf-token");
+                                            Currentdata = data;
+
+                                        }, async: false
+                                    });
+                                    if (Currentdata.value.length !== 0) {
+                                        var seatAlreadyAdded = Currentdata.value.find(function (item) {
+                                            return item.seatID === seatNo;
+                                        });
+                                    }
+                                }
+
                                 if (!seatAlreadyAdded) {
                                     newData.seatID = seatNos[0];
 
@@ -232,7 +254,7 @@ sap.ui.define(
                                     sap.m.MessageToast.show(`Seat already added for team -${seatAlreadyAdded.teamID}`);
                                 }
                             } else {
-                                sap.m.MessageToast.show("Please provide the correct seat no.!");
+                                sap.m.MessageToast.show("Please provide the correct 3 digit seat no.!");
                             }
                             break;
 
