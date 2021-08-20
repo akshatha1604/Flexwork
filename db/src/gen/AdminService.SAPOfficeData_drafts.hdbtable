@@ -21,10 +21,10 @@ COLUMN TABLE AdminService_SAPOfficeData_drafts (
   PRIMARY KEY(locationID)
 ) WITH ASSOCIATIONS (
   MANY TO ONE JOIN AdminService_Countries AS country ON (country.code = country_code),
-  MANY TO ONE JOIN app_schema_flexwork_Cities AS city ON (city.ID = city_ID),
-  MANY TO ONE JOIN app_schema_flexwork_Offices AS office ON (office.ID = office_ID),
-  MANY TO ONE JOIN app_schema_flexwork_Buildings AS building ON (building.ID = building_ID),
-  MANY TO ONE JOIN app_schema_flexwork_Users AS admin ON (admin.ID = admin_ID),
+  MANY TO ONE JOIN AdminService_Cities AS city ON (city.ID = city_ID),
+  MANY TO ONE JOIN AdminService_Offices AS office ON (office.ID = office_ID),
+  MANY TO ONE JOIN AdminService_Buildings AS building ON (building.ID = building_ID),
+  MANY TO ONE JOIN AdminService_Users AS admin ON (admin.ID = admin_ID),
   MANY TO MANY JOIN AdminService_Teams_drafts AS Teams ON (Teams.locationID = locationID),
   MANY TO ONE JOIN AdminService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
 )

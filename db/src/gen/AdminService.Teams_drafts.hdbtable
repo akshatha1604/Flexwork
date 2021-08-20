@@ -17,8 +17,8 @@ COLUMN TABLE AdminService_Teams_drafts (
   DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
   PRIMARY KEY(teamID, locationID)
 ) WITH ASSOCIATIONS (
-  MANY TO ONE JOIN app_schema_flexwork_Users AS manager ON (manager.ID = manager_ID),
-  MANY TO ONE JOIN app_schema_flexwork_Users AS headManager ON (headManager.ID = headManager_ID),
+  MANY TO ONE JOIN AdminService_Users AS manager ON (manager.ID = manager_ID),
+  MANY TO ONE JOIN AdminService_Users AS headManager ON (headManager.ID = headManager_ID),
   MANY TO MANY JOIN AdminService_TeamSeatMapping_drafts AS to_Seats ON (to_Seats.teamID = teamID),
   MANY TO ONE JOIN AdminService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
 )

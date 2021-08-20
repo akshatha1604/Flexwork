@@ -77,20 +77,9 @@ annotate service.Booking with @( // header-level annotations
     ]
 )
 
-// @Common.ValueList #bookedBy : {
-//     Label          : '{i18n>bookedBy}',
-//     CollectionPath : 'Users',
-//     Parameters     : [{
-//         $Type             : 'Common.ValueListParameterInOut',
-//         LocalDataProperty : bookedBy,
-//         ValueListProperty : 'ID'
-//     }]
-
 {
-//  matchDate @title:'{i18n>matchDate}';
   bookedBy @(
     Common: {
-      //Label: '{i18n>BookedBy}',
       ValueList: {
         Label: '{i18n>BookedBy}',
         CollectionPath: 'Users',
