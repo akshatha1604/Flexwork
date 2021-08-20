@@ -2,7 +2,6 @@ using {app.schema_flexwork as me} from '../db/schema';
 
 service AdminService @(impl : './adminService.js') {
     entity SAPOfficeData   as projection on me.SAPOfficeData;
-
     entity Teams           as projection on me.Teams actions {
      //   action removeTeam() returns String;
     };
@@ -12,6 +11,10 @@ service AdminService @(impl : './adminService.js') {
     entity TeamSeatMapping as projection on me.TeamSeatMapping actions {
         action removeSeat() returns Integer;
     }
+    entity Cities as projection on me.Cities;
+    entity Offices as projection on me.Offices;
+    entity Buildings as projection on me.Buildings;
+    entity Users as projection on me.Users;
 }
 
 service SeatBooking {

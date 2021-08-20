@@ -971,9 +971,22 @@
         },
         "city": {
           "@title": "City",
+          "@Common.ValueList.Label": "City",
+          "@Common.ValueList.CollectionPath": "Cities",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "city_ID",
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            }
+          ],
           "@readonly": true,
           "type": "cds.Association",
-          "target": "app.schema_flexwork.Cities",
+          "target": "AdminService.Cities",
           "keys": [
             {
               "ref": [
@@ -984,9 +997,22 @@
         },
         "office": {
           "@title": "Office",
+          "@Common.ValueList.Label": "Office",
+          "@Common.ValueList.CollectionPath": "Offices",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "office_ID",
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            }
+          ],
           "@readonly": true,
           "type": "cds.Association",
-          "target": "app.schema_flexwork.Offices",
+          "target": "AdminService.Offices",
           "keys": [
             {
               "ref": [
@@ -996,9 +1022,22 @@
           ]
         },
         "building": {
+          "@Common.ValueList.Label": "Building",
+          "@Common.ValueList.CollectionPath": "Buildings",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "building_ID",
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            }
+          ],
           "@readonly": true,
           "type": "cds.Association",
-          "target": "app.schema_flexwork.Buildings",
+          "target": "AdminService.Buildings",
           "keys": [
             {
               "ref": [
@@ -1028,8 +1067,21 @@
           "type": "cds.Integer"
         },
         "admin": {
+          "@Common.ValueList.Label": "Admin",
+          "@Common.ValueList.CollectionPath": "Users",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "admin_ID",
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            }
+          ],
           "type": "cds.Association",
-          "target": "app.schema_flexwork.Users",
+          "target": "AdminService.Users",
           "keys": [
             {
               "ref": [
@@ -1137,7 +1189,8 @@
           "$Type": "UI.DataField",
           "Value": {
             "=": "teamName"
-          }
+          },
+          "Label": "Team Name"
         },
         {
           "$Type": "UI.DataField",
@@ -1147,7 +1200,7 @@
           "@UI.Importance": {
             "#": "High"
           },
-          "Label": "City"
+          "Label": "Manager"
         },
         {
           "$Type": "UI.DataField",
@@ -1157,7 +1210,7 @@
           "@UI.Importance": {
             "#": "High"
           },
-          "Label": "Office"
+          "Label": "No.Of Employees"
         },
         {
           "$Type": "UI.DataField",
@@ -1166,7 +1219,8 @@
           },
           "@UI.Importance": {
             "#": "High"
-          }
+          },
+          "Label": "Max. Seat Occupancy%"
         }
       ],
       "@UI.Facets": [
@@ -1284,8 +1338,21 @@
         },
         "manager": {
           "@title": "Manager Name",
+          "@Common.ValueList.Label": "Manager",
+          "@Common.ValueList.CollectionPath": "Users",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "manager_ID",
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            }
+          ],
           "type": "cds.Association",
-          "target": "app.schema_flexwork.Users",
+          "target": "AdminService.Users",
           "keys": [
             {
               "ref": [
@@ -1296,7 +1363,7 @@
         },
         "headManager": {
           "type": "cds.Association",
-          "target": "app.schema_flexwork.Users",
+          "target": "AdminService.Users",
           "keys": [
             {
               "ref": [
@@ -1422,6 +1489,90 @@
           "returns": {
             "type": "cds.Integer"
           }
+        }
+      }
+    },
+    "AdminService.Cities": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.Cities"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "name": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "AdminService.Offices": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.Offices"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "name": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "AdminService.Buildings": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.Buildings"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "name": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "AdminService.Users": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.Users"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "app.schema_flexwork.UserID",
+          "length": 12
+        },
+        "name": {
+          "type": "cds.String"
+        },
+        "locationID": {
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
         }
       }
     },

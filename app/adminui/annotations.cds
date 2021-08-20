@@ -38,7 +38,7 @@ annotate service.SAPOfficeData with @( // header-level annotations
         floor
     ],
     UI.LineItem        : [
-          {Value : locationID},
+        {Value : locationID},
         {Value : country_code},
         {Value : city_ID},
         {Value : office_ID},
@@ -46,7 +46,6 @@ annotate service.SAPOfficeData with @( // header-level annotations
         {Value : floor},
         {Value : totalSeat}
     ],
-
 
     UI.Identification  : [
         {
@@ -74,7 +73,6 @@ annotate service.SAPOfficeData with @( // header-level annotations
             $Type             : 'UI.DataField',
             Value             : block,
             ![@UI.Importance] : #High
-
         },
         {
             $Type             : 'UI.DataField',
@@ -85,7 +83,6 @@ annotate service.SAPOfficeData with @( // header-level annotations
             $Type             : 'UI.DataField',
             Value             : totalSeat,
             ![@UI.Importance] : #High,
-
         }
     ],
 
@@ -104,11 +101,78 @@ annotate service.SAPOfficeData with @( // header-level annotations
         // 2nd facet for teams.
         {
             $Type  : 'UI.ReferenceFacet',
-            Target : 'Teams/@UI.LineItem', //'Teams/@UI.LineItem',
+            Target : 'Teams/@UI.LineItem',
             Label  : 'Teams'
         }
     ]
-);
+) {
+    city     @(Common : {ValueList : {
+        Label          : 'City',
+        CollectionPath : 'Cities',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'city_ID',
+                ValueListProperty : 'ID'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'name'
+            },
+        ]
+    }});
+
+    admin    @(Common : {ValueList : {
+        Label          : 'Admin',
+        CollectionPath : 'Users',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'admin_ID',
+                ValueListProperty : 'ID'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'name'
+            },
+        ]
+    }});
+
+    office   @(Common : {ValueList : {
+        Label          : 'Office',
+        CollectionPath : 'Offices',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'office_ID',
+                ValueListProperty : 'ID'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'name'
+            },
+        ]
+    }});
+
+    building @(Common : {ValueList : {
+        Label          : 'Building',
+        CollectionPath : 'Buildings',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'building_ID',
+                ValueListProperty : 'ID'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'name'
+            },
+        ]
+    }});
+};
+
+
+
 
 
 annotate service.Teams // header-level annotations
@@ -138,8 +202,8 @@ annotate service.Teams with @( // header-level annotations
         manager_ID,
         employeeCount,
         maxSeatPercent
-
     ],
+
     UI.LineItem        : [
         // {
         //     $Type  : 'UI.DataFieldForAction',
@@ -170,25 +234,26 @@ annotate service.Teams with @( // header-level annotations
         },
         {
             $Type : 'UI.DataField',
-            Value : teamName
+            Value : teamName,
+            Label             : 'Team Name'
         },
         {
             $Type             : 'UI.DataField',
             Value             : manager_ID,
             ![@UI.Importance] : #High,
-            Label             : 'City'
+            Label             : 'Manager'
         },
         {
             $Type             : 'UI.DataField',
             Value             : employeeCount,
             ![@UI.Importance] : #High,
-            Label             : 'Office'
+            Label             : 'No.Of Employees'
         },
         {
             $Type             : 'UI.DataField',
             Value             : maxSeatPercent,
-            ![@UI.Importance] : #High
-
+            ![@UI.Importance] : #High,
+            Label             : 'Max. Seat Occupancy%'
         }
     ],
 
@@ -211,19 +276,37 @@ annotate service.Teams with @( // header-level annotations
             Label  : 'Seat Detail'
         }
     ]
-);
+)
+{
+    manager    @(Common : {ValueList : {
+        Label          : 'Manager',
+        CollectionPath : 'Users',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'manager_ID',
+                ValueListProperty : 'ID'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'name'
+            },
+        ]
+    }});
+};
 
 
-annotate service.TeamSeatMapping 
-   {
-    seatID   @title : 'Seat ID';
-   };
+
+
+annotate service.TeamSeatMapping {
+    seatID @title : 'Seat ID';
+};
 
 //annotate service.TeamSeatMapping with @odata.draft.enabled;
 annotate service.TeamSeatMapping with
 @( // header-level annotations
 
-    Capabilities : {
+    Capabilities       : {
         InsertRestrictions.Insertable : false,
         UpdateRestrictions.Updatable  : false,
         DeleteRestrictions.Deletable  : true,
@@ -245,7 +328,7 @@ annotate service.TeamSeatMapping with
         facility3
     ],
 
-    UI.LineItem        : [ {Value : seatID} ],
+    UI.LineItem        : [{Value : seatID}],
 
 // UI.Identification  : [
 //     {
