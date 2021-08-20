@@ -84,16 +84,77 @@
     },
     "app.schema_flexwork.SAPOfficeData": {
       "kind": "entity",
-      "@Capabilities.InsertRestrictions.Insertable": true,
-      "@Capabilities.UpdateRestrictions.Updatable": true,
-      "@Capabilities.DeleteRestrictions.Deletable": false,
+      "includes": [
+        "managed"
+      ],
       "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
         "locationID": {
           "key": true,
-          "type": "app.schema_flexwork.LocationID",
+          "type": "cds.String",
           "length": 13
         },
         "country": {
+          "@readonly": true,
           "@title": "{i18n>Country}",
           "@description": "{i18n>CountryCode.Description}",
           "type": "Country",
@@ -107,6 +168,7 @@
           ]
         },
         "city": {
+          "@readonly": true,
           "type": "cds.Association",
           "target": "app.schema_flexwork.Cities",
           "keys": [
@@ -118,6 +180,7 @@
           ]
         },
         "office": {
+          "@readonly": true,
           "type": "cds.Association",
           "target": "app.schema_flexwork.Offices",
           "keys": [
@@ -129,6 +192,7 @@
           ]
         },
         "building": {
+          "@readonly": true,
           "type": "cds.Association",
           "target": "app.schema_flexwork.Buildings",
           "keys": [
@@ -140,16 +204,20 @@
           ]
         },
         "block": {
+          "@readonly": true,
           "type": "cds.String",
           "length": 2
         },
         "floor": {
+          "@readonly": true,
           "type": "cds.Integer"
         },
         "totalSeat": {
+          "@readonly": true,
           "type": "cds.Integer"
         },
         "unassignSeat": {
+          "@readonly": true,
           "type": "cds.Integer"
         },
         "admin": {
@@ -164,7 +232,7 @@
           ]
         },
         "Teams": {
-          "type": "cds.Association",
+          "type": "cds.Composition",
           "cardinality": {
             "max": "*"
           },
@@ -179,7 +247,8 @@
             "=",
             {
               "ref": [
-                "$self"
+                "$self",
+                "locationID"
               ]
             }
           ]
@@ -188,26 +257,80 @@
     },
     "app.schema_flexwork.Teams": {
       "kind": "entity",
-      "@Capabilities.InsertRestrictions.Insertable": true,
-      "@Capabilities.UpdateRestrictions.Updatable": true,
-      "@Capabilities.DeleteRestrictions.Deletable": true,
+      "includes": [
+        "managed"
+      ],
       "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
         "teamID": {
           "key": true,
           "type": "app.schema_flexwork.TeamID",
           "length": 20
         },
         "locationID": {
+          "@readonly": true,
           "key": true,
-          "type": "cds.Association",
-          "target": "app.schema_flexwork.SAPOfficeData",
-          "keys": [
-            {
-              "ref": [
-                "locationID"
-              ]
-            }
-          ]
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
         },
         "teamName": {
           "type": "cds.String",
@@ -242,7 +365,7 @@
           ]
         },
         "to_Seats": {
-          "type": "cds.Association",
+          "type": "cds.Composition",
           "cardinality": {
             "max": "*"
           },
@@ -612,6 +735,10 @@
     },
     "AdminService.SAPOfficeData": {
       "kind": "entity",
+      "@odata.draft.enabled": true,
+      "@Capabilities.InsertRestrictions.Insertable": false,
+      "@Capabilities.UpdateRestrictions.Updatable": true,
+      "@Capabilities.DeleteRestrictions.Deletable": false,
       "@UI.HeaderInfo.TypeName": "Location",
       "@UI.HeaderInfo.TypeNamePlural": "Locations",
       "@UI.HeaderInfo.Title.Value": {
@@ -754,9 +881,6 @@
           "Label": "Teams"
         }
       ],
-      "@Capabilities.InsertRestrictions.Insertable": true,
-      "@Capabilities.UpdateRestrictions.Updatable": true,
-      "@Capabilities.DeleteRestrictions.Deletable": false,
       "projection": {
         "from": {
           "ref": [
@@ -765,13 +889,74 @@
         }
       },
       "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
         "locationID": {
           "@title": "Location ID",
           "key": true,
-          "type": "app.schema_flexwork.LocationID",
+          "type": "cds.String",
           "length": 13
         },
         "country": {
+          "@readonly": true,
           "@title": "{i18n>Country}",
           "@description": "{i18n>CountryCode.Description}",
           "type": "Country",
@@ -786,6 +971,7 @@
         },
         "city": {
           "@title": "City",
+          "@readonly": true,
           "type": "cds.Association",
           "target": "app.schema_flexwork.Cities",
           "keys": [
@@ -798,6 +984,7 @@
         },
         "office": {
           "@title": "Office",
+          "@readonly": true,
           "type": "cds.Association",
           "target": "app.schema_flexwork.Offices",
           "keys": [
@@ -809,6 +996,7 @@
           ]
         },
         "building": {
+          "@readonly": true,
           "type": "cds.Association",
           "target": "app.schema_flexwork.Buildings",
           "keys": [
@@ -821,18 +1009,22 @@
         },
         "block": {
           "@title": "Block",
+          "@readonly": true,
           "type": "cds.String",
           "length": 2
         },
         "floor": {
           "@title": "Floor",
+          "@readonly": true,
           "type": "cds.Integer"
         },
         "totalSeat": {
           "@title": "Total Seat",
+          "@readonly": true,
           "type": "cds.Integer"
         },
         "unassignSeat": {
+          "@readonly": true,
           "type": "cds.Integer"
         },
         "admin": {
@@ -847,7 +1039,7 @@
           ]
         },
         "Teams": {
-          "type": "cds.Association",
+          "type": "cds.Composition",
           "cardinality": {
             "max": "*"
           },
@@ -862,7 +1054,8 @@
             "=",
             {
               "ref": [
-                "$self"
+                "$self",
+                "locationID"
               ]
             }
           ]
@@ -894,16 +1087,6 @@
         }
       ],
       "@UI.LineItem": [
-        {
-          "$Type": "UI.DataFieldForAction",
-          "Action": "AdminService.addTeam",
-          "Label": "Add Team"
-        },
-        {
-          "$Type": "UI.DataFieldForAction",
-          "Action": "AdminService.removeTeam",
-          "Label": "Remove Team"
-        },
         {
           "Value": {
             "=": "teamID"
@@ -1005,9 +1188,6 @@
           "Label": "Seat Detail"
         }
       ],
-      "@Capabilities.InsertRestrictions.Insertable": true,
-      "@Capabilities.UpdateRestrictions.Updatable": true,
-      "@Capabilities.DeleteRestrictions.Deletable": true,
       "projection": {
         "from": {
           "ref": [
@@ -1016,6 +1196,66 @@
         }
       },
       "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
         "teamID": {
           "@title": "Team ID",
           "key": true,
@@ -1023,16 +1263,11 @@
           "length": 20
         },
         "locationID": {
+          "@title": "Location ID",
+          "@readonly": true,
           "key": true,
-          "type": "cds.Association",
-          "target": "AdminService.SAPOfficeData",
-          "keys": [
-            {
-              "ref": [
-                "locationID"
-              ]
-            }
-          ]
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
         },
         "teamName": {
           "@title": "Team Name",
@@ -1071,7 +1306,7 @@
           ]
         },
         "to_Seats": {
-          "type": "cds.Association",
+          "type": "cds.Composition",
           "cardinality": {
             "max": "*"
           },
@@ -1104,29 +1339,13 @@
           "virtual": true,
           "type": "cds.Integer"
         }
-      },
-      "actions": {
-        "removeTeam": {
-          "kind": "action",
-          "returns": {
-            "type": "cds.String"
-          }
-        },
-        "addTeam": {
-          "kind": "action",
-          "params": {
-            "teamName_ip": {
-              "type": "cds.String"
-            }
-          },
-          "returns": {
-            "type": "cds.String"
-          }
-        }
       }
     },
     "AdminService.TeamSeatMapping": {
       "kind": "entity",
+      "@Capabilities.InsertRestrictions.Insertable": false,
+      "@Capabilities.UpdateRestrictions.Updatable": true,
+      "@Capabilities.DeleteRestrictions.Deletable": false,
       "@UI.HeaderInfo.TypeName": "Team Seat Detail",
       "@UI.HeaderInfo.TypeNamePlural": "Team Seat Details",
       "@UI.HeaderInfo.Title.Value": {
@@ -1157,11 +1376,6 @@
       ],
       "@UI.LineItem": [
         {
-          "$Type": "UI.DataFieldForAction",
-          "Action": "AdminService.removeSeat",
-          "Label": "{i18n>Remove Seats}"
-        },
-        {
           "Value": {
             "=": "seatID"
           }
@@ -1176,7 +1390,7 @@
       },
       "elements": {
         "seatID": {
-          "@title": "Seat No.",
+          "@title": "Seat ID",
           "key": true,
           "type": "app.schema_flexwork.SeatID",
           "length": 15
@@ -1544,9 +1758,6 @@
     },
     "SeatBooking.SAPOfficeData": {
       "kind": "entity",
-      "@Capabilities.InsertRestrictions.Insertable": true,
-      "@Capabilities.UpdateRestrictions.Updatable": true,
-      "@Capabilities.DeleteRestrictions.Deletable": false,
       "projection": {
         "from": {
           "ref": [
@@ -1555,12 +1766,73 @@
         }
       },
       "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
         "locationID": {
           "key": true,
-          "type": "app.schema_flexwork.LocationID",
+          "type": "cds.String",
           "length": 13
         },
         "country": {
+          "@readonly": true,
           "@title": "{i18n>Country}",
           "@description": "{i18n>CountryCode.Description}",
           "type": "Country",
@@ -1574,6 +1846,7 @@
           ]
         },
         "city": {
+          "@readonly": true,
           "type": "cds.Association",
           "target": "app.schema_flexwork.Cities",
           "keys": [
@@ -1585,6 +1858,7 @@
           ]
         },
         "office": {
+          "@readonly": true,
           "type": "cds.Association",
           "target": "app.schema_flexwork.Offices",
           "keys": [
@@ -1596,6 +1870,7 @@
           ]
         },
         "building": {
+          "@readonly": true,
           "type": "cds.Association",
           "target": "app.schema_flexwork.Buildings",
           "keys": [
@@ -1607,16 +1882,20 @@
           ]
         },
         "block": {
+          "@readonly": true,
           "type": "cds.String",
           "length": 2
         },
         "floor": {
+          "@readonly": true,
           "type": "cds.Integer"
         },
         "totalSeat": {
+          "@readonly": true,
           "type": "cds.Integer"
         },
         "unassignSeat": {
+          "@readonly": true,
           "type": "cds.Integer"
         },
         "admin": {
@@ -1631,7 +1910,7 @@
           ]
         },
         "Teams": {
-          "type": "cds.Association",
+          "type": "cds.Composition",
           "cardinality": {
             "max": "*"
           },
@@ -1646,7 +1925,8 @@
             "=",
             {
               "ref": [
-                "$self"
+                "$self",
+                "locationID"
               ]
             }
           ]
@@ -1655,9 +1935,6 @@
     },
     "SeatBooking.Teams": {
       "kind": "entity",
-      "@Capabilities.InsertRestrictions.Insertable": true,
-      "@Capabilities.UpdateRestrictions.Updatable": true,
-      "@Capabilities.DeleteRestrictions.Deletable": true,
       "projection": {
         "from": {
           "ref": [
@@ -1666,22 +1943,76 @@
         }
       },
       "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
         "teamID": {
           "key": true,
           "type": "app.schema_flexwork.TeamID",
           "length": 20
         },
         "locationID": {
+          "@readonly": true,
           "key": true,
-          "type": "cds.Association",
-          "target": "SeatBooking.SAPOfficeData",
-          "keys": [
-            {
-              "ref": [
-                "locationID"
-              ]
-            }
-          ]
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
         },
         "teamName": {
           "type": "cds.String",
@@ -1716,7 +2047,7 @@
           ]
         },
         "to_Seats": {
-          "type": "cds.Association",
+          "type": "cds.Composition",
           "cardinality": {
             "max": "*"
           },

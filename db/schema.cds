@@ -34,47 +34,37 @@ entity Users {
         locationID : LocationID; //Will be needed for Privileges
 };
 
-entity SAPOfficeData @(Capabilities : {
-    // entity-level
-    InsertRestrictions.Insertable : true,
-    UpdateRestrictions.Updatable  : true,
-    DeleteRestrictions.Deletable  : false
-}) {
-    key locationID   : LocationID;
-        country      : Country;
-        city         : Association to Cities;
-        office       : Association to Offices;
-        building     : Association to Buildings;
-        block        : String(2);
-        floor        : Integer;
-        totalSeat    : Integer;
-        unassignSeat : Integer;
-        admin        : Association to Users;
-        Teams        : Association to many Teams
-                           on Teams.locationID = $self;
+entity SAPOfficeData : managed {
+    key locationID             : String(13);
+        @readonly country      : Country;
+        @readonly city         : Association to Cities;
+        @readonly office       : Association to Offices;
+        @readonly building     : Association to Buildings;
+        @readonly block        : String(2);
+        @readonly floor        : Integer;
+        @readonly totalSeat    : Integer;
+        @readonly unassignSeat : Integer;
+        admin                  : Association to Users;
+        Teams                  : Composition of many Teams
+                                     on Teams.locationID = $self.locationID;
 //    on $self.locationID = locationID;
 };
 
-entity Teams @(Capabilities : {
-    // entity-level
-    InsertRestrictions.Insertable : true,
-    UpdateRestrictions.Updatable  : true,
-    DeleteRestrictions.Deletable  : true
-}) {
-    key teamID         : TeamID;
-    key locationID     : Association to SAPOfficeData;
-        teamName       : String(50);
-        employeeCount  : Integer;
-        maxSeatPercent : Integer;
-        manager        : Association to Users;
-        headManager    : Association to Users;
-        to_Seats       : Association to many TeamSeatMapping
-                             on //to_Seats.locationID = $self.locationID;
-                             to_Seats.teamID = $self.teamID;
-        virtual seatAssigned : Integer;
-        virtual seatUnassigned : Integer;
-        // virtual teamName_ip : String(50);
-        // virtual teamID_ip   : TeamID;
+entity Teams : managed {
+    key teamID                   : TeamID;
+        @readonly key locationID : LocationID;
+        teamName                 : String(50);
+        employeeCount            : Integer;
+        maxSeatPercent           : Integer;
+        manager                  : Association to Users;
+        headManager              : Association to Users;
+        to_Seats                 : Composition of many TeamSeatMapping
+                                       on //to_Seats.locationID = $self.locationID;
+                                       to_Seats.teamID = $self.teamID;
+        virtual seatAssigned     : Integer;
+        virtual seatUnassigned   : Integer;
+// virtual teamName_ip : String(50);
+// virtual teamID_ip   : TeamID;
 };
 
 entity TeamEmployeeMaster {

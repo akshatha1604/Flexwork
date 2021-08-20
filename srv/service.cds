@@ -4,17 +4,14 @@ service AdminService @(impl : './adminService.js') {
     entity SAPOfficeData   as projection on me.SAPOfficeData;
 
     entity Teams           as projection on me.Teams actions {
-        action removeTeam() returns String;
+     //   action removeTeam() returns String;
     };
 
-    action addTeam(teamName_ip : String) returns String;
+  //  action addTeam(teamName_ip : String) returns String;
 
     entity TeamSeatMapping as projection on me.TeamSeatMapping actions {
         action removeSeat() returns Integer;
     }
-
-//  @sap.applicable.path : 'addSeats'
-// action addSeat();
 }
 
 service SeatBooking {

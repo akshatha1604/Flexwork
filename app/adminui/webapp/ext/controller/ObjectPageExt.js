@@ -13,7 +13,7 @@ sap.ui.define(
             openAddSeatDialog: function (oContext) {
                 var contextData = oContext.getObject(oContext.sPath);
 
-                var locationID = contextData.locationID_locationID;
+                var locationID = contextData.locationID;
                 var teamID = contextData.teamID;
 
                 //   var title = `Allocate new seats for location -${locationID} & Team -${teamID}`;
@@ -82,7 +82,10 @@ sap.ui.define(
                     "monitorCount": "",
                     "facility1": "",
                     "facility2": "",
-                    "facility3": ""
+                    "facility3": "",
+                    "HasActiveEntity": false,
+                    "HasDraftEntity":false,
+                    "IsActiveEntity": true,
                 };
                 $.get({
                     url: "/admin/TeamSeatMapping",
@@ -130,7 +133,10 @@ sap.ui.define(
                     "monitorCount": 0,
                     "facility1": 0,
                     "facility2": 0,
-                    "facility3": 0
+                    "facility3": 0,
+                    "HasActiveEntity": false,
+                    "HasDraftEntity":false,
+                    "IsActiveEntity": true
                 };
 
                 var oData = this._controller.getView().getModel("NewModel").getData();
@@ -170,7 +176,7 @@ sap.ui.define(
 
                                 //Get a call to find if given seat is valid seat like below. 
                                 var csrfToken, Currentdata = [], newData;
-                                var sFilterQuery = `seatID eq '${seatNo}'`;
+                                var sFilterQuery = `seatID eq '${seatNo}' and IsActiveEntity eq true`;
                                 $.get({
                                     url: "/admin/TeamSeatMapping",
                                     headers: {

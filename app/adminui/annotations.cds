@@ -2,17 +2,27 @@ using AdminService as service from '../../srv/service';
 
 annotate service.SAPOfficeData // header-level annotations
 {
-    locationID     @title : 'Location ID';
-    country_code   @title : 'Country';
-    city           @title : 'City';
-    office         @title : 'Office';
-    office_ID      @title : 'Office';
-    block          @title : 'Block';
-    floor          @title : 'Floor';
-    totalSeat      @title : 'Total Seat';
+    locationID   @title : 'Location ID';
+    country_code @title : 'Country';
+    city         @title : 'City';
+    office       @title : 'Office';
+    office_ID    @title : 'Office';
+    block        @title : 'Block';
+    floor        @title : 'Floor';
+    totalSeat    @title : 'Total Seat';
 }
 
+annotate service.SAPOfficeData with @odata.draft.enabled;
+
 annotate service.SAPOfficeData with @( // header-level annotations
+
+    Capabilities       : {
+
+        InsertRestrictions.Insertable : false,
+        UpdateRestrictions.Updatable  : true,
+        DeleteRestrictions.Deletable  : false,
+    },
+
 
     UI.HeaderInfo      : {
         TypeName       : 'Location',
@@ -28,10 +38,7 @@ annotate service.SAPOfficeData with @( // header-level annotations
         floor
     ],
     UI.LineItem        : [
-        //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.acceptTravel',   Label  : '{i18n>AcceptTravel}'   },
-        //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.rejectTravel',   Label  : '{i18n>RejectTravel}'   },
-        //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.deductDiscount', Label  : '{i18n>DeductDiscount}' },
-        {Value : locationID},
+          {Value : locationID},
         {Value : country_code},
         {Value : city_ID},
         {Value : office_ID},
@@ -97,7 +104,7 @@ annotate service.SAPOfficeData with @( // header-level annotations
         // 2nd facet for teams.
         {
             $Type  : 'UI.ReferenceFacet',
-            Target : 'Teams/@UI.LineItem',
+            Target : 'Teams/@UI.LineItem', //'Teams/@UI.LineItem',
             Label  : 'Teams'
         }
     ]
@@ -113,6 +120,7 @@ annotate service.Teams // header-level annotations
     maxSeatPercent @title : 'Max Seat Percent';
     seatAssigned   @title : 'Seats Assigned';
     seatUnassigned @title : 'Seat Unassigned';
+    locationID     @title : 'Location ID';
 
 }
 
@@ -130,21 +138,19 @@ annotate service.Teams with @( // header-level annotations
         manager_ID,
         employeeCount,
         maxSeatPercent
+
     ],
     UI.LineItem        : [
-        //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.acceptTravel',   Label  : '{i18n>AcceptTravel}'   },
-        //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.rejectTravel',   Label  : '{i18n>RejectTravel}'   },
-        //   { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.deductDiscount', Label  : '{i18n>DeductDiscount}' },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'AdminService.addTeam',
-            Label  : 'Add Team',
-        },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'AdminService.removeTeam',
-            Label  : 'Remove Team',
-        },
+        // {
+        //     $Type  : 'UI.DataFieldForAction',
+        //     Action : 'AdminService.addTeam',
+        //     Label  : 'Add Team',
+        // },
+        // {
+        //     $Type  : 'UI.DataFieldForAction',
+        //     Action : 'AdminService.removeTeam',
+        //     Label  : 'Remove Team',
+        // },
 
         {Value : teamID},
         {Value : teamName},
@@ -207,13 +213,21 @@ annotate service.Teams with @( // header-level annotations
     ]
 );
 
-annotate service.TeamSeatMapping // header-level annotations
-{
-    seatID @title : 'Seat No.';
-}
+
+annotate service.TeamSeatMapping 
+   {
+    seatID   @title : 'Seat ID';
+   };
 
 //annotate service.TeamSeatMapping with @odata.draft.enabled;
-annotate service.TeamSeatMapping with @( // header-level annotations
+annotate service.TeamSeatMapping with
+@( // header-level annotations
+
+    Capabilities : {
+        InsertRestrictions.Insertable : false,
+        UpdateRestrictions.Updatable  : true,
+        DeleteRestrictions.Deletable  : true,
+    },
 
     UI.HeaderInfo      : {
         TypeName       : 'Team Seat Detail',
@@ -231,39 +245,7 @@ annotate service.TeamSeatMapping with @( // header-level annotations
         facility3
     ],
 
-    // Capabilities:{
-    // odata.draft.enabled: true,
-    //   InsertRestrictions.Insertable: true,
-    //   UpdateRestrictions.Updatable: false,
-    //   DeleteRestrictions.Deletable: true,
-    // },
-    //   Capabilities.DeleteRestrictions : {  Deletable : true },
-    //     }
-    //  Capabilities.NavigationRestrictions : {
-    //     RestrictedProperties : [
-    //         {
-    //            NavigationProperty : to_Seats,
-    //             InsertRestrictions : {
-    //                 Insertable : true
-    //             }
-    //         }
-    //     ]
-    //   },
-
-    UI.LineItem        : [
-        // {
-        //     $Type  : 'UI.DataFieldForAction',
-        //     Action : 'AdminService.addSeat',
-        //     Label  : '{i18n>Add Seats}',
-        // },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'AdminService.removeSeat',
-            Label  : '{i18n>Remove Seats}',
-        },
-        // Visible, Enabled },
-        {Value : seatID}
-    ],
+    UI.LineItem        : [ {Value : seatID} ],
 
 // UI.Identification  : [
 //     {
