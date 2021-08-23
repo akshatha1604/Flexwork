@@ -10,6 +10,7 @@ annotate service.SAPOfficeData // header-level annotations
     block        @title : 'Block';
     floor        @title : 'Floor';
     totalSeat    @title : 'Total Seat';
+    building     @title : 'Building';
 }
 
 annotate service.SAPOfficeData with @odata.draft.enabled;
@@ -35,13 +36,15 @@ annotate service.SAPOfficeData with @( // header-level annotations
         city_ID,
         office_ID,
         block,
-        floor
+        floor,
+        building_ID
     ],
     UI.LineItem        : [
         {Value : locationID},
         {Value : country_code},
         {Value : city_ID},
         {Value : office_ID},
+        {Value : building_ID},
         {Value : block},
         {Value : floor},
         {Value : totalSeat}
@@ -69,6 +72,11 @@ annotate service.SAPOfficeData with @( // header-level annotations
             Value             : office_ID,
             ![@UI.Importance] : #High,
             Label             : 'Office'
+        },
+          {
+            $Type             : 'UI.DataField',
+            Value             : building_ID,
+            ![@UI.Importance] : #High
         },
         {
             $Type             : 'UI.DataField',

@@ -23,26 +23,26 @@ annotate service.SAPOfficeData with {
     };
 
     country  @Common : {
-        Text            : country.name,
-        TextArrangement : #TextFirst //#TextOnly
+        Text            : country.descr,
+        TextArrangement : #TextOnly
     //  ValueListWithFixedValues
     };
 
     city     @Common : {
         Text            : city.name,
-        TextArrangement : #TextFirst //#TextOnly
+        TextArrangement : #TextOnly
     //  ValueListWithFixedValues
     };
 
     office   @Common : {
         Text            : office.name,
-        TextArrangement : #TextFirst //#TextOnly
+        TextArrangement : #TextOnly
     //  ValueListWithFixedValues
     };
 
     building @Common : {
         Text            : building.name,
-        TextArrangement : #TextFirst //#TextOnly
+        TextArrangement : #TextOnly
     //  ValueListWithFixedValues
     };
 };
