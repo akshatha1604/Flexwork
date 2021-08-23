@@ -10,7 +10,9 @@ VIEW AdminService_Teams AS SELECT
   Teams_0.employeeCount,
   Teams_0.maxSeatPercent,
   Teams_0.manager_ID,
-  Teams_0.headManager_ID
+  Teams_0.headManager_ID,
+  NULL AS seatAssigned,
+  NULL AS seatUnassigned
 FROM app_schema_flexwork_Teams AS Teams_0
 WITH ASSOCIATIONS (
   MANY TO ONE JOIN AdminService_Users AS manager ON (manager.ID = manager_ID),

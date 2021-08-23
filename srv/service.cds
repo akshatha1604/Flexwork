@@ -1,8 +1,13 @@
 using {app.schema_flexwork as me} from '../db/schema';
 
 service AdminService @(impl : './adminService.js') {
-    entity SAPOfficeData   as projection on me.SAPOfficeData;
-    entity Teams           as projection on me.Teams actions {
+    entity SAPOfficeData   as projection on me.SAPOfficeData;    
+    entity Teams           as select from me.Teams {
+        *,
+        null as seatAssigned     : Integer,
+        null as seatUnassigned   : Integer
+    }
+    actions {
      //   action removeTeam() returns String;
     };
 

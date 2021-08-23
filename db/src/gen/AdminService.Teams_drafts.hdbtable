@@ -11,6 +11,8 @@ COLUMN TABLE AdminService_Teams_drafts (
   maxSeatPercent INTEGER NULL,
   manager_ID NVARCHAR(12) NULL,
   headManager_ID NVARCHAR(12) NULL,
+  seatAssigned INTEGER NULL,
+  seatUnassigned INTEGER NULL,
   IsActiveEntity BOOLEAN,
   HasActiveEntity BOOLEAN,
   HasDraftEntity BOOLEAN,

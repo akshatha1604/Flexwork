@@ -385,16 +385,6 @@
               ]
             }
           ]
-        },
-        "seatAssigned": {
-          "@Core.Computed": true,
-          "virtual": true,
-          "type": "cds.Integer"
-        },
-        "seatUnassigned": {
-          "@Core.Computed": true,
-          "virtual": true,
-          "type": "cds.Integer"
         }
       }
     },
@@ -956,6 +946,12 @@
           "length": 13
         },
         "country": {
+          "@Common.Text": {
+            "=": "country.name"
+          },
+          "@Common.TextArrangement": {
+            "#": "TextFirst"
+          },
           "@readonly": true,
           "@title": "{i18n>Country}",
           "@description": "{i18n>CountryCode.Description}",
@@ -970,6 +966,12 @@
           ]
         },
         "city": {
+          "@Common.Text": {
+            "=": "city.name"
+          },
+          "@Common.TextArrangement": {
+            "#": "TextFirst"
+          },
           "@title": "City",
           "@Common.ValueList.Label": "City",
           "@Common.ValueList.CollectionPath": "Cities",
@@ -996,6 +998,12 @@
           ]
         },
         "office": {
+          "@Common.Text": {
+            "=": "office.name"
+          },
+          "@Common.TextArrangement": {
+            "#": "TextFirst"
+          },
           "@title": "Office",
           "@Common.ValueList.Label": "Office",
           "@Common.ValueList.CollectionPath": "Offices",
@@ -1022,6 +1030,12 @@
           ]
         },
         "building": {
+          "@Common.Text": {
+            "=": "building.name"
+          },
+          "@Common.TextArrangement": {
+            "#": "TextFirst"
+          },
           "@Common.ValueList.Label": "Building",
           "@Common.ValueList.CollectionPath": "Buildings",
           "@Common.ValueList.Parameters": [
@@ -1067,6 +1081,12 @@
           "type": "cds.Integer"
         },
         "admin": {
+          "@Common.Text": {
+            "=": "admin.name"
+          },
+          "@Common.TextArrangement": {
+            "#": "TextFirst"
+          },
           "@Common.ValueList.Label": "Admin",
           "@Common.ValueList.CollectionPath": "Users",
           "@Common.ValueList.Parameters": [
@@ -1242,10 +1262,29 @@
           "Label": "Seat Detail"
         }
       ],
-      "projection": {
-        "from": {
-          "ref": [
-            "app.schema_flexwork.Teams"
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "app.schema_flexwork.Teams"
+            ]
+          },
+          "columns": [
+            "*",
+            {
+              "val": null,
+              "as": "seatAssigned",
+              "cast": {
+                "type": "cds.Integer"
+              }
+            },
+            {
+              "val": null,
+              "as": "seatUnassigned",
+              "cast": {
+                "type": "cds.Integer"
+              }
+            }
           ]
         }
       },
@@ -1337,6 +1376,12 @@
           "type": "cds.Integer"
         },
         "manager": {
+          "@Common.Text": {
+            "=": "manager.name"
+          },
+          "@Common.TextArrangement": {
+            "#": "TextFirst"
+          },
           "@title": "Manager Name",
           "@Common.ValueList.Label": "Manager",
           "@Common.ValueList.CollectionPath": "Users",
@@ -1362,6 +1407,12 @@
           ]
         },
         "headManager": {
+          "@Common.Text": {
+            "=": "headManager.name"
+          },
+          "@Common.TextArrangement": {
+            "#": "TextFirst"
+          },
           "type": "cds.Association",
           "target": "AdminService.Users",
           "keys": [
@@ -1397,13 +1448,11 @@
         "seatAssigned": {
           "@title": "Seats Assigned",
           "@Core.Computed": true,
-          "virtual": true,
           "type": "cds.Integer"
         },
         "seatUnassigned": {
           "@title": "Seat Unassigned",
           "@Core.Computed": true,
-          "virtual": true,
           "type": "cds.Integer"
         }
       }
@@ -2218,16 +2267,6 @@
               ]
             }
           ]
-        },
-        "seatAssigned": {
-          "@Core.Computed": true,
-          "virtual": true,
-          "type": "cds.Integer"
-        },
-        "seatUnassigned": {
-          "@Core.Computed": true,
-          "virtual": true,
-          "type": "cds.Integer"
         }
       }
     },

@@ -1,6 +1,25 @@
 const cds = require('@sap/cds')
 
 module.exports = function () {
+    /*
+        //     function setSeatInfo(Teams) {
+        //   if (book.stock > 111) book.title += ` -- 11% discount!`
+        // }
+        const { TeamSeatMapping } = this.entities;
+        const { Teams } = this.entities;
+        // this.after('READ', Teams, (teams, req) => {
+        //     return teams.map(async team => {
+        //         const getSeatAssigned = await cds.transaction(req).run(SELECT.from(TeamSeatMapping).where({ teamID: req.params[1].teamID, locationID: req.params[0].locationID }));
+        //         team.seatAssigned = getSeatAssigned.length;
+        //     })
+        // }
+        // )
+    this.after('READ', Teams, async req => {
+         const getSeatAssigned = await cds.transaction(req).run(SELECT.from(TeamSeatMapping).where({ teamID: Teams.teamID, locationID: Teams.locationID }));
+         console.log(getSeatAssigned.length);
+        }
+    )
+    */
 
     this.on('removeSeat', async req => {
         if (req.params[2].seatID) {
@@ -57,9 +76,9 @@ module.exports = function () {
         }
     });
 
-      this.on('addTeam', async (req) => {
-         var val_locationID = req.params[1].locationID_locationID;
-      });
+    this.on('addTeam', async (req) => {
+        var val_locationID = req.params[1].locationID_locationID;
+    });
 };
 
 //  this.('addSeat', async(req) => {

@@ -36,7 +36,7 @@ entity Users {
 
 entity SAPOfficeData : managed {
     key locationID             : String(13);
-        @readonly country      : Country;
+        @readonly country      : Country;        
         @readonly city         : Association to Cities;
         @readonly office       : Association to Offices;
         @readonly building     : Association to Buildings;
@@ -60,9 +60,7 @@ entity Teams : managed {
         headManager              : Association to Users;
         to_Seats                 : Composition of many TeamSeatMapping
                                        on //to_Seats.locationID = $self.locationID;
-                                       to_Seats.teamID = $self.teamID;
-        virtual seatAssigned     : Integer;
-        virtual seatUnassigned   : Integer;
+                                       to_Seats.teamID = $self.teamID;        
 // virtual teamName_ip : String(50);
 // virtual teamID_ip   : TeamID;
 };
@@ -109,7 +107,7 @@ entity Privileges {
 entity Booking : cuid, managed {
     key seatID         : Association to TeamSeatMapping;
         employeeID     : Association to Users;
-        bookedBy       : Association to Users;
+        bookedBy       : Association to Users;        
         bookingDate    : Date;
         dayCode        : Association to DayCodes;
         status         : Association to BookingStatus;
