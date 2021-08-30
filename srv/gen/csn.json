@@ -749,6 +749,9 @@
         },
         {
           "=": "floor"
+        },
+        {
+          "=": "building_ID"
         }
       ],
       "@UI.LineItem": [
@@ -770,6 +773,11 @@
         {
           "Value": {
             "=": "office_ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "building_ID"
           }
         },
         {
@@ -823,6 +831,15 @@
             "#": "High"
           },
           "Label": "Office"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "building_ID"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
         },
         {
           "$Type": "UI.DataField",
@@ -947,10 +964,10 @@
         },
         "country": {
           "@Common.Text": {
-            "=": "country.name"
+            "=": "country.descr"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
           "@readonly": true,
           "@title": "{i18n>Country}",
@@ -970,7 +987,7 @@
             "=": "city.name"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
           "@title": "City",
           "@Common.ValueList.Label": "City",
@@ -1002,7 +1019,7 @@
             "=": "office.name"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
           "@title": "Office",
           "@Common.ValueList.Label": "Office",
@@ -1034,8 +1051,9 @@
             "=": "building.name"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
+          "@title": "Building",
           "@Common.ValueList.Label": "Building",
           "@Common.ValueList.CollectionPath": "Buildings",
           "@Common.ValueList.Parameters": [
@@ -1128,6 +1146,45 @@
               "ref": [
                 "$self",
                 "locationID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "AdminService.TeamEmployeeMaster": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.TeamEmployeeMaster"
+          ]
+        }
+      },
+      "elements": {
+        "employeeID": {
+          "key": true,
+          "type": "cds.Association",
+          "target": "AdminService.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "teamID": {
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "role": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.TeamMemberRoles",
+          "keys": [
+            {
+              "ref": [
+                "roleCode"
               ]
             }
           ]
@@ -1446,13 +1503,13 @@
           ]
         },
         "seatAssigned": {
-          "@title": "Seats Assigned",
           "@Core.Computed": true,
+          "@title": "Seats Assigned",
           "type": "cds.Integer"
         },
         "seatUnassigned": {
-          "@title": "Seat Unassigned",
           "@Core.Computed": true,
+          "@title": "Seat Unassigned",
           "type": "cds.Integer"
         }
       }
@@ -1627,7 +1684,8 @@
     },
     "SeatBooking": {
       "@source": "service.cds",
-      "kind": "service"
+      "kind": "service",
+      "@impl": "./SeatBookingService.js"
     },
     "SeatBooking.Booking": {
       "kind": "entity",
@@ -2298,7 +2356,7 @@
         },
         "role": {
           "type": "cds.Association",
-          "target": "app.schema_flexwork.TeamMemberRoles",
+          "target": "SeatBooking.TeamMemberRole",
           "keys": [
             {
               "ref": [
@@ -2470,6 +2528,27 @@
         "locationID": {
           "type": "app.schema_flexwork.LocationID",
           "length": 13
+        }
+      }
+    },
+    "SeatBooking.TeamMemberRole": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.TeamMemberRoles"
+          ]
+        }
+      },
+      "elements": {
+        "roleCode": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 20
         }
       }
     },
