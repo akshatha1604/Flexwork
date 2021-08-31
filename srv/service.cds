@@ -3,14 +3,15 @@ using {app.schema_flexwork as me} from '../db/schema';
 service AdminService @(impl : './adminService.js') {
     entity SAPOfficeData   as projection on me.SAPOfficeData;   
     entity TeamEmployeeMaster as projection on me.TeamEmployeeMaster; 
+  //  entity Teams as projection on me.Teams 
     entity Teams           as select from me.Teams {
         *,
         null as seatAssigned     : Integer @Core.Computed,
         null as seatUnassigned   : Integer @Core.Computed
-    }
-    actions {
-     //   action removeTeam() returns String;
     };
+    // actions {
+    //  //   action removeTeam() returns String;
+    // };
 
     entity TeamSeatMapping as projection on me.TeamSeatMapping actions {
         action removeSeat() returns Integer;
