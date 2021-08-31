@@ -261,66 +261,6 @@
         "managed"
       ],
       "elements": {
-        "createdAt": {
-          "@cds.on.insert": {
-            "=": "$now"
-          },
-          "@UI.HiddenFilter": true,
-          "@Core.Immutable": true,
-          "@title": "{i18n>CreatedAt}",
-          "@readonly": true,
-          "@odata.on.insert": {
-            "#": "now"
-          },
-          "type": "cds.Timestamp"
-        },
-        "createdBy": {
-          "@cds.on.insert": {
-            "=": "$user"
-          },
-          "@UI.HiddenFilter": true,
-          "@Core.Immutable": true,
-          "@title": "{i18n>CreatedBy}",
-          "@readonly": true,
-          "@odata.on.insert": {
-            "#": "user"
-          },
-          "@description": "{i18n>UserID.Description}",
-          "type": "User",
-          "length": 255
-        },
-        "modifiedAt": {
-          "@cds.on.insert": {
-            "=": "$now"
-          },
-          "@cds.on.update": {
-            "=": "$now"
-          },
-          "@UI.HiddenFilter": true,
-          "@title": "{i18n>ChangedAt}",
-          "@readonly": true,
-          "@odata.on.update": {
-            "#": "now"
-          },
-          "type": "cds.Timestamp"
-        },
-        "modifiedBy": {
-          "@cds.on.insert": {
-            "=": "$user"
-          },
-          "@cds.on.update": {
-            "=": "$user"
-          },
-          "@UI.HiddenFilter": true,
-          "@title": "{i18n>ChangedBy}",
-          "@readonly": true,
-          "@odata.on.update": {
-            "#": "user"
-          },
-          "@description": "{i18n>UserID.Description}",
-          "type": "User",
-          "length": 255
-        },
         "teamID": {
           "key": true,
           "type": "app.schema_flexwork.TeamID",
@@ -363,6 +303,42 @@
               ]
             }
           ]
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@title": "{i18n>UserID}",
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@title": "{i18n>UserID}",
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
         },
         "to_Seats": {
           "type": "cds.Composition",
@@ -1346,66 +1322,6 @@
         }
       },
       "elements": {
-        "createdAt": {
-          "@cds.on.insert": {
-            "=": "$now"
-          },
-          "@UI.HiddenFilter": true,
-          "@Core.Immutable": true,
-          "@title": "{i18n>CreatedAt}",
-          "@readonly": true,
-          "@odata.on.insert": {
-            "#": "now"
-          },
-          "type": "cds.Timestamp"
-        },
-        "createdBy": {
-          "@cds.on.insert": {
-            "=": "$user"
-          },
-          "@UI.HiddenFilter": true,
-          "@Core.Immutable": true,
-          "@title": "{i18n>CreatedBy}",
-          "@readonly": true,
-          "@odata.on.insert": {
-            "#": "user"
-          },
-          "@description": "{i18n>UserID.Description}",
-          "type": "User",
-          "length": 255
-        },
-        "modifiedAt": {
-          "@cds.on.insert": {
-            "=": "$now"
-          },
-          "@cds.on.update": {
-            "=": "$now"
-          },
-          "@UI.HiddenFilter": true,
-          "@title": "{i18n>ChangedAt}",
-          "@readonly": true,
-          "@odata.on.update": {
-            "#": "now"
-          },
-          "type": "cds.Timestamp"
-        },
-        "modifiedBy": {
-          "@cds.on.insert": {
-            "=": "$user"
-          },
-          "@cds.on.update": {
-            "=": "$user"
-          },
-          "@UI.HiddenFilter": true,
-          "@title": "{i18n>ChangedBy}",
-          "@readonly": true,
-          "@odata.on.update": {
-            "#": "user"
-          },
-          "@description": "{i18n>UserID.Description}",
-          "type": "User",
-          "length": 255
-        },
         "teamID": {
           "@title": "Team ID",
           "key": true,
@@ -1479,6 +1395,42 @@
               ]
             }
           ]
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@title": "{i18n>UserID}",
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@title": "{i18n>UserID}",
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
         },
         "to_Seats": {
           "type": "cds.Composition",
@@ -1887,6 +1839,7 @@
               "ValueListProperty": "name"
             }
           ],
+          "@Common.FilterDefaultValue": "I073083",
           "type": "cds.Association",
           "target": "SeatBooking.Users",
           "keys": [
@@ -1928,6 +1881,27 @@
         },
         "dayCode": {
           "@title": "Timing",
+          "@Common.ValueList.Label": "Timing",
+          "@Common.ValueList.CollectionPath": "DayCodes",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "dayCode_dayCode",
+              "ValueListProperty": "dayCode"
+            },
+            {
+              "$Type": "Common.ValueListParameterFilterOnly",
+              "ValueListProperty": "fromTime"
+            },
+            {
+              "$Type": "Common.ValueListParameterFilterOnly",
+              "ValueListProperty": "toTime"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "description"
+            }
+          ],
           "type": "cds.Association",
           "target": "SeatBooking.DayCodes",
           "keys": [
@@ -1951,7 +1925,20 @@
           ]
         },
         "attendance": {
-          "@title": "Attended(Y/N)",
+          "@title": "Attended",
+          "@Common.ValueList.Label": "Attendence Status",
+          "@Common.ValueList.CollectionPath": "AttendanceStatus",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "attendance_attendanceStatus",
+              "ValueListProperty": "attendanceStatus"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "description"
+            }
+          ],
           "type": "cds.Association",
           "target": "SeatBooking.AttendanceStatus",
           "keys": [
@@ -1963,11 +1950,12 @@
           ]
         },
         "isGroupBooking": {
-          "@title": " Group Booking(Y/N)",
+          "@title": "Group Booking(Y/N)",
           "type": "cds.Boolean"
         },
         "isDeleted": {
           "@title": "Deleted(Y/N)",
+          "@Common.FilterDefaultValue": 0,
           "type": "cds.Boolean"
         }
       }
@@ -2196,66 +2184,6 @@
         }
       },
       "elements": {
-        "createdAt": {
-          "@cds.on.insert": {
-            "=": "$now"
-          },
-          "@UI.HiddenFilter": true,
-          "@Core.Immutable": true,
-          "@title": "{i18n>CreatedAt}",
-          "@readonly": true,
-          "@odata.on.insert": {
-            "#": "now"
-          },
-          "type": "cds.Timestamp"
-        },
-        "createdBy": {
-          "@cds.on.insert": {
-            "=": "$user"
-          },
-          "@UI.HiddenFilter": true,
-          "@Core.Immutable": true,
-          "@title": "{i18n>CreatedBy}",
-          "@readonly": true,
-          "@odata.on.insert": {
-            "#": "user"
-          },
-          "@description": "{i18n>UserID.Description}",
-          "type": "User",
-          "length": 255
-        },
-        "modifiedAt": {
-          "@cds.on.insert": {
-            "=": "$now"
-          },
-          "@cds.on.update": {
-            "=": "$now"
-          },
-          "@UI.HiddenFilter": true,
-          "@title": "{i18n>ChangedAt}",
-          "@readonly": true,
-          "@odata.on.update": {
-            "#": "now"
-          },
-          "type": "cds.Timestamp"
-        },
-        "modifiedBy": {
-          "@cds.on.insert": {
-            "=": "$user"
-          },
-          "@cds.on.update": {
-            "=": "$user"
-          },
-          "@UI.HiddenFilter": true,
-          "@title": "{i18n>ChangedBy}",
-          "@readonly": true,
-          "@odata.on.update": {
-            "#": "user"
-          },
-          "@description": "{i18n>UserID.Description}",
-          "type": "User",
-          "length": 255
-        },
         "teamID": {
           "key": true,
           "type": "app.schema_flexwork.TeamID",
@@ -2298,6 +2226,42 @@
               ]
             }
           ]
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@title": "{i18n>UserID}",
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@title": "{i18n>UserID}",
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
         },
         "to_Seats": {
           "type": "cds.Composition",
@@ -3391,6 +3355,26 @@
         },
         "office_ID": {
           "@title": "Office"
+        }
+      }
+    },
+    {
+      "annotate": "SeatBooking.Booking",
+      "elements": {
+        "bookingStatus": {
+          "@Common.ValueList.Label": "Booking Status",
+          "@Common.ValueList.CollectionPath": "BookingStatus",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "status_bookingStatus",
+              "ValueListProperty": "bookingStatus"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "description"
+            }
+          ]
         }
       }
     }

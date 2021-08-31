@@ -3,7 +3,7 @@ const cds = require('@sap/cds');
 module.exports =  function (srv) {
 
     // const AdminSrv = cds.connect.to('AdminService');
-    srv.after('CREATE', 'Teams', async req => {
+    srv.after('draftActivate', 'SAPOfficeData', (team, req) => {        
         console.log('hi from post');
         // var managerExists = await SELECT.one.from(this.entities.TeamEmployeeMaster).where({ teamID: req[0].teamID, locationID: req[0].locationID });
         // if (managerExists = null) {
@@ -17,10 +17,6 @@ module.exports =  function (srv) {
         //     }
         // }
     })
-
-    // srv.after('SAVE', 'Teams', req => {
-    //     console.log('hi from save');
-    // })
 
 
     const { TeamSeatMapping } = srv.entities;

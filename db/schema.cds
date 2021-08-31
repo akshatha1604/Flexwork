@@ -3,7 +3,8 @@ namespace app.schema_flexwork;
 using {
     Country,
     managed,
-    cuid
+    cuid,
+    User
 } from '@sap/cds/common';
 
 type LocationID : String(13);
@@ -36,7 +37,7 @@ entity Users {
 
 entity SAPOfficeData : managed {
     key locationID             : String(13);
-        @readonly country      : Country;        
+        @readonly country      : Country;
         @readonly city         : Association to Cities;
         @readonly office       : Association to Offices;
         @readonly building     : Association to Buildings;
@@ -58,8 +59,12 @@ entity Teams : managed {
         maxSeatPercent           : Integer;
         manager                  : Association to Users;
         headManager              : Association to Users;
+        createdAt                : Timestamp @cds.on.insert : $now;
+        createdBy                : User      @cds.on.insert : $user;
+        modifiedAt               : Timestamp @cds.on.insert : $now  @cds.on.update  : $now;
+        modifiedBy               : User      @cds.on.insert : $user  @cds.on.update : $user;
         to_Seats                 : Composition of many TeamSeatMapping
-                                       on to_Seats.teamID = $self.teamID;        
+                                       on to_Seats.teamID = $self.teamID;
 // virtual teamName_ip : String(50);
 // virtual teamID_ip   : TeamID;
 };
@@ -105,14 +110,14 @@ entity Privileges {
 
 entity Booking : cuid, managed {
     key seatID         : Association to TeamSeatMapping;
-        employeeID     : Association to Users;// @cds.on.: $user;
-        bookedBy       : Association to Users;        
+        employeeID     : Association to Users;
+        bookedBy       : Association to Users;
         bookingDate    : Date;
         dayCode        : Association to DayCodes;
         status         : Association to BookingStatus;
         attendance     : Association to AttendanceStatus;
         isGroupBooking : Boolean;
-        isDeleted      : Boolean;        
+        isDeleted      : Boolean;
 };
 
 entity BookingStatus {

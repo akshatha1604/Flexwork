@@ -339,29 +339,4 @@ annotate service.TeamSeatMapping with
 
     UI.LineItem        : [{Value : seatID}],
 
-// UI.Identification  : [
-//     {
-//         $Type             : 'UI.DataField',
-//         Value             : seatID,
-//         ![@UI.Importance] : #High
-//     },
-//     {
-//         $Type             : 'UI.DataField',
-//         Value             : monitorCount,
-//         ![@UI.Importance] : #High,
-//         Label             : 'No.Of Monitors'
-//     },
-//     {
-//         $Type             : 'UI.DataField',
-//         Value             : facility1,
-//         ![@UI.Importance] : #High,
-//         Label             : ' Phone Extension'
-//     },
-//     {
-//         $Type             : 'UI.DataField',
-//         Value             : facility2,
-//         ![@UI.Importance] : #High,
-//         Label             : 'Laptop Lock'
-//     },
-// ],
 );
