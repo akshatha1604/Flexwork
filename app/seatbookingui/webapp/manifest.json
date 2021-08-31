@@ -118,6 +118,12 @@
                                             "text": "Manager's Zone",
                                             "enabled": "seatbookingui.ext.controllers.managerZone.ManagerBtnHandling",
                                             "visible": true
+                                        },
+                                            "QuickBook": {
+                                            "press": "seatbookingui.ext.controllers.quickBook.quickBooking",
+                                            "text": "Quick Book",
+                                            "enabled": true,
+                                            "visible": true
                                         }
 
                                     }

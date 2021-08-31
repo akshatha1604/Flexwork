@@ -38,7 +38,7 @@ service SeatBooking  @(impl : './SeatBookingService.js') {
     entity TeamMemberRole     as projection on me.TeamMemberRoles;
 
     //  @sap.applicable.path : 'quickBook'
-    action quickBook();
+  //  action quickBook();
     //  @sap.applicable.path : 'showAvailability'
     action showAvailability();
     //  @sap.applicable.path : 'updateBooking'

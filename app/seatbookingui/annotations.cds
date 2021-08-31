@@ -35,11 +35,11 @@ annotate service.Booking with @( // header-level annotations
     ],
 
     UI.LineItem        : [
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'SeatBooking.quickBook',
-            Label  : '{i18n>Quick Book}'
-        },
+        // {
+        //     $Type  : 'UI.DataFieldForAction',
+        //     Action : 'SeatBooking.quickBook',
+        //     Label  : '{i18n>Quick Book}'
+        // },
 
         // {
         //     $Type  : 'UI.DataFieldForAction',
@@ -162,8 +162,8 @@ dayCode @(Common : {ValueList : {
         ]
     }});
 
-employeeID @(Common : {FilterDefaultValue : 'I073083'});//$self.User.User});
-isDeleted @(Common : {FilterDefaultValue : 0});
+// employeeID @(Common : {FilterDefaultValue : self.User});
+// isDeleted @(Common : {FilterDefaultValue : '0'});
 
 // bookingDate @(Common : {FilterDefaultValue : 'se'});    
 };
