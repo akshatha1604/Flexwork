@@ -1680,11 +1680,6 @@
         },
         {
           "$Type": "UI.DataFieldForAction",
-          "Action": "SeatBooking.managerZone",
-          "Label": "{i18n>ManagerZone}"
-        },
-        {
-          "$Type": "UI.DataFieldForAction",
           "Action": "SeatBooking.showAvailability",
           "Label": "{i18n>Show Availability}"
         },
@@ -2523,9 +2518,6 @@
       "kind": "action"
     },
     "SeatBooking.updateBooking": {
-      "kind": "action"
-    },
-    "SeatBooking.managerZone": {
       "kind": "action"
     },
     "SeatBooking.seatMap": {

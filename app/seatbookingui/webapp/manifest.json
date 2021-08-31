@@ -112,7 +112,14 @@
                                             "text": "Plan a Booking",
                                             "enabled": true,
                                             "visible": true
+                                        },
+                                           "ManagerZone": {
+                                            "press": "seatbookingui.ext.controllers.managerZone.openManagerZoneDialog",
+                                            "text": "Manager's Zone",
+                                            "enabled": "seatbookingui.ext.controllers.managerZone.ManagerBtnHandling",
+                                            "visible": true
                                         }
+
                                     }
                                 }
                             }

@@ -44,7 +44,7 @@ service SeatBooking  @(impl : './SeatBookingService.js') {
     //  @sap.applicable.path : 'updateBooking'
     action updateBooking();
     //  @sap.applicable.path : 'managerZone'
-    action managerZone();
+ //   action managerZone();
     //  @sap.applicable.path : 'seatMap'
     action seatMap();
 }
