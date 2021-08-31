@@ -28,7 +28,7 @@
 								</OverflowToolbar>
 							</headerToolbar>
 							<columns>
-								<Column width="20%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+								<Column width="30%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
 									mergeDuplicates="false">
 									<header>
 										<Text text="Seat No." width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
@@ -40,25 +40,46 @@
 										<Text text="Monitors" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
 									</header>
 								</Column>
-								<Column width="20%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+								<Column width="25%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
 									mergeDuplicates="false">
 									<header>
-										<Text text="Other Equipment" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+										<Text text="Other Facility1" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+                                <Column width="25%" hAlign="Left" visible='true' vAlign="Middle" mergeDuplicates="false">
+									<header>
+										<Text text="Other Facility2" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
 									</header>
 								</Column>
 							</columns>
 							<items>
 								<ColumnListItem type="Active">
 									<cells>
-										<Text text="{modelData>SeatNo}"/>
-										<Select forceSelection="true">
+										<Text  text="{modelData>seatID}"/>
+										<Select forceSelection="true"  selectedKey="{modelData>monitorCount}" >
 											<items>
 												<core:Item key="0" text="0"/>
 												<core:Item key="1" text="1"/>
 												<core:Item key="2" text="2"/>
 											</items>
 										</Select>
-										<Input value="{modelData>others}"/>
+                                        <Select forceSelection="true"  selectedKey="{modelData>facility1}" >
+											<items>
+                                                <core:Item key='0' text="Nothing extra"/>
+												<core:Item key='1' text="Power extension"/>
+												<core:Item key='2' text="Extra space"/>
+												<core:Item key='3' text="LAN Cable"/>
+											</items>
+										</Select>
+                                           <Select forceSelection="true"  selectedKey="{modelData>facility2}" >
+											<items>
+                                                <core:Item key='0' text="Nothing extra"/>
+												<core:Item key='1' text="Power extension"/>
+												<core:Item key='2' text="Extra space"/>
+												<core:Item key='3' text="LAN Cable"/>
+											</items>
+										</Select>
+										
 									</cells>
 								</ColumnListItem>
 							</items>
@@ -120,59 +141,7 @@
 							</items>
 						</Table>
 
-                        <!-- <Table width="auto" noDataText="No Data Found" showSeparators="All" growing="true" growingThreshold="5" growingScrollToLoad="true"
-							items="{path : '/TeamEmployeeMaster', 	parameters : {
-                                	$select : ['employeeID_ID', 'role_roleCode']
-                            } }"  
-                            
-                             id="Managere1" sticky="HeaderToolbar" mode="SingleSelectLeft" selectionChange='ext.onEmpListSelectionChange'
-							
-                          
-                            
-                            enableBusyIndicator="true">
-							<headerToolbar>
-								<OverflowToolbar width="auto" height="auto" visible="true" enabled="true">
-									<content>
-										<Title text="Employee List" titleStyle="Auto" width="auto" textAlign="Begin" visible="true"/>
-										<ToolbarSpacer width=""/>
-										<Button icon='sap-icon://add-employee' text="Add" press='ext.AddEmployee' tooltip="Add new employee"/>
-										<Button icon='sap-icon://delete' text="Delete"  enabled="{modelData>/Property/DeleteEmpBtn}" press="ext.DeleteEmp" tooltip="{modelData>/Property/DeleteEmpBtnTT}"/>
-										<Button icon='sap-icon://synchronize' text="Sync Data" press='ext.SyncData' tooltip="Sync data with SAP DB"/>
-									</content>
-								</OverflowToolbar>
-							</headerToolbar>
-							<columns>
-								<Column width="20%" hAlign="Left" visible='true' minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
-									<header>
-										<Text text="Employee ID" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
-									</header>
-								</Column>
-                                <Column width="25%" hAlign="Left" visible='true' minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
-									<header>
-										<Text text="Name" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
-									</header>
-								</Column>
-								<Column width="50%" hAlign="Left" visible='true' minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
-									<header>
-										<Text text="Role" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
-									</header>
-								</Column>
-							</columns>
-							
-								<ColumnListItem type="Active">
-									<cells>
-										<Input value="{employeeID_ID}"  submit="ext.ShowEmpName"/>
-                                        <Text text="{role_roleCode}"/>     
-                                      
-										<Select selectedKey="{role_roleCode}" items="{ path: 'modelData>/userRoleDetails' , templateShareable:false}"   enabled="{= ${role_roleCode} === '01' }">
-											<items>
-												<core:Item key="{modelData>roleCode}" text="{modelData>description}"/>  
-											</items>
-										</Select>
-									</cells>
-								</ColumnListItem>
-						
-						</Table> -->
+                       
 					</HBox>
 				</VBox>
 				<VBox visible="{modelData>/Property/usageAnalytics}">
@@ -186,7 +155,7 @@
 		<buttons>
 			<Button text="Save Employee"  type="Default" iconFirst="true" enabled="true"  visible="{modelData>/Property/EmployeeList}" iconDensityAware="false" press="ext.SaveEmployee"/>
 			<Button text="Save Seats" type="Default" iconFirst="true" enabled="true" visible="{modelData>/Property/SeatDetails}" iconDensityAware="false" press="ext.SaveSeat"/>
-		    <Button text="Cancel" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="ext.CancelManagerBooking"/>
+		    <Button text="Close" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="ext.CancelManagerBooking"/>
 		</buttons>
 	</Dialog>
 </core:FragmentDefinition>
