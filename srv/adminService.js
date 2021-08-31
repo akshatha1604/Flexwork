@@ -1,66 +1,59 @@
-const cds = require('@sap/cds')
+const cds = require('@sap/cds');
 
-module.exports = function () {
-    /*
-        //     function setSeatInfo(Teams) {
-        //   if (book.stock > 111) book.title += ` -- 11% discount!`
+module.exports =  function (srv) {
+
+    // const AdminSrv = cds.connect.to('AdminService');
+    srv.after('CREATE', 'Teams', async req => {
+        console.log('hi from post');
+        // var managerExists = await SELECT.one.from(this.entities.TeamEmployeeMaster).where({ teamID: req[0].teamID, locationID: req[0].locationID });
+        // if (managerExists = null) {
+        //     const { employee } = this.entities.TeamEmployeeMaster;
+        //     employee.employeeID = req[0].employeeID;  
+        //     employee.teamID = req[0].teamID;
+        //     employee.role = 1;
+        //     const managerRecInserted = await INSERT.into(AdminService.TeamEmployeeMaster).entry(employee);
+        //     if (managerRecInserted > 0) {
+        //         req.notify(200, 'Employee Successfully inserted');
+        //     }
         // }
-        const { TeamSeatMapping } = this.entities;
-        const { Teams } = this.entities;
-        // this.after('READ', Teams, (teams, req) => {
-        //     return teams.map(async team => {
-        //         const getSeatAssigned = await cds.transaction(req).run(SELECT.from(TeamSeatMapping).where({ teamID: req.params[1].teamID, locationID: req.params[0].locationID }));
-        //         team.seatAssigned = getSeatAssigned.length;
-        //     })
-        // }
-        // )
-    this.after('READ', Teams, async req => {
-         const getSeatAssigned = await cds.transaction(req).run(SELECT.from(TeamSeatMapping).where({ teamID: Teams.teamID, locationID: Teams.locationID }));
-         console.log(getSeatAssigned.length);
+    })
+
+    // srv.after('SAVE', 'Teams', req => {
+    //     console.log('hi from save');
+    // })
+
+
+    const { TeamSeatMapping } = srv.entities;
+    srv.after('READ', 'Teams', (teams, req) => {
+        if (teams.length) {
+            return Promise.all(teams.map(async team => {
+                const getSeatAssigned = await cds.transaction(req).run(SELECT.from(TeamSeatMapping).where({ teamID: team.teamID, locationID: team.locationID }));
+                team.seatAssigned = getSeatAssigned.length;
+                team.seatUnassigned = Math.round((team.employeeCount / 100) * team.maxSeatPercent) - team.seatAssigned;
+            }))
         }
-    )
-    */
+    })
 
-    this.on('removeSeat', async req => {
+    srv.on('removeSeat', async req => {
         if (req.params[2].seatID) {
             var seatNo = req.params[2].seatID;
         }
         var val_teamID = req.params[1].teamID;
         const { TeamSeatMapping } = this.entities;
-        // //var count = TeamSeatMapping.count .where ({teamID: req.params[1].teamID, locationID: req.params[0].locationID});
-        // // count = Select.from("TeamSeatMapping") .having (func("count", TeamSeatMapping).where ({teamID: req.params[1].teamID, locationID: req.params[0].locationID}));
-        // // var count = TeamSeatMapping.count;
-        // const getSeatAssigned = await cds.transaction(req).run(SELECT .from (TeamSeatMapping) .where({teamID: req.params[1].teamID, locationID: req.params[0].locationID}));
-
-        // // var count = count(TeamSeatMapping);
-        // console.log(getSeatAssigned);
-        // var sql = "SELECT count(*) as total FROM TeamSeatMapping";
-        // var query = connection.query(sql, function (err, result) {
-
-        //     console.log("Total Records:- " + result[0].total);
-
-        // });
-        // console.log(count);
         const n = await DELETE.from(TeamSeatMapping).where({ seatId: seatNo });
-
         if (n > 0) {
             req.notify(204, 'Data Successfully deleted');
             return n;
-
-            //   let remainingSeat = await SELECT .from (TeamSeatMapping) .where ({teamID:  req.params[1].teamID, locationID:  req.params[1].locationID_locationID});
-            //   return remainingSeat;
         }
         else {
             req.error(400, "Deletion failed");
         }
+    })
 
-    });
-
-    this.on('removeTeam', async (req) => {
+    srv.on('removeTeam', async (req) => {
         var val_locationID = req.params[1].locationID_locationID;
         var val_teamID = req.params[1].teamID;
         var teamseat_exists = await SELECT.one.from(this.entities.TeamSeatMapping).where({ teamID: val_teamID, locationID: val_locationID });
-        // console.log(teamseat_exists);
         if (teamseat_exists != null) {
             req.error(400, "Please delete Seat assignments before deleting the Teams");
         }
@@ -74,12 +67,11 @@ module.exports = function () {
                 req.error(400, "Deletion failed");
             }
         }
-    });
+    })
 
-    this.on('addTeam', async (req) => {
-        var val_locationID = req.params[1].locationID_locationID;
-    });
-};
+}
+
+
 
 //  this.('addSeat', async(req) => {
     //  const Teams  = Array.isArray(teamsData) ? teamsData : [teamsData];
@@ -138,6 +130,3 @@ module.exports = function () {
 
 // }
 // }
-
-
-// module.exports = {AdminService}

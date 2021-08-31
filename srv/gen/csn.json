@@ -1152,6 +1152,45 @@
         }
       }
     },
+    "AdminService.TeamEmployeeMaster": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.TeamEmployeeMaster"
+          ]
+        }
+      },
+      "elements": {
+        "employeeID": {
+          "key": true,
+          "type": "cds.Association",
+          "target": "AdminService.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "teamID": {
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "role": {
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.TeamMemberRoles",
+          "keys": [
+            {
+              "ref": [
+                "roleCode"
+              ]
+            }
+          ]
+        }
+      }
+    },
     "AdminService.Teams": {
       "kind": "entity",
       "@UI.HeaderInfo.TypeName": "Team Detail",
@@ -1464,13 +1503,13 @@
           ]
         },
         "seatAssigned": {
-          "@title": "Seats Assigned",
           "@Core.Computed": true,
+          "@title": "Seats Assigned",
           "type": "cds.Integer"
         },
         "seatUnassigned": {
-          "@title": "Seat Unassigned",
           "@Core.Computed": true,
+          "@title": "Seat Unassigned",
           "type": "cds.Integer"
         }
       }
@@ -1645,7 +1684,8 @@
     },
     "SeatBooking": {
       "@source": "service.cds",
-      "kind": "service"
+      "kind": "service",
+      "@impl": "./SeatBookingService.js"
     },
     "SeatBooking.Booking": {
       "kind": "entity",

@@ -127,6 +127,11 @@
                                         "type": "ResponsiveTable",
                                         "selectionMode": "Single"
                                     }
+                                },
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "enableExport": true
+                                    }
                                 }
                             },
                             "navigation": {
@@ -135,7 +140,8 @@
                                         "route": "SAPOfficeDataObjectPage"
                                     }
                                 }
-                            }
+                            },
+                            "initialLoad": "Enabled"
                         }
                     },
                     "controlAggregation": "beginColumnPages",
