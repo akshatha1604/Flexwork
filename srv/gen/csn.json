@@ -749,6 +749,9 @@
         },
         {
           "=": "floor"
+        },
+        {
+          "=": "building_ID"
         }
       ],
       "@UI.LineItem": [
@@ -770,6 +773,11 @@
         {
           "Value": {
             "=": "office_ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "building_ID"
           }
         },
         {
@@ -823,6 +831,15 @@
             "#": "High"
           },
           "Label": "Office"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "building_ID"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
         },
         {
           "$Type": "UI.DataField",
@@ -947,10 +964,10 @@
         },
         "country": {
           "@Common.Text": {
-            "=": "country.name"
+            "=": "country.descr"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
           "@readonly": true,
           "@title": "{i18n>Country}",
@@ -970,7 +987,7 @@
             "=": "city.name"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
           "@title": "City",
           "@Common.ValueList.Label": "City",
@@ -1002,7 +1019,7 @@
             "=": "office.name"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
           "@title": "Office",
           "@Common.ValueList.Label": "Office",
@@ -1034,8 +1051,9 @@
             "=": "building.name"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
+          "@title": "Building",
           "@Common.ValueList.Label": "Building",
           "@Common.ValueList.CollectionPath": "Buildings",
           "@Common.ValueList.Parameters": [
@@ -1670,11 +1688,6 @@
         },
         {
           "$Type": "UI.DataFieldForAction",
-          "Action": "SeatBooking.managerZone",
-          "Label": "{i18n>ManagerZone}"
-        },
-        {
-          "$Type": "UI.DataFieldForAction",
           "Action": "SeatBooking.showAvailability",
           "Label": "{i18n>Show Availability}"
         },
@@ -2298,7 +2311,7 @@
         },
         "role": {
           "type": "cds.Association",
-          "target": "app.schema_flexwork.TeamMemberRoles",
+          "target": "SeatBooking.TeamMemberRole",
           "keys": [
             {
               "ref": [
@@ -2473,6 +2486,27 @@
         }
       }
     },
+    "SeatBooking.TeamMemberRole": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.TeamMemberRoles"
+          ]
+        }
+      },
+      "elements": {
+        "roleCode": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
     "SeatBooking.quickBook": {
       "kind": "action"
     },
@@ -2480,9 +2514,6 @@
       "kind": "action"
     },
     "SeatBooking.updateBooking": {
-      "kind": "action"
-    },
-    "SeatBooking.managerZone": {
       "kind": "action"
     },
     "SeatBooking.seatMap": {

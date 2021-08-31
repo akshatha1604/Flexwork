@@ -41,11 +41,11 @@ annotate service.Booking with @( // header-level annotations
             Label  : '{i18n>Quick Book}'
         },
 
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'SeatBooking.managerZone',
-            Label  : '{i18n>ManagerZone}'
-        },
+        // {
+        //     $Type  : 'UI.DataFieldForAction',
+        //     Action : 'SeatBooking.managerZone',
+        //     Label  : '{i18n>ManagerZone}'
+        // },
 
         {
             $Type  : 'UI.DataFieldForAction',

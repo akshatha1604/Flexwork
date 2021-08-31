@@ -3,7 +3,7 @@ using {app.schema_flexwork as me} from '../db/schema';
 service AdminService @(impl : './adminService.js') {
     entity SAPOfficeData   as projection on me.SAPOfficeData;    
     entity Teams           as select from me.Teams {
-        *,
+      *,
         null as seatAssigned     : Integer,
         null as seatUnassigned   : Integer
     }
@@ -34,6 +34,7 @@ service SeatBooking {
     entity DayCodes           as projection on me.DayCodes;
     entity SeatMaster         as projection on me.SeatMaster;
     entity Users              as projection on me.Users;
+    entity TeamMemberRole        as projection on me.TeamMemberRoles;
     //  @sap.applicable.path : 'quickBook'
     action quickBook();
     //  @sap.applicable.path : 'showAvailability'
@@ -41,7 +42,7 @@ service SeatBooking {
     //  @sap.applicable.path : 'updateBooking'
     action updateBooking();
     //  @sap.applicable.path : 'managerZone'
-    action managerZone();
+ //   action managerZone();
     //  @sap.applicable.path : 'seatMap'
     action seatMap();
 }
