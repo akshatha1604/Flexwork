@@ -20,6 +20,7 @@ service AdminService @(impl : './adminService.js') {
     entity Offices as projection on me.Offices;
     entity Buildings as projection on me.Buildings;
     entity Users as projection on me.Users;
+    entity TeamSeatImage as projection on me.TeamSeatingImage;
 }
 
 

@@ -694,6 +694,38 @@
         }
       }
     },
+    "app.schema_flexwork.TeamSeatingImage": {
+      "kind": "entity",
+      "elements": {
+        "teamID": {
+          "key": true,
+          "type": "cds.Association",
+          "target": "app.schema_flexwork.Teams",
+          "keys": [
+            {
+              "ref": [
+                "teamID"
+              ]
+            },
+            {
+              "ref": [
+                "locationID"
+              ]
+            }
+          ]
+        },
+        "image": {
+          "@Core.MediaType": {
+            "=": "imageType"
+          },
+          "type": "cds.LargeBinary"
+        },
+        "imageType": {
+          "@Core.IsMediaType": true,
+          "type": "cds.String"
+        }
+      }
+    },
     "AdminService": {
       "@source": "service.cds",
       "kind": "service",
@@ -1634,6 +1666,45 @@
         }
       }
     },
+    "AdminService.TeamSeatImage": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "app.schema_flexwork.TeamSeatingImage"
+          ]
+        }
+      },
+      "elements": {
+        "teamID": {
+          "key": true,
+          "type": "cds.Association",
+          "target": "AdminService.Teams",
+          "keys": [
+            {
+              "ref": [
+                "teamID"
+              ]
+            },
+            {
+              "ref": [
+                "locationID"
+              ]
+            }
+          ]
+        },
+        "image": {
+          "@Core.MediaType": {
+            "=": "imageType"
+          },
+          "type": "cds.LargeBinary"
+        },
+        "imageType": {
+          "@Core.IsMediaType": true,
+          "type": "cds.String"
+        }
+      }
+    },
     "SeatBooking": {
       "@source": "service.cds",
       "kind": "service",
@@ -1673,11 +1744,6 @@
         }
       ],
       "@UI.LineItem": [
-        {
-          "$Type": "UI.DataFieldForAction",
-          "Action": "SeatBooking.quickBook",
-          "Label": "{i18n>Quick Book}"
-        },
         {
           "$Type": "UI.DataFieldForAction",
           "Action": "SeatBooking.showAvailability",
@@ -1839,7 +1905,6 @@
               "ValueListProperty": "name"
             }
           ],
-          "@Common.FilterDefaultValue": "I073083",
           "type": "cds.Association",
           "target": "SeatBooking.Users",
           "keys": [
@@ -1955,7 +2020,6 @@
         },
         "isDeleted": {
           "@title": "Deleted(Y/N)",
-          "@Common.FilterDefaultValue": 0,
           "type": "cds.Boolean"
         }
       }
@@ -2510,9 +2574,6 @@
           "length": 20
         }
       }
-    },
-    "SeatBooking.quickBook": {
-      "kind": "action"
     },
     "SeatBooking.showAvailability": {
       "kind": "action"

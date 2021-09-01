@@ -136,3 +136,9 @@ entity DayCodes {
         toTime      : Time;
         description : String(80);
 };
+
+entity TeamSeatingImage {
+    key teamID   : Association to Teams;
+        image     : LargeBinary @Core.MediaType : imageType;
+        imageType : String      @Core.IsMediaType;
+}
