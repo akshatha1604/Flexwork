@@ -2,12 +2,12 @@
     xmlns:core="sap.ui.core"
     xmlns:l="sap.ui.layout"
     xmlns:u="sap.ui.unified" core:require="{ext : 'adminui/ext/controller/ObjectPageExt'}">
-    <Dialog title='Allocate new seat'>
+    <Dialog title='{NewImageModel>/popupTitle}'>
         <content>
             <VBox width="430px">
                 <HBox>
                     <l:VerticalLayout>
-                        <u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file to the local server" uploadComplete="ext.handleUploadComplete"/>
+                        <u:FileUploader id="fileUploader" name="myFileUpload"  uploadUrl="upload/" tooltip="Upload your file to the local server" uploadComplete="ext.handleUploadComplete"/>
                         <Button text="Upload File" press="ext.handleUploadPress"/>
                     </l:VerticalLayout>
                 </HBox>

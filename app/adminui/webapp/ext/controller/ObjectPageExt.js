@@ -9,11 +9,31 @@ sap.ui.define(
     function (ODataModel, Token, JSONModel) {
         "use strict";
         return {
+
+            UploadSeatImageBtn: function (oBindingContext, aSelectedContexts) {
+                //  if (aSelectedContexts && aSelectedContexts.length === 1) {
+                //      return true;
+                //  }
+                //    return false;
+            },
             buttonHandling: function (oContext) {
                 return false;
             },
-            UploadSeatImage: function (oContext) {
-                 var oView = this._controller.getView();
+            UploadSeatImage: function (oContext, aSelectedContexts ) {
+
+               if( aSelectedContexts[0])
+               {
+               var teamID =  aSelectedContexts[0].getObject(aSelectedContexts[0].getPath()).teamID;
+               
+                var oView = this._controller.getView();
+                var newdata = {
+                    "teamID" : teamID,
+                    "LocationID" : aSelectedContexts[0].getObject(aSelectedContexts[0].getPath()).locationID,
+                    "popupTitle": `Add seat map for team - ${teamID}`
+                };
+                var oModel = new sap.ui.model.json.JSONModel(newdata);
+                this._controller.getView().setModel(oModel, "NewImageModel");
+
                 if (!this._oDialogonUploadImage) {
                     this._oDialogonUploadImage = sap.ui.xmlfragment(oView.getId(), "adminui.ext.fragments.addImage",
                         this);
@@ -21,24 +41,78 @@ sap.ui.define(
                     oView.addDependent(this._oDialogonUploadImage);
                 }
                 this._oDialogonUploadImage.open();
+            }
+            else
+            {
+               sap.m.MessageToast.show("Please select a row before uploading!"); 
+            }
+            },
+            closeImageUploadDial: function (oContext) {
+                 this._oDialogonUploadImage.close();
             },
 
             handleUploadPress: function (oContext) {
-                	var oFileUploader = this.byId("fileUploader");
-				oFileUploader.upload();
+                var oFileUploader = this.byId("fileUploader");
+                oFileUploader.upload();
             },
-            uploadComplete: function (oEvent) {
-               var files = oEvent.getSource().oFileUpload.files[0];
-               var path = URL.createObjectURL(files);
-               jQuery.sap.addUrlWhitelist("blob");
-                   var reader = new FileReader();
+            handleUploadComplete: function (oEvent) {
+                var files = oEvent.getSource().oFileUpload.files[0];
+                var path = URL.createObjectURL(files);
+                jQuery.sap.addUrlWhitelist("blob");
+                 // var blob = dataURItoBlob(path);
+                   var formData = new FormData()
+  
+
+            //    var reader = new FileReader();
+                var csrfToken, Currentdata = [];
+                var modelRef =  this._controller.getView().getModel( "NewImageModel");
+               var modelData = modelRef.getData();
+                var sFilterQuery = `teamID_teamID eq '${modelData.teamID}'`;
+                $.get({
+                    url: "/admin/TeamSeatImage",
+                    headers: {
+                        "x-csrf-token": "fetch"
+                    },
+                    data: {
+                        $filter: sFilterQuery
+                    },
+                    success: function (data, status, xhr) {
+                        csrfToken = xhr.getResponseHeader("x-csrf-token");
+                        Currentdata = data;
+
+                    }, async: false
+                });
+
+                // var postingData = {
+                    
+                // };
+
+                  formData.append('access_token', csrfToken)
+                formData.append('source', path)
+
+                    Currentdata.value[0].image =  path;
+
+                    $.ajax({
+                        url: "/admin/TeamSeatImage/" + Currentdata.value[0].teamID_teamID,
+                        type: 'PUT',
+                        headers: {
+                            "x-csrf-token": csrfToken,
+                             "Content-Type": "image/jpg"
+                        },
+                        data: Currentdata.value[0].image,
+                        success: function (data) {
+                         
+                        }, error: function (data, status) {
+                          
+                        }, async: false
+                    });
 
                 //    	reader.onload = function (e) {
-				// 	xmlFileInfo = reader.result;
-				// 	xmlFileInfo = xmlFileInfo.replace(/\t/g, "");
-				// 	that.byId('CodeEditorXML').setValue(that.formatXML(xmlFileInfo));
+                // 	xmlFileInfo = reader.result;
+                // 	xmlFileInfo = xmlFileInfo.replace(/\t/g, "");
+                // 	that.byId('CodeEditorXML').setValue(that.formatXML(xmlFileInfo));
 
-				// };                
+                // };                
             },
 
 
