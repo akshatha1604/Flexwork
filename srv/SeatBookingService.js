@@ -5,6 +5,10 @@ module.exports =  function (srv) {
  
 })
 
+this.on("getFreeSeat", async (req) => {
+    console.log("called");
+    return 'called';
+})
 
 
 // this.on('READ','Booking', (req)=>{

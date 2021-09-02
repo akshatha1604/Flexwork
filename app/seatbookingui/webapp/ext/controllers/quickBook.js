@@ -41,6 +41,14 @@ sap.ui.define(
                 MyDateString = (MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '-'
                     + ('0' + MyDate.getDate()).slice(-2));
 
+                //      $.get({
+                //     url: "/seat-booking/getFreeSeat(EmployeeID='123')",
+                    
+                //     success: function (data){
+                       
+                //     }, async: false
+                // });  
+
                 var sFilterQuery = `employeeID_ID eq '${sap.ushell.Container.getService("UserInfo").getId()}' and bookingDate eq ${MyDateString}`;
                 $.get({
                     url: "/seat-booking/Booking",
