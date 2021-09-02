@@ -124,6 +124,12 @@
                                             "text": "Quick Book",
                                             "enabled": true,
                                             "visible": true
+                                        },
+                                            "ShowImage": {
+                                            "press": "seatbookingui.ext.controllers.quickBook.OpenImageDialog",
+                                            "text": "View Seat Map",
+                                            "enabled": true,
+                                            "visible": true
                                         }
 
                                     }

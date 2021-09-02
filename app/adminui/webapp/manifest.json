@@ -163,9 +163,8 @@
                                     "actions": {
                                         "UploadSeatImage": {
                                             "press": "adminui.ext.controller.ObjectPageExt.UploadSeatImage",
-                                            "text": "Upload Seat image",
-                                            "enabled": true,
-                                            "visible": true
+                                            "text": "Upload Seat map",
+                                            "enabled": "{= ${ui>/editMode} === 'Editable'}"
                                         }
                                     }
                                 }

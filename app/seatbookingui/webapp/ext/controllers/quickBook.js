@@ -8,6 +8,20 @@ sap.ui.define(
         "use strict";
         return {
 
+            ImageCancelPress: function (oContext) {
+                this._oDialogonImage.close();
+            },
+
+            OpenImageDialog: function (oContext) {
+                var oView = this._controller.getView();
+                if (!this._oDialogonImage) {
+                    this._oDialogonImage = sap.ui.xmlfragment(oView.getId(), "seatbookingui.ext.fragments.openImage",
+                        this);
+                    oView.addDependent(this._oDialogonImage);
+                }
+                this._oDialogonImage.open();
+            },
+
             quickBooking: function (oContext) {
                 var Currentdata;
                 var MyDate = new Date();
@@ -26,6 +40,14 @@ sap.ui.define(
                 }
                 MyDateString = (MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '-'
                     + ('0' + MyDate.getDate()).slice(-2));
+
+                //      $.get({
+                //     url: "/seat-booking/getFreeSeat(EmployeeID='123')",
+                    
+                //     success: function (data){
+                       
+                //     }, async: false
+                // });  
 
                 var sFilterQuery = `employeeID_ID eq '${sap.ushell.Container.getService("UserInfo").getId()}' and bookingDate eq ${MyDateString}`;
                 $.get({
@@ -58,34 +80,33 @@ sap.ui.define(
                         });
                         if (Currentdata.value) {
                             if (Currentdata.value.length > 0) {
-                             myTeamID =   Currentdata.value.teamID;
+                                myTeamID = Currentdata.value.teamID;
 
-                        // Get all seats for my team..         
-                        var sFilterQuery = `teamID eq '${myTeamID}'`;
-                        $.get({
-                            url: "/seat-booking/TeamSeatMapping",
-                            data: {
-                                $filter: sFilterQuery
-                            },
-                            success: function (data) {
-                                Currentdata = data;
-                            }, async: false
-                        });
-                        if (Currentdata.value) {
-                            if (Currentdata.value.length > 0) {
-                                
-                        // Get all booking for my team for that day.. 
-                                
-                            }
-                        }       
+                                // Get all seats for my team..         
+                                var sFilterQuery = `teamID eq '${myTeamID}'`;
+                                $.get({
+                                    url: "/seat-booking/TeamSeatMapping",
+                                    data: {
+                                        $filter: sFilterQuery
+                                    },
+                                    success: function (data) {
+                                        Currentdata = data;
+                                    }, async: false
+                                });
+                                if (Currentdata.value) {
+                                    if (Currentdata.value.length > 0) {
+
+                                        // Get all booking for my team for that day.. 
+
+                                    }
+                                }
                             }
                         }
-                        else
-                        {
-                              sap.m.MessageToast.show(`You`);
+                        else {
+                            sap.m.MessageToast.show(`You`);
                         }
 
-                        
+
 
 
 

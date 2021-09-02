@@ -1755,11 +1755,6 @@
           "Label": "{i18n>Update Booking}"
         },
         {
-          "$Type": "UI.DataFieldForAction",
-          "Action": "SeatBooking.seatMap",
-          "Label": "{i18n>View Seat Map}"
-        },
-        {
           "Value": {
             "=": "seatID_seatID"
           }
@@ -2583,6 +2578,17 @@
     },
     "SeatBooking.seatMap": {
       "kind": "action"
+    },
+    "SeatBooking.getFreeSeat": {
+      "kind": "function",
+      "params": {
+        "EmployeeID": {
+          "type": "cds.String"
+        }
+      },
+      "returns": {
+        "type": "cds.String"
+      }
     },
     "Language": {
       "kind": "type",

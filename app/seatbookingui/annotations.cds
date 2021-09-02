@@ -51,11 +51,6 @@ annotate service.Booking with @( // header-level annotations
             Action : 'SeatBooking.updateBooking',
             Label  : '{i18n>Update Booking}'
         },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'SeatBooking.seatMap',
-            Label  : '{i18n>View Seat Map}'
-        },
 
         {Value : seatID_seatID},
         {Value : employeeID_ID},

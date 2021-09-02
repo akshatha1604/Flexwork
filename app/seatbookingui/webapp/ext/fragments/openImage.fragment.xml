@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core" core:require="{ext : 'seatbookingui/ext/controllers/quickBook'}"
+    
+    xmlns:fb="sap.ui.comp.filterbar">
+    <Dialog title=''>
+        <content>
+            <VBox width="630px">
+                <!-- <Text text='Group booking/ my booking/ booking of behalf'/> -->
+                <HBox>
+                 <Image src='./ext/image/image.jpg' width="630px" height="630px" />
+                </HBox>
+            </VBox>
+
+        </content>
+        <buttons>
+        
+         <Button text="Close" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="ext.ImageCancelPress"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

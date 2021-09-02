@@ -48,4 +48,6 @@ service SeatBooking  @(impl : './SeatBookingService.js') {
  //   action managerZone();
     //  @sap.applicable.path : 'seatMap'
     action seatMap();
+
+    function getFreeSeat(EmployeeID : String,) returns String;
 }
