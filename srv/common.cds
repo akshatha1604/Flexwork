@@ -13,7 +13,9 @@ annotate service.Teams with {
     manager     @Common : {
         Text            : manager.name,
         TextArrangement : #TextFirst //#TextOnly
+        
     //  ValueListWithFixedValues
+
     };
 
     headManager @Common : {
