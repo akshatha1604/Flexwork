@@ -1,26 +1,48 @@
 const cds = require('@sap/cds');
 
-module.exports =  function (srv) {
+module.exports = function (srv) {
+
 
     // const AdminSrv = cds.connect.to('AdminService');
-    srv.after('draftActivate', 'SAPOfficeData', (team, req) => {        
-        console.log('hi from post');
-        // var managerExists = await SELECT.one.from(this.entities.TeamEmployeeMaster).where({ teamID: req[0].teamID, locationID: req[0].locationID });
-        // if (managerExists = null) {
-        //     const { employee } = this.entities.TeamEmployeeMaster;
-        //     employee.employeeID = req[0].employeeID;  
-        //     employee.teamID = req[0].teamID;
-        //     employee.role = 1;
-        //     const managerRecInserted = await INSERT.into(AdminService.TeamEmployeeMaster).entry(employee);
-        //     if (managerRecInserted > 0) {
-        //         req.notify(200, 'Employee Successfully inserted');
-        //     }
-        // }
+    // srv.after('draftActivate', 'SAPOfficeData', (team, req) => {  
+
+    const TeamEmployeeMaster = this.entities.TeamEmployeeMaster;
+    // srv.before('PATCH', 'Teams', async(team, req) => {        
+    //    var managerExists = await SELECT.one.from(TeamEmployeeMaster).where({ employeeID: team.data.manager_ID });
+    //     if ((managerExists.role = 1) || (managerExists = null )) { } 
+    //     else req.error(400, "Deletion failed");
+    // })    
+
+    // srv.after('PATCH', 'Teams', async(team, req) => {                
+    //     var managerExists = await SELECT.one.from(this.entities.TeamEmployeeMaster).where({ teamID: team.teamID });
+    //     if (managerExists = 'null') {
+    //         // const { employee } = this.entities.TeamEmployeeMaster;
+    //         // employee.employeeID = team.employeeID;  
+    //         // employee.teamID = team.teamID;
+    //         // employee.role = '1';
+    //         // const managerRecInserted = await INSERT.into(srv.TeamEmployeeMaster).entry(employee);
+    //          const managerRecInserted = INSERT.into(srv.TeamEmployeeMaster, [{ employeeID: team.manager_ID, teamID: team.teamID, role: '1'} ])
+    //         if (managerRecInserted > 0) {
+    //             req.notify(200, 'Employee Successfully inserted');
+    //         }
+    //     }
+    // })
+
+    srv.after('draftActivate', 'SAPOfficeData', (req) => {
+        return Promise.all(req.Teams.map(async team => {
+            var managerExists = await SELECT.one.from(this.entities.TeamEmployeeMaster).where({ teamID: team.teamID });
+            if (managerExists = 'null') {
+                const managerRecInserted = INSERT.into(TeamEmployeeMaster, [{ employeeID: team.manager_ID, teamID: team.teamID, role: '1' }])
+                if (managerRecInserted > 0) {
+                    req.notify(200, 'Employee Successfully inserted');
+                }
+            }
+        }
+        ))
     })
 
-
-    const { TeamSeatMapping } = srv.entities;
     srv.after('READ', 'Teams', (teams, req) => {
+        const { TeamSeatMapping } = srv.entities;
         if (teams.length) {
             return Promise.all(teams.map(async team => {
                 const getSeatAssigned = await cds.transaction(req).run(SELECT.from(TeamSeatMapping).where({ teamID: team.teamID, locationID: team.locationID }));
@@ -29,6 +51,7 @@ module.exports =  function (srv) {
             }))
         }
     })
+
 
     srv.on('removeSeat', async req => {
         if (req.params[2].seatID) {
@@ -45,6 +68,7 @@ module.exports =  function (srv) {
             req.error(400, "Deletion failed");
         }
     })
+
 
     srv.on('removeTeam', async (req) => {
         var val_locationID = req.params[1].locationID_locationID;

@@ -41,12 +41,6 @@ annotate service.Booking with @( // header-level annotations
             Label  : '{i18n>Quick Book}'
         },
 
-        // {
-        //     $Type  : 'UI.DataFieldForAction',
-        //     Action : 'SeatBooking.managerZone',
-        //     Label  : '{i18n>ManagerZone}'
-        // },
-
         {
             $Type  : 'UI.DataFieldForAction',
             Action : 'SeatBooking.showAvailability',
@@ -165,5 +159,4 @@ dayCode @(Common : {ValueList : {
 employeeID @(Common : {FilterDefaultValue : 'I073083'});//$self.User.User});
 isDeleted @(Common : {FilterDefaultValue : 0});
 
-// bookingDate @(Common : {FilterDefaultValue : 'se'});    
 };
