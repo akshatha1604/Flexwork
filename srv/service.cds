@@ -20,6 +20,7 @@ service AdminService @(impl : './adminService.js') {
     entity Offices as projection on me.Offices;
     entity Buildings as projection on me.Buildings;
     entity Users as projection on me.Users;
+    entity TeamSeatImage as projection on me.TeamSeatingImage;
 }
 
 
@@ -38,7 +39,7 @@ service SeatBooking  @(impl : './SeatBookingService.js') {
     entity TeamMemberRole     as projection on me.TeamMemberRoles;
 
     //  @sap.applicable.path : 'quickBook'
-    action quickBook();
+  //  action quickBook();
     //  @sap.applicable.path : 'showAvailability'
     action showAvailability();
     //  @sap.applicable.path : 'updateBooking'

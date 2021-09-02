@@ -4,4 +4,11 @@ module.exports =  function (srv) {
  this.before ('NEW', 'Booking', async (req) => {
  
 })
+
+
+
+// this.on('READ','Booking', (req)=>{
+    
+
+// })
 }

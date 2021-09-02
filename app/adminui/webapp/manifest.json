@@ -159,6 +159,14 @@
                                 "Teams/@com.sap.vocabularies.UI.v1.LineItem": {
                                     "tableSettings": {
                                         "selectionMode": "Single"
+                                    },
+                                    "actions": {
+                                        "UploadSeatImage": {
+                                            "press": "adminui.ext.controller.ObjectPageExt.UploadSeatImage",
+                                            "text": "Upload Seat image",
+                                            "enabled": true,
+                                            "visible": true
+                                        }
                                     }
                                 }
                             },

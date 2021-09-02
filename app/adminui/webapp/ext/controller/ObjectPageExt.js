@@ -12,6 +12,35 @@ sap.ui.define(
             buttonHandling: function (oContext) {
                 return false;
             },
+            UploadSeatImage: function (oContext) {
+                 var oView = this._controller.getView();
+                if (!this._oDialogonUploadImage) {
+                    this._oDialogonUploadImage = sap.ui.xmlfragment(oView.getId(), "adminui.ext.fragments.addImage",
+                        this);
+
+                    oView.addDependent(this._oDialogonUploadImage);
+                }
+                this._oDialogonUploadImage.open();
+            },
+
+            handleUploadPress: function (oContext) {
+                	var oFileUploader = this.byId("fileUploader");
+				oFileUploader.upload();
+            },
+            uploadComplete: function (oEvent) {
+               var files = oEvent.getSource().oFileUpload.files[0];
+               var path = URL.createObjectURL(files);
+               jQuery.sap.addUrlWhitelist("blob");
+                   var reader = new FileReader();
+
+                //    	reader.onload = function (e) {
+				// 	xmlFileInfo = reader.result;
+				// 	xmlFileInfo = xmlFileInfo.replace(/\t/g, "");
+				// 	that.byId('CodeEditorXML').setValue(that.formatXML(xmlFileInfo));
+
+				// };                
+            },
+
 
             openAddSeatDialog: function (oContext) {
                 var contextData = oContext.getObject(oContext.sPath);
