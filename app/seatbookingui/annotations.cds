@@ -47,16 +47,16 @@ annotate service.Booking with @( // header-level annotations
         //     Label  : '{i18n>ManagerZone}'
         // },
 
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'SeatBooking.showAvailability',
-            Label  : '{i18n>Show Availability}'
-        },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'SeatBooking.updateBooking',
-            Label  : '{i18n>Update Booking}'
-        },
+        // {
+        //     $Type  : 'UI.DataFieldForAction',
+        //     Action : 'SeatBooking.showAvailability',
+        //     Label  : '{i18n>Show Availability}'
+        // },
+        // {
+        //     $Type  : 'UI.DataFieldForAction',
+        //     Action : 'SeatBooking.updateBooking',
+        //     Label  : '{i18n>Update Booking}'
+        // },
 
         {Value : seatID_seatID},
         {Value : employeeID_ID},

@@ -74,7 +74,9 @@
   
     <attribute id="TEAMID" order="8" displayAttribute="false" attributeHierarchyActive="false">
       <descriptions defaultDescription="TEAMID"/>
+  
       <keyMapping columnObjectName="Join_1" columnName="TEAMID"/>
+  
     </attribute>
   </attributes>
   <calculatedAttributes/>
@@ -95,11 +97,11 @@
     </shape>
     <shape modelObjectName="APP_SCHEMA_FLEXWORK_TEAMSEATMAPPING" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
       <upperLeftCorner x="514" y="-265"/>
-      <rectangleSize width="350.470703125"/>
+      <rectangleSize width="350"/>
     </shape>
     <shape modelObjectName="APP_SCHEMA_FLEXWORK_TEAMEMPLOYEEMASTER" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
       <upperLeftCorner x="-231" y="-298"/>
-      <rectangleSize width="380.69921875"/>
+      <rectangleSize width="380"/>
     </shape>
   </shapes>
 </layout>
