@@ -107,31 +107,42 @@
                                         "selectionMode": "Single"
                                     },
                                     "actions": {
+                                        "QuickBook": {
+                                            "press": "seatbookingui.ext.controllers.quickBook.quickBooking",
+                                            "text":  "{i18n>quickBook}",
+                                            "enabled": true,
+                                            "visible": true
+                                        },
                                         "PlanBooking": {
                                             "press": "seatbookingui.ext.controllers.planBooking.openPlanBookingDialog",
-                                            "text": "Plan a Booking",
+                                            "text": "{i18n>PlanABooking}",
                                             "enabled": true,
                                             "visible": true
                                         },
-                                           "ManagerZone": {
+                                        "ShowAvailability": {
+                                            "press": "seatbookingui.ext.controllers.ShowAvailability.OpenAvailabilityDialog",
+                                            "text": "{i18n>ShowAvailability}",
+                                            "enabled": true,
+                                            "visible": true
+                                        },
+                                        "UpdateBooking": {
+                                            "press": "seatbookingui.ext.controllers.UpdateBooking.OpenUpdateBookingDialog",
+                                            "text": "{i18n>UpdateBooking}",
+                                            "enabled": true,
+                                            "visible": true
+                                        },
+                                        "ShowImage": {
+                                            "press": "seatbookingui.ext.controllers.quickBook.OpenImageDialog",
+                                            "text": "{i18n>ShowImage}",
+                                            "enabled": true,
+                                            "visible": true
+                                        },
+                                        "ManagerZone": {
                                             "press": "seatbookingui.ext.controllers.managerZone.openManagerZoneDialog",
-                                            "text": "Manager's Zone",
+                                            "text": "{i18n>ManagerZone}",
                                             "enabled": "seatbookingui.ext.controllers.managerZone.ManagerBtnHandling",
                                             "visible": true
-                                        },
-                                            "QuickBook": {
-                                            "press": "seatbookingui.ext.controllers.quickBook.quickBooking",
-                                            "text": "Quick Book",
-                                            "enabled": true,
-                                            "visible": true
-                                        },
-                                            "ShowImage": {
-                                            "press": "seatbookingui.ext.controllers.quickBook.OpenImageDialog",
-                                            "text": "View Seat Map",
-                                            "enabled": true,
-                                            "visible": true
                                         }
-
                                     }
                                 }
                             }
