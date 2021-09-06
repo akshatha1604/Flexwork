@@ -160,5 +160,4 @@ dayCode @(Common : {ValueList : {
 // employeeID @(Common : {FilterDefaultValue : self.User});
 // isDeleted @(Common : {FilterDefaultValue : '0'});
 
-// bookingDate @(Common : {FilterDefaultValue : 'se'});    
 };

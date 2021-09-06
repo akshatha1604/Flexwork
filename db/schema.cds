@@ -56,8 +56,8 @@ entity Teams : managed {
         @readonly key locationID : LocationID;
         teamName                 : String(50);
         employeeCount            : Integer;
-        maxSeatPercent           : Integer;
-        manager                  : Association to Users;
+        maxSeatPercent           : Integer;// default 80;
+        manager                  : Association to Users;// @FieldControl.Mandatory;
         headManager              : Association to Users;
         createdAt                : Timestamp @cds.on.insert : $now;
         createdBy                : User      @cds.on.insert : $user;

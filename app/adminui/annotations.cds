@@ -71,7 +71,8 @@ annotate service.SAPOfficeData with @( // header-level annotations
             $Type             : 'UI.DataField',
             Value             : office_ID,
             ![@UI.Importance] : #High,
-            Label             : 'Office'
+            Label             : 'Office',
+            
         },
           {
             $Type             : 'UI.DataField',
