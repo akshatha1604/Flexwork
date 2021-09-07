@@ -15,6 +15,6 @@ VIEW SeatBooking_SeatStatus(IN ip_teamID NVARCHAR(5000), IN ip_date DATE) AS SEL
       BookedSeats_1.EmpName,
       BookedSeats_1.BookingStatusDesc
     FROM SeatBooking_BookedSeats AS BookedSeats_1
-    WHERE BookedSeats_1.seatID_seatID = TeamSeatMapping_0.seatID AND BookedSeats_1.teamID = TeamSeatMapping_0.teamID AND BookedSeats_1.bookingDate = :IP_DATE) THEN 'TRUE' ELSE 'FALSE' END AS booked_seat
+    WHERE BookedSeats_1.seatID_seatID = TeamSeatMapping_0.seatID AND BookedSeats_1.teamID = TeamSeatMapping_0.teamID AND BookedSeats_1.bookingDate = :IP_DATE) THEN TRUE ELSE FALSE END AS booked_seat
 FROM SeatBooking_TeamSeatMapping AS TeamSeatMapping_0
 WHERE TeamSeatMapping_0.teamID = :IP_TEAMID

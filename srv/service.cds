@@ -47,12 +47,16 @@ service SeatBooking @(impl : './SeatBookingService.js') {
 
 
     entity TeamEmployeeMasterWithName                                as projection on TeamEmployeeMaster {
-        TeamEmployeeMaster.employeeID as employeeID, TeamEmployeeMaster.role as role, TeamEmployeeMaster.teamID as teamID, TeamEmployeeMaster.employeeID.name as employeeName, TeamEmployeeMaster.role.description as roleDescription
+        TeamEmployeeMaster.employeeID.ID as employeeID, 
+        TeamEmployeeMaster.role as role, 
+        TeamEmployeeMaster.teamID as teamID,
+        TeamEmployeeMaster.employeeID.name as employeeName, 
+        TeamEmployeeMaster.role.description as roleDescription
     };
 
     entity EmployeeBookingStatus(ip_teamID : String, ip_date : Date) as
         select from TeamEmployeeMasterWithName {
-            employeeID.ID,
+            employeeID,
             employeeName,
             teamID,
             @Core.Computed case
@@ -60,7 +64,7 @@ service SeatBooking @(impl : './SeatBookingService.js') {
                     exists(select from BookedSeats
                     where
                         BookedSeats.teamID          = TeamEmployeeMasterWithName.teamID
-                        and BookedSeats.empID       = TeamEmployeeMasterWithName.employeeID.ID
+                        and BookedSeats.empID       = TeamEmployeeMasterWithName.employeeID
                         and BookedSeats.bookingDate = : ip_date
                     )
                 then
