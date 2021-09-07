@@ -1753,16 +1753,6 @@
       ],
       "@UI.LineItem": [
         {
-          "$Type": "UI.DataFieldForAction",
-          "Action": "SeatBooking.showAvailability",
-          "Label": "{i18n>Show Availability}"
-        },
-        {
-          "$Type": "UI.DataFieldForAction",
-          "Action": "SeatBooking.updateBooking",
-          "Label": "{i18n>Update Booking}"
-        },
-        {
           "Value": {
             "=": "seatID_seatID"
           }
@@ -2617,16 +2607,6 @@
       ],
       "@UI.LineItem": [
         {
-          "$Type": "UI.DataFieldForAction",
-          "Action": "SeatBooking.showAvailability",
-          "Label": "{i18n>Show Availability}"
-        },
-        {
-          "$Type": "UI.DataFieldForAction",
-          "Action": "SeatBooking.updateBooking",
-          "Label": "{i18n>Update Booking}"
-        },
-        {
           "Value": {
             "=": "seatID_seatID"
           }
@@ -2967,6 +2947,134 @@
         }
       }
     },
+    "SeatBooking.SeatStatus": {
+      "kind": "entity",
+      "params": {
+        "ip_teamID": {
+          "type": "cds.String"
+        },
+        "ip_date": {
+          "type": "cds.Date"
+        }
+      },
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "SeatBooking.Allstatus"
+            ]
+          },
+          "columns": [
+            "*",
+            {
+              "xpr": [
+                "case",
+                "when",
+                {
+                  "ref": [
+                    "ID"
+                  ]
+                },
+                "=",
+                {
+                  "val": null
+                },
+                "then",
+                {
+                  "val": "TRUE"
+                },
+                "when",
+                {
+                  "ref": [
+                    "ID"
+                  ]
+                },
+                "!=",
+                {
+                  "val": null
+                },
+                "and",
+                {
+                  "ref": [
+                    "bookingDate"
+                  ]
+                },
+                "!=",
+                {
+                  "ref": [
+                    "ip_date"
+                  ],
+                  "param": true
+                },
+                "then",
+                {
+                  "val": "TRUE"
+                },
+                "else",
+                {
+                  "val": "FALSE"
+                },
+                "end"
+              ],
+              "as": "free_seat"
+            }
+          ],
+          "groupBy": [
+            {
+              "ref": [
+                "seatID"
+              ]
+            }
+          ],
+          "where": [
+            {
+              "ref": [
+                "teamID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ip_teamID"
+              ],
+              "param": true
+            }
+          ]
+        }
+      },
+      "elements": {
+        "seatID": {
+          "type": "app.schema_flexwork.SeatID",
+          "length": 15
+        },
+        "teamID": {
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "monitorCount": {
+          "type": "cds.Integer"
+        },
+        "ID": {
+          "type": "cds.UUID"
+        },
+        "bookingDate": {
+          "@title": "Booking Date",
+          "type": "cds.Date"
+        },
+        "facility1": {
+          "type": "cds.Integer"
+        },
+        "facility2": {
+          "type": "cds.Integer"
+        },
+        "facility3": {
+          "type": "cds.Integer"
+        },
+        "free_seat": {
+          "@Core.Computed": true
+        }
+      }
+    },
     "SeatBooking.showAvailability": {
       "kind": "action"
     },
@@ -2989,6 +3097,22 @@
       "returns": {
         "items": {
           "type": "SeatBooking.Allstatus"
+        }
+      }
+    },
+    "SeatBooking.getFreeSeat1": {
+      "kind": "function",
+      "params": {
+        "teamID": {
+          "type": "cds.String"
+        },
+        "bookingDate": {
+          "type": "cds.Date"
+        }
+      },
+      "returns": {
+        "items": {
+          "type": "SeatBooking.SeatStatus"
         }
       }
     },
