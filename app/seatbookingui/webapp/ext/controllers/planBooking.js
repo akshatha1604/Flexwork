@@ -2,105 +2,203 @@ sap.ui.define(
     ["sap/ui/model/odata/v4/ODataModel",
         "sap/m/Token",
         "sap/ui/model/json/JSONModel"
-        
+
     ],
     function (ODataModel, Token, JSONModel) {
         "use strict";
+
+        function _getUserDetails() {
+            var Currentdata = [];
+            var sFilterQuery = `employeeID_ID eq '${sap.ushell.Container.getService("UserInfo").getId()}'`;
+            $.get({
+                url: "/seat-booking/TeamEmployeeMaster",
+                headers: {
+                    "x-csrf-token": "fetch"
+                }, data: {
+                    $filter: sFilterQuery
+                },
+                success: function (data, status, xhr) {
+                    //  csrfToken = xhr.getResponseHeader("x-csrf-token");
+                    Currentdata = data;
+                }, async: false
+            });
+
+            if (Currentdata.value) {
+                if (Currentdata.value[0]) {
+                    return Currentdata.value[0];
+                }
+            }
+        }
+
+
+          function _getEmployeeNameByID(userid) {
+            var Currentdata;
+            var sFilterQuery = `ID eq '${userid}'`;
+            $.get({
+                url: "/seat-booking/Users",
+                data: {
+                    $filter: sFilterQuery
+                },
+                success: function (data) {
+                    // csrfToken = xhr.getResponseHeader("x-csrf-token");
+                    Currentdata = data;
+                }, async: false
+            });
+            if (Currentdata.value[0])
+                return Currentdata.value[0];
+        }
+
+        function _getMyTeamMates(teamID) {
+            var Currentdata = [];
+            var sFilterQuery = `teamID eq '${teamID}'`;
+            $.get({
+                url: "/seat-booking/TeamEmployeeMaster",
+                headers: {
+                    //   "x-csrf-token": "fetch"
+                }, data: {
+                    $filter: sFilterQuery
+                },
+                success: function (data, status, xhr) {
+                    // csrfToken = xhr.getResponseHeader("x-csrf-token");
+                    Currentdata = data;
+                }, async: false
+            });
+
+            if (Currentdata.value) {
+                return Currentdata.value;
+            }
+        }
+
+
         return {
 
             openPlanBookingDialog: function (oContext) {
-                	sap.ui.core.BusyIndicator.show(0);
-		var Newdata = {
-			"radiobutton": [{
-				"type": "Individual Booking"
-			}, {
-				"type": "Group Booking(*visible to admin roles)"
-			}],
-			"Property": {
-				"index": 0,
-				"MyBooking": true,
-				"OnBehalfBooking": false,
-				"GroupBooking": false
-			},
-			"Seats": [{
-				"Date": "12.06.2021",
-				"SeatNo": "BLR04-2F-001",
-				"monitors": "2",
-				"others": "power,ext",
-				"available": "Full Day",
-				"Seat": "11"
-			}, {
-				"Date": "12.06.2021",
-				"SeatNo": "BLR04-2F-004",
-				"monitors": "2",
-				"others": "power,ext",
-				"available": "1st Half Day",
-				"Seat": "11"
-			}, {
-				"Date": "12.06.2021",
-				"SeatNo": "BLR04-2F-008",
-				"monitors": "1",
-				"others": "power,ext",
-				"available": "1st Half Day",
-				"Seat": "11"
-			}, {
-				"Date": "12.06.2021",
-				"SeatNo": "BLR04-2F-001",
-				"monitors": "2",
-				"others": "power,ext",
-				"available": "Full Day",
-				"Seat": "9"
-			}, {
-				"Date": "13.06.2021",
-				"SeatNo": "BLR04-2F-001",
-				"monitors": "1",
-				"others": "power,ext",
-				"available": "Full Day",
-				"Seat": "9"
-			}],
-			"empList": [{
-				"name": "Sara Mohanti",
-				"status": "Not Booked"
-			}, {
-				"name": "Aap Mohanti",
-				"status": "Booked 1st half"
-			}, {
-				"name": "Dell Mohanti",
-				"status": "Booked full day"
-			}, {
-				"name": "Rohit Mohanti",
-				"status": "Booked 2nd half day"
-			}]
-        };
-         var oView = this._controller.getView();
-		var oNewChatModel = new sap.ui.model.json.JSONModel(Newdata);
-		oView.setModel(oNewChatModel, "modelData");
+                sap.ui.core.BusyIndicator.show(0);
 
-        
+                var userDetails = _getUserDetails();
 
-		if (!this._oDialogonPlanBooking) {
-
-			this._oDialogonPlanBooking = sap.ui.xmlfragment(oView.getId(), "seatbookingui.ext.fragments.planBooking",
-				this);
-
-			oView.addDependent(this._oDialogonPlanBooking);
-		}
-        this._oDialogonPlanBooking.open();
-          	sap.ui.core.BusyIndicator.hide();
-
-    },
-
-    onSelectChange: function (oContext) {
-      alert("search called");  
-    },
-
-     PlanBookingCancelPress: function ( ) {
-     this._oDialogonPlanBooking.close();
-    }
-    
-    
+                var Newdata = {
+                    "radiobutton": [{
+                        "type": "Individual Booking"
+                    }, {
+                        "type": "Group Booking(*visible to Manager/lead role)"
+                    }],
+                    "Property": {
+                        "index": 0,
+                        "MyBooking": true,
+                        "OnBehalfBooking": false,
+                        "GroupBooking": false,
+                        "minimumDate": "Jun 1, 2021"
+                    },
+                    "userDetails": {
+                        "employeeID_ID": userDetails.employeeID_ID,
+                        "role_roleCode": userDetails.role_roleCode,
+                        "teamID": userDetails.teamID
+                    },
+                    "Seats": [{
+                        "Date": "12.06.2021",
+                        "SeatNo": "BLR04-2F-001",
+                        "monitors": "2",
+                        "others": "power,ext",
+                        "available": "Full Day",
+                        "Seat": "11"
+                    }, {
+                        "Date": "12.06.2021",
+                        "SeatNo": "BLR04-2F-004",
+                        "monitors": "2",
+                        "others": "power,ext",
+                        "available": "1st Half Day",
+                        "Seat": "11"
+                    }, {
+                        "Date": "12.06.2021",
+                        "SeatNo": "BLR04-2F-008",
+                        "monitors": "1",
+                        "others": "power,ext",
+                        "available": "1st Half Day",
+                        "Seat": "11"
+                    }, {
+                        "Date": "12.06.2021",
+                        "SeatNo": "BLR04-2F-001",
+                        "monitors": "2",
+                        "others": "power,ext",
+                        "available": "Full Day",
+                        "Seat": "9"
+                    }, {
+                        "Date": "13.06.2021",
+                        "SeatNo": "BLR04-2F-001",
+                        "monitors": "1",
+                        "others": "power,ext",
+                        "available": "Full Day",
+                        "Seat": "9"
+                    }],
+                    "empList": [{
+                        "name": "Sara Mohanti",
+                        "status": "Not Booked"
+                    }, {
+                        "name": "Aap Mohanti",
+                        "status": "Booked 1st half"
+                    }, {
+                        "name": "Dell Mohanti",
+                        "status": "Booked full day"
+                    }, {
+                        "name": "Rohit Mohanti",
+                        "status": "Booked 2nd half day"
+                    }]
+                };
+                var oView = this._controller.getView();
+                var oNewChatModel = new sap.ui.model.json.JSONModel(Newdata);
+                oView.setModel(oNewChatModel, "modelData");
 
 
+
+                if (!this._oDialogonPlanBooking) {
+
+                    this._oDialogonPlanBooking = sap.ui.xmlfragment(oView.getId(), "seatbookingui.ext.fragments.planBooking",
+                        this);
+
+                    oView.addDependent(this._oDialogonPlanBooking);
+                }
+                this._oDialogonPlanBooking.open();
+                sap.ui.core.BusyIndicator.hide();
+
+            },
+
+            onSelectChange: function (oContext) {
+                alert("search called");
+            },
+
+            PlanBookingCancelPress: function () {
+                this._oDialogonPlanBooking.close();
+            },
+
+
+            BookingTypeSelection: function (oEvent) {
+                var modelRef = this._controller.getView().getModel("modelData");
+                var index = modelRef.getProperty("/Property/index");
+                var role = modelRef.getProperty("/userDetails/role_roleCode");
+                if (role !== "03") {
+                    if (index === 0) {
+                        modelRef.setProperty("/Property/MyBooking", true);
+                        modelRef.setProperty("/Property/OnBehalfBooking", false);
+                        modelRef.setProperty("/Property/GroupBooking", false);
+                    } else if (index === 1) {
+                        modelRef.setProperty("/Property/MyBooking", false);
+                        modelRef.setProperty("/Property/OnBehalfBooking", false);
+                        modelRef.setProperty("/Property/GroupBooking", true);
+                    // Getting Team List
+                      var teamList =  _getMyTeamMates(modelRef.getProperty("/userDetails/teamID"));
+                        
+
+                    }
+                }
+                else {
+                    modelRef.setProperty("/Property/MyBooking", true);
+                    modelRef.setProperty("/Property/OnBehalfBooking", false);
+                    modelRef.setProperty("/Property/GroupBooking", false);
+                    modelRef.setProperty("/Property/index", 0);
+                    sap.m.MessageToast.show("This feature is not available yet for members");
+                }
+            }
 
             // openPlanBookingDialog: function (oContext) {
             // //    var contextData = oContext.getObject(oContext.sPath);

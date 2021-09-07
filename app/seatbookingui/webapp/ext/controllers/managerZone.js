@@ -110,7 +110,8 @@ sap.ui.define(
 
         return {
             ManagerBtnHandling: function (oContext) {
-                if (_getUserDetails().role_roleCode === '01' || _getUserDetails().role_roleCode === '03') {
+                var role_roleCode = _getUserDetails().role_roleCode;
+                if ( role_roleCode === '01' || role_roleCode === '03') {
                     return true;
                 }
                 else {
