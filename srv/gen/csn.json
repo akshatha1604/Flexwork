@@ -2852,7 +2852,8 @@
           {
             "ref": [
               "TeamEmployeeMaster",
-              "employeeID"
+              "employeeID",
+              "ID"
             ],
             "as": "employeeID"
           },
@@ -2890,16 +2891,8 @@
       },
       "elements": {
         "employeeID": {
-          "key": true,
-          "type": "cds.Association",
-          "target": "SeatBooking.Users",
-          "keys": [
-            {
-              "ref": [
-                "ID"
-              ]
-            }
-          ]
+          "type": "app.schema_flexwork.UserID",
+          "length": 12
         },
         "role": {
           "type": "cds.Association",
@@ -2945,8 +2938,7 @@
           "columns": [
             {
               "ref": [
-                "employeeID",
-                "ID"
+                "employeeID"
               ]
             },
             {
@@ -2996,8 +2988,7 @@
                       {
                         "ref": [
                           "TeamEmployeeMasterWithName",
-                          "employeeID",
-                          "ID"
+                          "employeeID"
                         ]
                       },
                       "and",
@@ -3019,11 +3010,11 @@
                 },
                 "then",
                 {
-                  "val": "TRUE"
+                  "val": "Booked"
                 },
                 "else",
                 {
-                  "val": "FALSE"
+                  "val": "Not Booked"
                 },
                 "end"
               ],
@@ -3050,7 +3041,7 @@
         }
       },
       "elements": {
-        "ID": {
+        "employeeID": {
           "type": "app.schema_flexwork.UserID",
           "length": 12
         },
@@ -3146,17 +3137,17 @@
                 },
                 "then",
                 {
-                  "val": "TRUE"
+                  "val": true
                 },
                 "else",
                 {
-                  "val": "FALSE"
+                  "val": false
                 },
                 "end"
               ],
               "as": "booked_seat",
               "cast": {
-                "type": "cds.String"
+                "type": "cds.Boolean"
               }
             }
           ],
@@ -3204,7 +3195,7 @@
         },
         "booked_seat": {
           "@Core.Computed": true,
-          "type": "cds.String"
+          "type": "cds.Boolean"
         }
       }
     },
