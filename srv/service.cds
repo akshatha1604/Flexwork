@@ -53,11 +53,29 @@ service SeatBooking @(impl : './SeatBookingService.js') {
     //     };
 
     entity BookedSeats        as projection on Booking {
-        Booking.ID, Booking.employeeID.employeeID.ID as empID, Booking.seatID, Booking.bookedBy, Booking.bookingDate, Booking.dayCode, Booking.status, Booking.employeeID.teamID as teamID
+        Booking.ID, 
+        Booking.employeeID.employeeID.ID as empID, 
+        Booking.seatID, 
+        Booking.bookedBy, 
+        Booking.bookingDate, 
+        Booking.dayCode, 
+        Booking.status, 
+        Booking.employeeID.teamID as teamID,
+        Booking.employeeID.employeeID.name as EmpName,
+        Booking.status.description as BookingStatusDesc
+
     };
 
     // entity BookedSeats(ip_teamID : String, ip_bookingDate : Date)
     //  as select from me.bookedSeats(ip_teamID: :ip_teamID, ip_bookingDate: :ip_bookingDate){*};
+
+    entity TeamEmployeeMasterWithName  as projection on TeamEmployeeMaster {
+        TeamEmployeeMaster.employeeID as employeeID,
+        TeamEmployeeMaster.role as role,
+        TeamEmployeeMaster.teamID as teamID,
+        TeamEmployeeMaster.employeeID.name as employeeName,
+        TeamEmployeeMaster.role.description as roleDescription        
+    }
 
     entity Allstatus          as
         select from TeamSeatMapping

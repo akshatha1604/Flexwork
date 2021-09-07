@@ -156,7 +156,7 @@ sap.ui.define(
                         var sFilterQuery = `teamID eq '${userData.teamID}'`;
                         // Get existing employee for this team. 
                         $.get({
-                            url: "/seat-booking/TeamEmployeeMaster",
+                            url: "/seat-booking/TeamEmployeeMasterWithName",
                             headers: {
                                 "x-csrf-token": "fetch"
                             }, data: {
@@ -169,21 +169,23 @@ sap.ui.define(
                         });
                         if (Currentdata.value) {
                             //  Newdata.empList = Currentdata.value ;
-                            var empName = _getEmployeeName();
+                           // var empName = _getEmployeeName();
                             Currentdata.value.forEach(element => {
                                 employee.employeeID_ID = element.employeeID_ID;
                                 employee.role_roleCode = element.role_roleCode;
                                 employee.empIDEdit = false;
+                                employee.name = element.employeeName;
                                 if (employee.role_roleCode === '01') {
                                     employee.roleOptionEdit = false;
                                 }
                                 else {
                                     employee.roleOptionEdit = true;
                                 }
-                                var EmpName = empName.find(function (item) {
-                                    return item.ID === element.employeeID_ID;
-                                });
-                                if (EmpName.name) { employee.name = EmpName.name; } else { employee.name = '' }
+                                // var EmpName = empName.find(function (item) {
+                                //     return item.ID === element.employeeID_ID;
+                                // });
+                                
+                                //if (EmpName) { employee.name = EmpName.name; } else { employee.name = '' }
                                 Newdata.empList.push(employee);
                                 employee = {};
                             });

@@ -48,26 +48,26 @@ sap.ui.define(
                 return Currentdata.value[0];
         }
 
-        function _getMyTeamMates(teamID) {
-            var Currentdata = [];
-            var sFilterQuery = `teamID eq '${teamID}'`;
-            $.get({
-                url: "/seat-booking/TeamEmployeeMaster",
-                headers: {
-                    //   "x-csrf-token": "fetch"
-                }, data: {
-                    $filter: sFilterQuery
-                },
-                success: function (data, status, xhr) {
-                    // csrfToken = xhr.getResponseHeader("x-csrf-token");
-                    Currentdata = data;
-                }, async: false
-            });
+        // function _getMyTeamMates(teamID) {
+        //     var Currentdata = [];
+        //     var sFilterQuery = `teamID eq '${teamID}'`;
+        //     $.get({
+        //         url: "/seat-booking/TeamEmployeeMaster",
+        //         headers: {
+        //             //   "x-csrf-token": "fetch"
+        //         }, data: {
+        //             $filter: sFilterQuery
+        //         },
+        //         success: function (data, status, xhr) {
+        //             // csrfToken = xhr.getResponseHeader("x-csrf-token");
+        //             Currentdata = data;
+        //         }, async: false
+        //     });
 
-            if (Currentdata.value) {
-                return Currentdata.value;
-            }
-        }
+        //     if (Currentdata.value) {
+        //         return Currentdata.value;
+        //     }
+        // }
 
 
         return {
@@ -132,17 +132,8 @@ sap.ui.define(
                         "Seat": "9"
                     }],
                     "empList": [{
-                        "name": "Sara Mohanti",
-                        "status": "Not Booked"
-                    }, {
-                        "name": "Aap Mohanti",
-                        "status": "Booked 1st half"
-                    }, {
-                        "name": "Dell Mohanti",
-                        "status": "Booked full day"
-                    }, {
-                        "name": "Rohit Mohanti",
-                        "status": "Booked 2nd half day"
+                        "EmpName": "Sara Mohanti",
+                        "BookingStatusDesc": "Not Booked"
                     }]
                 };
                 var oView = this._controller.getView();
@@ -185,9 +176,8 @@ sap.ui.define(
                         modelRef.setProperty("/Property/MyBooking", false);
                         modelRef.setProperty("/Property/OnBehalfBooking", false);
                         modelRef.setProperty("/Property/GroupBooking", true);
-                    // Getting Team List
-                      var teamList =  _getMyTeamMates(modelRef.getProperty("/userDetails/teamID"));
-                        
+
+                                
 
                     }
                 }
