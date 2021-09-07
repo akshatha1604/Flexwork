@@ -4,7 +4,7 @@ COLUMN TABLE app_schema_flexwork_Teams (
   locationID NVARCHAR(13) NOT NULL,
   teamName NVARCHAR(50),
   employeeCount INTEGER,
-  maxSeatPercent INTEGER,
+  maxSeatPercent INTEGER DEFAULT 80,
   manager_ID NVARCHAR(12),
   headManager_ID NVARCHAR(12),
   createdAt TIMESTAMP,

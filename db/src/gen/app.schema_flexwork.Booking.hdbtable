@@ -6,7 +6,7 @@ COLUMN TABLE app_schema_flexwork_Booking (
   modifiedAt TIMESTAMP,
   modifiedBy NVARCHAR(255),
   seatID_seatID NVARCHAR(15) NOT NULL,
-  employeeID_ID NVARCHAR(12),
+  employeeID_employeeID_ID NVARCHAR(12),
   bookedBy_ID NVARCHAR(12),
   bookingDate DATE,
   dayCode_dayCode NVARCHAR(2),
@@ -17,7 +17,7 @@ COLUMN TABLE app_schema_flexwork_Booking (
   PRIMARY KEY(ID, seatID_seatID)
 ) WITH ASSOCIATIONS (
   MANY TO ONE JOIN app_schema_flexwork_TeamSeatMapping AS seatID ON (seatID.seatID = seatID_seatID),
-  MANY TO ONE JOIN app_schema_flexwork_Users AS employeeID ON (employeeID.ID = employeeID_ID),
+  MANY TO ONE JOIN app_schema_flexwork_TeamEmployeeMaster AS employeeID ON (employeeID.employeeID_ID = employeeID_employeeID_ID),
   MANY TO ONE JOIN app_schema_flexwork_Users AS bookedBy ON (bookedBy.ID = bookedBy_ID),
   MANY TO ONE JOIN app_schema_flexwork_DayCodes AS dayCode ON (dayCode.dayCode = dayCode_dayCode),
   MANY TO ONE JOIN app_schema_flexwork_BookingStatus AS status ON (status.bookingStatus = status_bookingStatus),

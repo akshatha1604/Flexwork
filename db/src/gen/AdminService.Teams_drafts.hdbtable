@@ -4,7 +4,7 @@ COLUMN TABLE AdminService_Teams_drafts (
   locationID NVARCHAR(13) NOT NULL,
   teamName NVARCHAR(50) NULL,
   employeeCount INTEGER NULL,
-  maxSeatPercent INTEGER NULL,
+  maxSeatPercent INTEGER NULL DEFAULT 80,
   manager_ID NVARCHAR(12) NULL,
   headManager_ID NVARCHAR(12) NULL,
   createdAt TIMESTAMP NULL,

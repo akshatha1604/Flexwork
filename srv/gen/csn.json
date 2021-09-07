@@ -280,9 +280,13 @@
           "type": "cds.Integer"
         },
         "maxSeatPercent": {
-          "type": "cds.Integer"
+          "type": "cds.Integer",
+          "default": {
+            "val": 80
+          }
         },
         "manager": {
+          "@FieldControl.Mandatory": true,
           "type": "cds.Association",
           "target": "app.schema_flexwork.Users",
           "keys": [
@@ -582,11 +586,11 @@
         },
         "employeeID": {
           "type": "cds.Association",
-          "target": "app.schema_flexwork.Users",
+          "target": "app.schema_flexwork.TeamEmployeeMaster",
           "keys": [
             {
               "ref": [
-                "ID"
+                "employeeID"
               ]
             }
           ]
@@ -1378,7 +1382,10 @@
         },
         "maxSeatPercent": {
           "@title": "Max Seat Percent",
-          "type": "cds.Integer"
+          "type": "cds.Integer",
+          "default": {
+            "val": 80
+          }
         },
         "manager": {
           "@Common.Text": {
@@ -1401,6 +1408,7 @@
               "ValueListProperty": "name"
             }
           ],
+          "@FieldControl.Mandatory": true,
           "type": "cds.Association",
           "target": "AdminService.Users",
           "keys": [
@@ -1901,11 +1909,11 @@
             }
           ],
           "type": "cds.Association",
-          "target": "SeatBooking.Users",
+          "target": "SeatBooking.TeamEmployeeMaster",
           "keys": [
             {
               "ref": [
-                "ID"
+                "employeeID"
               ]
             }
           ]
@@ -2262,9 +2270,13 @@
           "type": "cds.Integer"
         },
         "maxSeatPercent": {
-          "type": "cds.Integer"
+          "type": "cds.Integer",
+          "default": {
+            "val": 80
+          }
         },
         "manager": {
+          "@FieldControl.Mandatory": true,
           "type": "cds.Association",
           "target": "SeatBooking.Users",
           "keys": [
@@ -2570,6 +2582,391 @@
         }
       }
     },
+    "SeatBooking.BookedSeats": {
+      "kind": "entity",
+      "@UI.HeaderInfo.TypeName": "Seat Booking",
+      "@UI.HeaderInfo.TypeNamePlural": "Seat Bookings",
+      "@UI.SelectionFields": [
+        {
+          "=": "seatID_seatID"
+        },
+        {
+          "=": "status_bookingStatus"
+        },
+        {
+          "=": "employeeID_ID"
+        },
+        {
+          "=": "bookedBy_ID"
+        },
+        {
+          "=": "bookingDate"
+        },
+        {
+          "=": "attendance_attendanceStatus"
+        },
+        {
+          "=": "dayCode_dayCode"
+        },
+        {
+          "=": "isGroupBooking"
+        },
+        {
+          "=": "isDeleted"
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "SeatBooking.showAvailability",
+          "Label": "{i18n>Show Availability}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "SeatBooking.updateBooking",
+          "Label": "{i18n>Update Booking}"
+        },
+        {
+          "Value": {
+            "=": "seatID_seatID"
+          }
+        },
+        {
+          "Value": {
+            "=": "employeeID_ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "bookedBy_ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "bookingDate"
+          }
+        },
+        {
+          "Value": {
+            "=": "dayCode_dayCode"
+          }
+        },
+        {
+          "Value": {
+            "=": "status_bookingStatus"
+          }
+        },
+        {
+          "Value": {
+            "=": "attendance_attendanceStatus"
+          }
+        },
+        {
+          "Value": {
+            "=": "isGroupBooking"
+          }
+        },
+        {
+          "Value": {
+            "=": "isDeleted"
+          }
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "SeatBooking.Booking"
+          ]
+        },
+        "columns": [
+          {
+            "ref": [
+              "Booking",
+              "ID"
+            ]
+          },
+          {
+            "ref": [
+              "Booking",
+              "employeeID",
+              "employeeID",
+              "ID"
+            ],
+            "as": "empID"
+          },
+          {
+            "ref": [
+              "Booking",
+              "seatID"
+            ]
+          },
+          {
+            "ref": [
+              "Booking",
+              "bookedBy"
+            ]
+          },
+          {
+            "ref": [
+              "Booking",
+              "bookingDate"
+            ]
+          },
+          {
+            "ref": [
+              "Booking",
+              "dayCode"
+            ]
+          },
+          {
+            "ref": [
+              "Booking",
+              "status"
+            ]
+          },
+          {
+            "ref": [
+              "Booking",
+              "employeeID",
+              "teamID"
+            ],
+            "as": "teamID"
+          }
+        ]
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "empID": {
+          "type": "app.schema_flexwork.UserID",
+          "length": 12
+        },
+        "seatID": {
+          "@title": "Seat ID",
+          "key": true,
+          "type": "cds.Association",
+          "target": "SeatBooking.TeamSeatMapping",
+          "keys": [
+            {
+              "ref": [
+                "seatID"
+              ]
+            }
+          ]
+        },
+        "bookedBy": {
+          "@title": "Booked By",
+          "@Common.ValueList.Label": "{i18n>BookedBy}",
+          "@Common.ValueList.CollectionPath": "Users",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "bookedBy_ID",
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            }
+          ],
+          "type": "cds.Association",
+          "target": "SeatBooking.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "bookingDate": {
+          "@title": "Booking Date",
+          "type": "cds.Date"
+        },
+        "dayCode": {
+          "@title": "Timing",
+          "@Common.ValueList.Label": "Timing",
+          "@Common.ValueList.CollectionPath": "DayCodes",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "dayCode_dayCode",
+              "ValueListProperty": "dayCode"
+            },
+            {
+              "$Type": "Common.ValueListParameterFilterOnly",
+              "ValueListProperty": "fromTime"
+            },
+            {
+              "$Type": "Common.ValueListParameterFilterOnly",
+              "ValueListProperty": "toTime"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "description"
+            }
+          ],
+          "type": "cds.Association",
+          "target": "SeatBooking.DayCodes",
+          "keys": [
+            {
+              "ref": [
+                "dayCode"
+              ]
+            }
+          ]
+        },
+        "status": {
+          "@title": "Booking Status",
+          "type": "cds.Association",
+          "target": "SeatBooking.BookingStatus",
+          "keys": [
+            {
+              "ref": [
+                "bookingStatus"
+              ]
+            }
+          ]
+        },
+        "teamID": {
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        }
+      }
+    },
+    "SeatBooking.Allstatus": {
+      "kind": "entity",
+      "query": {
+        "SELECT": {
+          "from": {
+            "join": "left",
+            "args": [
+              {
+                "ref": [
+                  "SeatBooking.TeamSeatMapping"
+                ]
+              },
+              {
+                "ref": [
+                  "SeatBooking.BookedSeats"
+                ]
+              }
+            ],
+            "on": [
+              {
+                "ref": [
+                  "TeamSeatMapping",
+                  "teamID"
+                ]
+              },
+              "=",
+              {
+                "ref": [
+                  "BookedSeats",
+                  "teamID"
+                ]
+              },
+              "and",
+              {
+                "ref": [
+                  "TeamSeatMapping",
+                  "seatID"
+                ]
+              },
+              "=",
+              {
+                "ref": [
+                  "BookedSeats",
+                  "seatID",
+                  "seatID"
+                ]
+              }
+            ]
+          },
+          "columns": [
+            {
+              "ref": [
+                "TeamSeatMapping",
+                "seatID"
+              ]
+            },
+            {
+              "ref": [
+                "TeamSeatMapping",
+                "teamID"
+              ]
+            },
+            {
+              "ref": [
+                "TeamSeatMapping",
+                "monitorCount"
+              ]
+            },
+            {
+              "ref": [
+                "BookedSeats",
+                "ID"
+              ]
+            },
+            {
+              "ref": [
+                "BookedSeats",
+                "bookingDate"
+              ]
+            },
+            {
+              "ref": [
+                "TeamSeatMapping",
+                "facility1"
+              ]
+            },
+            {
+              "ref": [
+                "TeamSeatMapping",
+                "facility2"
+              ]
+            },
+            {
+              "ref": [
+                "TeamSeatMapping",
+                "facility3"
+              ]
+            }
+          ]
+        }
+      },
+      "elements": {
+        "seatID": {
+          "type": "app.schema_flexwork.SeatID",
+          "length": 15
+        },
+        "teamID": {
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "monitorCount": {
+          "type": "cds.Integer"
+        },
+        "ID": {
+          "type": "cds.UUID"
+        },
+        "bookingDate": {
+          "@title": "Booking Date",
+          "type": "cds.Date"
+        },
+        "facility1": {
+          "type": "cds.Integer"
+        },
+        "facility2": {
+          "type": "cds.Integer"
+        },
+        "facility3": {
+          "type": "cds.Integer"
+        }
+      }
+    },
     "SeatBooking.showAvailability": {
       "kind": "action"
     },
@@ -2582,12 +2979,17 @@
     "SeatBooking.getFreeSeat": {
       "kind": "function",
       "params": {
-        "EmployeeID": {
+        "teamID": {
           "type": "cds.String"
+        },
+        "bookingDate": {
+          "type": "cds.Date"
         }
       },
       "returns": {
-        "type": "cds.String"
+        "items": {
+          "type": "SeatBooking.Allstatus"
+        }
       }
     },
     "Language": {

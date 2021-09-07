@@ -6,7 +6,7 @@ VIEW SeatBooking_Booking AS SELECT
   Booking_0.modifiedAt,
   Booking_0.modifiedBy,
   Booking_0.seatID_seatID,
-  Booking_0.employeeID_ID,
+  Booking_0.employeeID_employeeID_ID,
   Booking_0.bookedBy_ID,
   Booking_0.bookingDate,
   Booking_0.dayCode_dayCode,
@@ -17,7 +17,7 @@ VIEW SeatBooking_Booking AS SELECT
 FROM app_schema_flexwork_Booking AS Booking_0
 WITH ASSOCIATIONS (
   MANY TO ONE JOIN SeatBooking_TeamSeatMapping AS seatID ON (seatID.seatID = seatID_seatID),
-  MANY TO ONE JOIN SeatBooking_Users AS employeeID ON (employeeID.ID = employeeID_ID),
+  MANY TO ONE JOIN SeatBooking_TeamEmployeeMaster AS employeeID ON (employeeID.employeeID_ID = employeeID_employeeID_ID),
   MANY TO ONE JOIN SeatBooking_Users AS bookedBy ON (bookedBy.ID = bookedBy_ID),
   MANY TO ONE JOIN SeatBooking_DayCodes AS dayCode ON (dayCode.dayCode = dayCode_dayCode),
   MANY TO ONE JOIN SeatBooking_BookingStatus AS status ON (status.bookingStatus = status_bookingStatus),
