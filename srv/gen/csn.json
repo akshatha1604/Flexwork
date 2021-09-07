@@ -2933,9 +2933,6 @@
         },
         "ip_date": {
           "type": "cds.Date"
-        },
-        "ip_employee": {
-          "type": "cds.String"
         }
       },
       "query": {
@@ -2958,6 +2955,11 @@
               ]
             },
             {
+              "ref": [
+                "teamID"
+              ]
+            },
+            {
               "xpr": [
                 "case",
                 "when",
@@ -2973,20 +2975,6 @@
                       {
                         "ref": [
                           "BookedSeats",
-                          "empID"
-                        ]
-                      },
-                      "=",
-                      {
-                        "ref": [
-                          "ip_employee"
-                        ],
-                        "param": true
-                      },
-                      "and",
-                      {
-                        "ref": [
-                          "BookedSeats",
                           "teamID"
                         ]
                       },
@@ -2995,6 +2983,21 @@
                         "ref": [
                           "TeamEmployeeMasterWithName",
                           "teamID"
+                        ]
+                      },
+                      "and",
+                      {
+                        "ref": [
+                          "BookedSeats",
+                          "empID"
+                        ]
+                      },
+                      "=",
+                      {
+                        "ref": [
+                          "TeamEmployeeMasterWithName",
+                          "employeeID",
+                          "ID"
                         ]
                       },
                       "and",
@@ -3024,7 +3027,10 @@
                 },
                 "end"
               ],
-              "as": "BookingStatus"
+              "as": "BookingStatus",
+              "cast": {
+                "type": "cds.String"
+              }
             }
           ],
           "where": [
@@ -3039,20 +3045,6 @@
                 "ip_teamID"
               ],
               "param": true
-            },
-            "and",
-            {
-              "ref": [
-                "employeeID",
-                "ID"
-              ]
-            },
-            "=",
-            {
-              "ref": [
-                "ip_employee"
-              ],
-              "param": true
             }
           ]
         }
@@ -3065,8 +3057,13 @@
         "employeeName": {
           "type": "cds.String"
         },
+        "teamID": {
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
         "BookingStatus": {
-          "@Core.Computed": true
+          "@Core.Computed": true,
+          "type": "cds.String"
         }
       }
     },
@@ -3157,7 +3154,10 @@
                 },
                 "end"
               ],
-              "as": "booked_seat"
+              "as": "booked_seat",
+              "cast": {
+                "type": "cds.String"
+              }
             }
           ],
           "where": [
@@ -3203,7 +3203,8 @@
           "type": "cds.Integer"
         },
         "booked_seat": {
-          "@Core.Computed": true
+          "@Core.Computed": true,
+          "type": "cds.String"
         }
       }
     },

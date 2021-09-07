@@ -31,7 +31,7 @@ sap.ui.define(
         }
 
 
-          function _getEmployeeNameByID(userid) {
+        function _getEmployeeNameByID(userid) {
             var Currentdata;
             var sFilterQuery = `ID eq '${userid}'`;
             $.get({
@@ -48,26 +48,27 @@ sap.ui.define(
                 return Currentdata.value[0];
         }
 
-        // function _getMyTeamMates(teamID) {
-        //     var Currentdata = [];
-        //     var sFilterQuery = `teamID eq '${teamID}'`;
-        //     $.get({
-        //         url: "/seat-booking/TeamEmployeeMaster",
-        //         headers: {
-        //             //   "x-csrf-token": "fetch"
-        //         }, data: {
-        //             $filter: sFilterQuery
-        //         },
-        //         success: function (data, status, xhr) {
-        //             // csrfToken = xhr.getResponseHeader("x-csrf-token");
-        //             Currentdata = data;
-        //         }, async: false
-        //     });
+        function _getMyTeamMatesBooking(teamID, date) {
+            var Currentdata = [];
+            var sFilterQuery = `teamID eq '${teamID}'`;
+            var url = `/seat-booking/EmployeeBookingStatus(ip_teamID='${teamID}',ip_date=${date})/Set`
+            $.get({
+                url: url,
+                // headers: {
+                //     //   "x-csrf-token": "fetch"
+                // }, data: {
+                //     $filter: sFilterQuery
+                // },
+                success: function (data, status, xhr) {
+                    // csrfToken = xhr.getResponseHeader("x-csrf-token");
+                    Currentdata = data;
+                }, async: false
+            });
 
-        //     if (Currentdata.value) {
-        //         return Currentdata.value;
-        //     }
-        // }
+            if (Currentdata.value) {
+                return Currentdata.value;
+            }
+        }
 
 
         return {
@@ -88,7 +89,7 @@ sap.ui.define(
                         "MyBooking": true,
                         "OnBehalfBooking": false,
                         "GroupBooking": false,
-                        "minimumDate": "Jun 1, 2021"
+                        "GroupBookingDate": ""
                     },
                     "userDetails": {
                         "employeeID_ID": userDetails.employeeID_ID,
@@ -131,16 +132,14 @@ sap.ui.define(
                         "available": "Full Day",
                         "Seat": "9"
                     }],
-                    "empList": [{
-                        "EmpName": "Sara Mohanti",
-                        "BookingStatusDesc": "Not Booked"
-                    }]
+                    "empList": [
+                        // "EmpName": "Sara Mohanti",
+                        // "BookingStatus": "Not Booked"
+                    ]
                 };
                 var oView = this._controller.getView();
                 var oNewChatModel = new sap.ui.model.json.JSONModel(Newdata);
                 oView.setModel(oNewChatModel, "modelData");
-
-
 
                 if (!this._oDialogonPlanBooking) {
 
@@ -166,8 +165,8 @@ sap.ui.define(
             BookingTypeSelection: function (oEvent) {
                 var modelRef = this._controller.getView().getModel("modelData");
                 var index = modelRef.getProperty("/Property/index");
-                var role = modelRef.getProperty("/userDetails/role_roleCode");
-                if (role !== "03") {
+                var userDetails = modelRef.getProperty("/userDetails");
+                if (userDetails.role_roleCode !== "03") {
                     if (index === 0) {
                         modelRef.setProperty("/Property/MyBooking", true);
                         modelRef.setProperty("/Property/OnBehalfBooking", false);
@@ -177,7 +176,9 @@ sap.ui.define(
                         modelRef.setProperty("/Property/OnBehalfBooking", false);
                         modelRef.setProperty("/Property/GroupBooking", true);
 
-                                
+                        if (modelRef.getProperty("/empList").length === 0) {
+                            var employeeList = _getMyTeamMatesBooking(userDetails.teamID, modelRef.getProperty("/Property/GroupBookingDate"));
+                        }
 
                     }
                 }

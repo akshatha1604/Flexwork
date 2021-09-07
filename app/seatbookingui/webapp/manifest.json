@@ -148,17 +148,6 @@
                             }
                         }
                     }
-                },
-                "BookingObjectPage": {
-                    "type": "Component",
-                    "id": "BookingObjectPage",
-                    "name": "sap.fe.templates.ObjectPage",
-                    "options": {
-                        "settings": {
-                            "editableHeaderContent": false,
-                            "entitySet": "Booking"
-                        }
-                    }
                 }
             }
         },

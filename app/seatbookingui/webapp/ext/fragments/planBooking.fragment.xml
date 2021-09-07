@@ -19,8 +19,8 @@
 							<fb:filterItems>
 								<fb:FilterItem name="D" label="Date" visibleInFilterBar='true'>
 									<fb:control>
-										<DateRangeSelection minDate="{modelData>/Property>minimumDate}" maxDate=""/>
-									</fb:control>
+                                     <DatePicker required="true" value="{modelData>/Property>GroupBookingDate}" width="180px"/>
+										</fb:control>
 								</fb:FilterItem>
 								<!-- <fb:FilterItem name="A" label="Day">
 									<fb:control>
@@ -119,7 +119,7 @@
 						<fb:filterItems>
 							<fb:FilterItem name="D" label="Date" visibleInFilterBar='true'>
 									<fb:control>
-                                    <DatePicker required="true" value="Jun 1, 2021" width="180px"/>
+                                    <DatePicker required="true" value="{modelData>/Property>GroupBookingDate}" width="180px"/>
 						
 									</fb:control>
 						</fb:FilterItem>
@@ -171,8 +171,8 @@
 							<items>
 								<ColumnListItem type="Active">
 									<cells>
-										<Text text="{modelData>name}"/>
-										<Text text="{modelData>status}"/>
+										<Text text="{modelData>EmpName}"/>
+										<Text text="{modelData>BookingStatus}"/>
 									</cells>
 								</ColumnListItem>
 							</items>
