@@ -2711,6 +2711,23 @@
               "teamID"
             ],
             "as": "teamID"
+          },
+          {
+            "ref": [
+              "Booking",
+              "employeeID",
+              "employeeID",
+              "name"
+            ],
+            "as": "EmpName"
+          },
+          {
+            "ref": [
+              "Booking",
+              "status",
+              "description"
+            ],
+            "as": "BookingStatusDesc"
           }
         ]
       },
@@ -2812,6 +2829,98 @@
         },
         "teamID": {
           "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "EmpName": {
+          "type": "cds.String"
+        },
+        "BookingStatusDesc": {
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "SeatBooking.TeamEmployeeMasterWithName": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "SeatBooking.TeamEmployeeMaster"
+          ]
+        },
+        "columns": [
+          {
+            "ref": [
+              "TeamEmployeeMaster",
+              "employeeID"
+            ],
+            "as": "employeeID"
+          },
+          {
+            "ref": [
+              "TeamEmployeeMaster",
+              "role"
+            ],
+            "as": "role"
+          },
+          {
+            "ref": [
+              "TeamEmployeeMaster",
+              "teamID"
+            ],
+            "as": "teamID"
+          },
+          {
+            "ref": [
+              "TeamEmployeeMaster",
+              "employeeID",
+              "name"
+            ],
+            "as": "employeeName"
+          },
+          {
+            "ref": [
+              "TeamEmployeeMaster",
+              "role",
+              "description"
+            ],
+            "as": "roleDescription"
+          }
+        ]
+      },
+      "elements": {
+        "employeeID": {
+          "key": true,
+          "type": "cds.Association",
+          "target": "SeatBooking.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "role": {
+          "type": "cds.Association",
+          "target": "SeatBooking.TeamMemberRole",
+          "keys": [
+            {
+              "ref": [
+                "roleCode"
+              ]
+            }
+          ]
+        },
+        "teamID": {
+          "type": "app.schema_flexwork.TeamID",
+          "length": 20
+        },
+        "employeeName": {
+          "type": "cds.String"
+        },
+        "roleDescription": {
+          "type": "cds.String",
           "length": 20
         }
       }

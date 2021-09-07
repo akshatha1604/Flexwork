@@ -1,10 +1,10 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" core:require="{ext : 'seatbookingui/ext/controllers/planBooking'}" xmlns:fb="sap.ui.comp.filterbar">
 	<Dialog title='Plan a booking'>  
 		<content>
-			<VBox width="630px">
+			<VBox width="630px" height="630px">
 				<!-- <Text text='Group booking/ my booking/ booking of behalf'/> -->
 				<HBox>
-					<RadioButtonGroup buttons="{modelData>/radiobutton}" columns="3" selectedIndex="{modelData>/Property/index}" select="ext:BookingTypeSelection">
+					<RadioButtonGroup buttons="{modelData>/radiobutton}" columns="3" selectedIndex="{modelData>/Property/index}" select="ext.BookingTypeSelection">
 						<buttons>
 							<RadioButton text="{modelData>type}"/>
 						</buttons>
@@ -14,15 +14,15 @@
 					<HeaderContainer>
 						<Text text='Booking for self' textAlign="Center" width="600px"/>
 					</HeaderContainer>
-					<HBox width="auto">
+					<HBox width="600px">
 						<fb:FilterBar reset="onReset" search="ext.onSelectChange" useToolbar="false" showGoOnFB="true">
 							<fb:filterItems>
 								<fb:FilterItem name="D" label="Date" visibleInFilterBar='true'>
 									<fb:control>
-										<DateRangeSelection minDate="" maxDate=""/>
+										<DateRangeSelection minDate="{modelData>/Property>minimumDate}" maxDate=""/>
 									</fb:control>
 								</fb:FilterItem>
-								<fb:FilterItem name="A" label="Day">
+								<!-- <fb:FilterItem name="A" label="Day">
 									<fb:control>
 										<Select id="sledeT1ype" forceSelection="true" width="50px">
 											<items>
@@ -32,10 +32,10 @@
 											</items>
 										</Select>
 									</fb:control>
-								</fb:FilterItem>
+								</fb:FilterItem> -->
 								<fb:FilterItem name="C" label="Monitors">
 									<fb:control>
-										<Select id="slTewed2ype" forceSelection="true" width="50px">
+										<Select id="slTewed2ype" forceSelection="true" width="30px">
 											<items>
 												<core:Item key="2" text="2"/>
 												<core:Item key="1" text="1"/>
@@ -48,7 +48,7 @@
 						</fb:FilterBar>
 					</HBox>
 					<HBox>
-						<Table width="auto" noDataText="No Data Found" showSeparators="All" growing="true" growingThreshold="200" growingScrollToLoad="true"
+						<Table width="auto" noDataText="No Data Found" showSeparators="All" growing="true" growingThreshold="4" growingScrollToLoad="true"
 							items="{modelData>/Seats}" id="tabele1" sticky="HeaderToolbar" mode="MultiSelect" selectionChange='onTableSelectionChange'
 							enableBusyIndicator="true">
 							<headerToolbar>
@@ -115,18 +115,17 @@
 						<Text text='Group Booking' textAlign="Center" width="600px"/>
 					</HeaderContainer>
 					<HBox width="auto" class="sapUiSmallMargin">
-						<!--<fb:FilterBar reset="onReset" search="onSelectChange" useToolbar="false" showGoOnFB="true">-->
-						<!--<fb:filterItems>-->
-						<!--	<fb:FilterItem name="D" label="Date" visibleInFilterBar='true'>-->
-						<!--			<fb:control>-->
-						<VBox  width="200px">
-							<Text text='Select date*' width="180px"/>
-							<DatePicker required="true" value="Jun 1, 2021" width="180px"/></VBox>
-						<!--			</fb:control>-->
-						<!--		</fb:FilterItem>-->
+						<fb:FilterBar reset="onReset" search="onSelectChange" useToolbar="false" showGoOnFB="true">
+						<fb:filterItems>
+							<fb:FilterItem name="D" label="Date" visibleInFilterBar='true'>
+									<fb:control>
+                                    <DatePicker required="true" value="Jun 1, 2021" width="180px"/>
+						
+									</fb:control>
+						</fb:FilterItem>
 						<!--		<fb:FilterItem name="A" label="Day">-->
 						<!--			<fb:control>-->
-						<VBox width="250px">
+						<!-- <VBox width="250px">
 							<Text text='Select day*'  width="200px"/>
 							<Select id="sl3e1ype"  forceSelection="true">
 								<items>
@@ -135,14 +134,14 @@
 									<core:Item key="2" text="2nd Half"/>
 								</items>
 							</Select>
-						</VBox>
+						</VBox> -->
 						<!--			</fb:control>-->
 						<!--		</fb:FilterItem>-->
-						<!--	</fb:filterItems>-->
-						<!--</fb:FilterBar>-->
+							</fb:filterItems>
+						</fb:FilterBar>
 					</HBox>
 					<HBox class="sapUiSmallMargin">
-						<Table width="auto" noDataText="No Data Found" showSeparators="All" growing="true" growingThreshold="200" growingScrollToLoad="true"
+						<Table width="auto" noDataText="No Data Found" showSeparators="All" growing="true" growingThreshold="4" growingScrollToLoad="true"
 							items="{modelData>/empList}" id="tawebe3le1" sticky="HeaderToolbar" mode="MultiSelect" selectionChange='onTableSelectionChange'
 							enableBusyIndicator="true">
 							<headerToolbar>

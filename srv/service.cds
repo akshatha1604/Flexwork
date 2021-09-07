@@ -41,15 +41,41 @@ service SeatBooking @(impl : './SeatBookingService.js') {
     entity Users                                          as projection on me.Users;
     entity TeamMemberRole                                 as projection on me.TeamMemberRoles;
 
-    entity BookedSeats                                    as projection on Booking {
-        Booking.ID, Booking.employeeID.employeeID.ID as empID, Booking.seatID, Booking.bookedBy, Booking.bookingDate, Booking.dayCode, Booking.status, Booking.employeeID.teamID as teamID
+    // entity V_BookedSeats(ip_teamID : String, ip_bookingDate : Date) as
+    //     select from Booking {
+    //         Booking.employeeID.employeeID.ID as empID,
+    //         Booking.seatID,
+    //         Booking.bookedBy,
+    //         Booking.bookingDate,
+    //         Booking.dayCode,
+    //         Booking.status,
+    //         Booking.employeeID.teamID        as teamID
+    //     };
+
+    entity BookedSeats        as projection on Booking {
+        Booking.ID, 
+        Booking.employeeID.employeeID.ID as empID, 
+        Booking.seatID, 
+        Booking.bookedBy, 
+        Booking.bookingDate, 
+        Booking.dayCode, 
+        Booking.status, 
+        Booking.employeeID.teamID as teamID,
+        Booking.employeeID.employeeID.name as EmpName,
+        Booking.status.description as BookingStatusDesc
+
     };
 
 
-    // entity book_date(ip_date: Date)
-    // as select from me.Booking{*} where bookingDate = :ip_date;
+    entity TeamEmployeeMasterWithName  as projection on TeamEmployeeMaster {
+        TeamEmployeeMaster.employeeID as employeeID,
+        TeamEmployeeMaster.role as role,
+        TeamEmployeeMaster.teamID as teamID,
+        TeamEmployeeMaster.employeeID.name as employeeName,
+        TeamEmployeeMaster.role.description as roleDescription        
+    }
 
-    entity Allstatus                                      as
+    entity Allstatus          as
         select from TeamSeatMapping
         left outer join BookedSeats
             on(
