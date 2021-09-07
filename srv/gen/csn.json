@@ -2925,134 +2925,148 @@
         }
       }
     },
-    "SeatBooking.Allstatus": {
+    "SeatBooking.EmployeeBookingStatus": {
       "kind": "entity",
+      "params": {
+        "ip_teamID": {
+          "type": "cds.String"
+        },
+        "ip_date": {
+          "type": "cds.Date"
+        },
+        "ip_employee": {
+          "type": "cds.String"
+        }
+      },
       "query": {
         "SELECT": {
           "from": {
-            "join": "left",
-            "args": [
-              {
-                "ref": [
-                  "SeatBooking.TeamSeatMapping"
-                ]
-              },
-              {
-                "ref": [
-                  "SeatBooking.BookedSeats"
-                ]
-              }
-            ],
-            "on": [
-              {
-                "ref": [
-                  "TeamSeatMapping",
-                  "teamID"
-                ]
-              },
-              "=",
-              {
-                "ref": [
-                  "BookedSeats",
-                  "teamID"
-                ]
-              },
-              "and",
-              {
-                "ref": [
-                  "TeamSeatMapping",
-                  "seatID"
-                ]
-              },
-              "=",
-              {
-                "ref": [
-                  "BookedSeats",
-                  "seatID",
-                  "seatID"
-                ]
-              }
+            "ref": [
+              "SeatBooking.TeamEmployeeMasterWithName"
             ]
           },
           "columns": [
             {
               "ref": [
-                "TeamSeatMapping",
-                "seatID"
-              ]
-            },
-            {
-              "ref": [
-                "TeamSeatMapping",
-                "teamID"
-              ]
-            },
-            {
-              "ref": [
-                "TeamSeatMapping",
-                "monitorCount"
-              ]
-            },
-            {
-              "ref": [
-                "BookedSeats",
+                "employeeID",
                 "ID"
               ]
             },
             {
               "ref": [
-                "BookedSeats",
-                "bookingDate"
+                "employeeName"
               ]
             },
             {
-              "ref": [
-                "TeamSeatMapping",
-                "facility1"
-              ]
-            },
+              "xpr": [
+                "case",
+                "when",
+                "exists",
+                {
+                  "SELECT": {
+                    "from": {
+                      "ref": [
+                        "SeatBooking.BookedSeats"
+                      ]
+                    },
+                    "where": [
+                      {
+                        "ref": [
+                          "BookedSeats",
+                          "empID"
+                        ]
+                      },
+                      "=",
+                      {
+                        "ref": [
+                          "ip_employee"
+                        ],
+                        "param": true
+                      },
+                      "and",
+                      {
+                        "ref": [
+                          "BookedSeats",
+                          "teamID"
+                        ]
+                      },
+                      "=",
+                      {
+                        "ref": [
+                          "TeamEmployeeMasterWithName",
+                          "teamID"
+                        ]
+                      },
+                      "and",
+                      {
+                        "ref": [
+                          "BookedSeats",
+                          "bookingDate"
+                        ]
+                      },
+                      "=",
+                      {
+                        "ref": [
+                          "ip_date"
+                        ],
+                        "param": true
+                      }
+                    ]
+                  }
+                },
+                "then",
+                {
+                  "val": "TRUE"
+                },
+                "else",
+                {
+                  "val": "FALSE"
+                },
+                "end"
+              ],
+              "as": "BookingStatus"
+            }
+          ],
+          "where": [
             {
               "ref": [
-                "TeamSeatMapping",
-                "facility2"
+                "teamID"
               ]
             },
+            "=",
             {
               "ref": [
-                "TeamSeatMapping",
-                "facility3"
+                "ip_teamID"
+              ],
+              "param": true
+            },
+            "and",
+            {
+              "ref": [
+                "employeeID",
+                "ID"
               ]
+            },
+            "=",
+            {
+              "ref": [
+                "ip_employee"
+              ],
+              "param": true
             }
           ]
         }
       },
       "elements": {
-        "seatID": {
-          "type": "app.schema_flexwork.SeatID",
-          "length": 15
-        },
-        "teamID": {
-          "type": "app.schema_flexwork.TeamID",
-          "length": 20
-        },
-        "monitorCount": {
-          "type": "cds.Integer"
-        },
         "ID": {
-          "type": "cds.UUID"
+          "type": "app.schema_flexwork.UserID",
+          "length": 12
         },
-        "bookingDate": {
-          "@title": "Booking Date",
-          "type": "cds.Date"
+        "employeeName": {
+          "type": "cds.String"
         },
-        "facility1": {
-          "type": "cds.Integer"
-        },
-        "facility2": {
-          "type": "cds.Integer"
-        },
-        "facility3": {
-          "type": "cds.Integer"
+        "BookingStatus": {
+          "@Core.Computed": true
         }
       }
     },
@@ -3070,7 +3084,7 @@
         "SELECT": {
           "from": {
             "ref": [
-              "SeatBooking.Allstatus"
+              "SeatBooking.TeamSeatMapping"
             ]
           },
           "columns": [
@@ -3079,41 +3093,59 @@
               "xpr": [
                 "case",
                 "when",
+                "exists",
                 {
-                  "ref": [
-                    "ID"
-                  ]
-                },
-                "=",
-                {
-                  "val": null
-                },
-                "then",
-                {
-                  "val": "TRUE"
-                },
-                "when",
-                {
-                  "ref": [
-                    "ID"
-                  ]
-                },
-                "!=",
-                {
-                  "val": null
-                },
-                "and",
-                {
-                  "ref": [
-                    "bookingDate"
-                  ]
-                },
-                "!=",
-                {
-                  "ref": [
-                    "ip_date"
-                  ],
-                  "param": true
+                  "SELECT": {
+                    "from": {
+                      "ref": [
+                        "SeatBooking.BookedSeats"
+                      ]
+                    },
+                    "where": [
+                      {
+                        "ref": [
+                          "BookedSeats",
+                          "seatID",
+                          "seatID"
+                        ]
+                      },
+                      "=",
+                      {
+                        "ref": [
+                          "TeamSeatMapping",
+                          "seatID"
+                        ]
+                      },
+                      "and",
+                      {
+                        "ref": [
+                          "BookedSeats",
+                          "teamID"
+                        ]
+                      },
+                      "=",
+                      {
+                        "ref": [
+                          "TeamSeatMapping",
+                          "teamID"
+                        ]
+                      },
+                      "and",
+                      {
+                        "ref": [
+                          "BookedSeats",
+                          "bookingDate"
+                        ]
+                      },
+                      "=",
+                      {
+                        "ref": [
+                          "ip_date"
+                        ],
+                        "param": true
+                      }
+                    ]
+                  }
                 },
                 "then",
                 {
@@ -3125,14 +3157,7 @@
                 },
                 "end"
               ],
-              "as": "free_seat"
-            }
-          ],
-          "groupBy": [
-            {
-              "ref": [
-                "seatID"
-              ]
+              "as": "booked_seat"
             }
           ],
           "where": [
@@ -3153,8 +3178,13 @@
       },
       "elements": {
         "seatID": {
+          "key": true,
           "type": "app.schema_flexwork.SeatID",
           "length": 15
+        },
+        "locationID": {
+          "type": "app.schema_flexwork.LocationID",
+          "length": 13
         },
         "teamID": {
           "type": "app.schema_flexwork.TeamID",
@@ -3162,13 +3192,6 @@
         },
         "monitorCount": {
           "type": "cds.Integer"
-        },
-        "ID": {
-          "type": "cds.UUID"
-        },
-        "bookingDate": {
-          "@title": "Booking Date",
-          "type": "cds.Date"
         },
         "facility1": {
           "type": "cds.Integer"
@@ -3179,49 +3202,8 @@
         "facility3": {
           "type": "cds.Integer"
         },
-        "free_seat": {
+        "booked_seat": {
           "@Core.Computed": true
-        }
-      }
-    },
-    "SeatBooking.showAvailability": {
-      "kind": "action"
-    },
-    "SeatBooking.updateBooking": {
-      "kind": "action"
-    },
-    "SeatBooking.seatMap": {
-      "kind": "action"
-    },
-    "SeatBooking.getFreeSeat": {
-      "kind": "function",
-      "params": {
-        "teamID": {
-          "type": "cds.String"
-        },
-        "bookingDate": {
-          "type": "cds.Date"
-        }
-      },
-      "returns": {
-        "items": {
-          "type": "SeatBooking.Allstatus"
-        }
-      }
-    },
-    "SeatBooking.getFreeSeat1": {
-      "kind": "function",
-      "params": {
-        "teamID": {
-          "type": "cds.String"
-        },
-        "bookingDate": {
-          "type": "cds.Date"
-        }
-      },
-      "returns": {
-        "items": {
-          "type": "SeatBooking.SeatStatus"
         }
       }
     },

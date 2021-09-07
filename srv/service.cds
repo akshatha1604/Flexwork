@@ -41,17 +41,6 @@ service SeatBooking @(impl : './SeatBookingService.js') {
     entity Users                                          as projection on me.Users;
     entity TeamMemberRole                                 as projection on me.TeamMemberRoles;
 
-    // entity V_BookedSeats(ip_teamID : String, ip_bookingDate : Date) as
-    //     select from Booking {
-    //         Booking.employeeID.employeeID.ID as empID,
-    //         Booking.seatID,
-    //         Booking.bookedBy,
-    //         Booking.bookingDate,
-    //         Booking.dayCode,
-    //         Booking.status,
-    //         Booking.employeeID.teamID        as teamID
-    //     };
-
     entity BookedSeats        as projection on Booking {
         Booking.ID, 
         Booking.employeeID.employeeID.ID as empID, 
@@ -63,7 +52,6 @@ service SeatBooking @(impl : './SeatBookingService.js') {
         Booking.employeeID.teamID as teamID,
         Booking.employeeID.employeeID.name as EmpName,
         Booking.status.description as BookingStatusDesc
-
     };
 
 
@@ -73,70 +61,63 @@ service SeatBooking @(impl : './SeatBookingService.js') {
         TeamEmployeeMaster.teamID as teamID,
         TeamEmployeeMaster.employeeID.name as employeeName,
         TeamEmployeeMaster.role.description as roleDescription        
-    }
+    };
 
-    entity Allstatus          as
-        select from TeamSeatMapping
-        left outer join BookedSeats
-            on(
-                    TeamSeatMapping.teamID = BookedSeats.teamID
-                and TeamSeatMapping.seatID = BookedSeats.seatID.seatID
-            )
-        {
-            TeamSeatMapping.seatID,
-            TeamSeatMapping.teamID,
-            TeamSeatMapping.monitorCount,
-            BookedSeats.ID,
-            BookedSeats.bookingDate,
-            TeamSeatMapping.facility1,
-            TeamSeatMapping.facility2,
-            TeamSeatMapping.facility3
-        // @Core.Computed case
-        //     when
-        //         exists(select from bookedSeats
-        //         where
-        //            bookedSeats.seatID.seatID = TeamSeatMapping.seatID
-        //             and BookedSeats.teamID    = TeamSeatMapping.teamID
-        //          and BookedSeats.bookingDate = ip_bookingDate )
-        //         )
-        //     //   and BookedSeats.bookingDate = ip_bookingDate )
-        //     then
-        //         'TRUE'
-        //     else
-        //         'FALSE'
-        // end as bookedFlag
-        };
-
-    entity SeatStatus(ip_teamID : String, ip_date : Date) as
-        select from Allstatus {
-            *,
-            @Core.Computed case
-                when
-                    ID = null
-                then
-                    'TRUE'
-                when
-                    ID              != null
-                    and bookingDate != : ip_date
-                then
-                    'TRUE'
+   entity EmployeeBookingStatus(ip_teamID : String, ip_date : Date, ip_employee: String)
+    AS select from TeamEmployeeMasterWithName {
+       employeeID.ID,
+       employeeName,
+       @Core.Computed case
+                when  exists(select from BookedSeats
+                where BookedSeats.empID = :ip_employee//TeamEmployeeMasterWithName.employeeID.ID
+                  and BookedSeats.teamID    = TeamEmployeeMasterWithName.teamID
+                  and BookedSeats.bookingDate = :ip_date)
+                then 
+                'TRUE'            
                 else
-                    'FALSE'
-            end as free_seat
+                'FALSE'
+            end as BookingStatus
     }
     where
-        teamID = : ip_teamID;    
+        teamID = : ip_teamID
+        and employeeID.ID = :ip_employee;  
+//    ''''
+    // entity Allstatus          as
+    //     select from TeamSeatMapping
+    //     left outer join BookedSeats
+    //         on(
+    //                 TeamSeatMapping.teamID = BookedSeats.teamID
+    //             and TeamSeatMapping.seatID = BookedSeats.seatID.seatID
+    //         )
+    //     {
+    //         TeamSeatMapping.seatID,
+    //         TeamSeatMapping.teamID,
+    //         TeamSeatMapping.monitorCount,
+    //         BookedSeats.ID,
+    //         BookedSeats.bookingDate,
+    //         TeamSeatMapping.facility1,
+    //         TeamSeatMapping.facility2,
+    //         TeamSeatMapping.facility3
+    //     };
 
-    //  @sap.applicable.path : 'quickBook'
-    //  action quickBook();
-    //  @sap.applicable.path : 'showAvailability'
-    action showAvailability();
-    //  @sap.applicable.path : 'updateBooking'
-    action updateBooking();
-    //  @sap.applicable.path : 'managerZone'
-    //   action managerZone();
-    //  @sap.applicable.path : 'seatMap'
-    action seatMap();
-    function getFreeSeat(teamID : String, bookingDate : Date) returns array of Allstatus;
-    function getFreeSeat1(teamID : String, bookingDate : Date) returns array of Allstatus;
+entity SeatStatus(ip_teamID : String, ip_date : Date) as
+        select from TeamSeatMapping {
+            *,
+            @Core.Computed case
+                when  exists(select from BookedSeats
+                where BookedSeats.seatID.seatID = TeamSeatMapping.seatID 
+                  and BookedSeats.teamID    = TeamSeatMapping.teamID
+                  and BookedSeats.bookingDate = :ip_date)
+                then 
+                'TRUE'            
+                else
+                'FALSE'
+            end as booked_seat
+    }
+    where
+        teamID = : ip_teamID; 
+
+    // action showAvailability();
+    // action updateBooking();
+    // action seatMap();
 }
