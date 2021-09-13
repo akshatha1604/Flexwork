@@ -31,8 +31,8 @@ module.exports = function (srv) {
     srv.after('draftActivate', 'SAPOfficeData', (req) => {
         return Promise.all(req.Teams.map(async team => {
             var managerExists = await SELECT.one.from(this.entities.TeamEmployeeMaster).where({ teamID: team.teamID });
-            if (managerExists = 'null') {
-                const managerRecInserted = INSERT.into(TeamEmployeeMaster, [{ employeeID: team.manager_ID, teamID: team.teamID, role: '1' }])
+            if (managerExists == null) {
+                const managerRecInserted = INSERT.into(TeamEmployeeMaster, [{ employeeID_ID: team.manager_ID, teamID: team.teamID, role_roleCode: '01' }])
                 if (managerRecInserted > 0) {
                     req.notify(200, 'Employee Successfully inserted');
                 }
@@ -90,7 +90,6 @@ module.exports = function (srv) {
     })
 
 }
-
 
 
 //  this.('addSeat', async(req) => {

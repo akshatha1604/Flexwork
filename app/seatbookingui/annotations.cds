@@ -25,7 +25,7 @@ annotate service.Booking with @( // header-level annotations
     UI.SelectionFields : [
         seatID_seatID,
         status_bookingStatus,
-        employeeID_ID,
+        employeeID.employeeID.ID,
         bookedBy_ID,
         bookingDate,
         attendance_attendanceStatus,
@@ -59,7 +59,7 @@ annotate service.Booking with @( // header-level annotations
         // },
 
         {Value : seatID_seatID},
-        {Value : employeeID_ID},
+        {Value : employeeID.employeeID_ID},
         {Value : bookedBy_ID},
         {Value : bookingDate},
         {Value : dayCode_dayCode},
@@ -91,7 +91,7 @@ annotate service.Booking with @( // header-level annotations
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : 'employeeID_ID',
+                LocalDataProperty : 'ID',
                 ValueListProperty : 'ID'
             },
             {

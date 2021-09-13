@@ -286,7 +286,7 @@
           }
         },
         "manager": {
-          "@FieldControl.Mandatory": true,
+          "@Mandatory": true,
           "type": "cds.Association",
           "target": "app.schema_flexwork.Users",
           "keys": [
@@ -1408,7 +1408,7 @@
               "ValueListProperty": "name"
             }
           ],
-          "@FieldControl.Mandatory": true,
+          "@Mandatory": true,
           "type": "cds.Association",
           "target": "AdminService.Users",
           "keys": [
@@ -1730,7 +1730,7 @@
           "=": "status_bookingStatus"
         },
         {
-          "=": "employeeID_ID"
+          "=": "employeeID.employeeID.ID"
         },
         {
           "=": "bookedBy_ID"
@@ -1759,7 +1759,7 @@
         },
         {
           "Value": {
-            "=": "employeeID_ID"
+            "=": "employeeID.employeeID_ID"
           }
         },
         {
@@ -1884,13 +1884,14 @@
           ]
         },
         "employeeID": {
+          "@Common.FilterDefaultValue": "I073083",
           "@title": "Booked For",
           "@Common.ValueList.Label": "{i18n>BookedFor}",
           "@Common.ValueList.CollectionPath": "Users",
           "@Common.ValueList.Parameters": [
             {
               "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": "employeeID_ID",
+              "LocalDataProperty": "ID",
               "ValueListProperty": "ID"
             },
             {
@@ -2266,7 +2267,7 @@
           }
         },
         "manager": {
-          "@FieldControl.Mandatory": true,
+          "@Mandatory": true,
           "type": "cds.Association",
           "target": "SeatBooking.Users",
           "keys": [
@@ -2584,7 +2585,7 @@
           "=": "status_bookingStatus"
         },
         {
-          "=": "employeeID_ID"
+          "=": "employeeID.employeeID.ID"
         },
         {
           "=": "bookedBy_ID"
@@ -2613,7 +2614,7 @@
         },
         {
           "Value": {
-            "=": "employeeID_ID"
+            "=": "employeeID.employeeID_ID"
           }
         },
         {

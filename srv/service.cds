@@ -24,6 +24,8 @@ service AdminService @(impl : './adminService.js') {
     entity Buildings          as projection on me.Buildings;
     entity Users              as projection on me.Users;
     entity TeamSeatImage      as projection on me.TeamSeatingImage;
+
+    
 }
 
 
