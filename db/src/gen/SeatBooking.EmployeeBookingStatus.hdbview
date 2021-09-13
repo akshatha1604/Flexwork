@@ -9,7 +9,8 @@ VIEW SeatBooking_EmployeeBookingStatus(IN ip_teamID NVARCHAR(5000), IN ip_date D
       BookedSeats_1.bookingDate,
       BookedSeats_1.teamID,
       BookedSeats_1.EmpName,
-      BookedSeats_1.BookingStatusDesc
+      BookedSeats_1.BookingStatusDesc,
+      BookedSeats_1.isDeleted
     FROM SeatBooking_BookedSeats AS BookedSeats_1
     WHERE BookedSeats_1.teamID = TeamEmployeeMasterWithName_0.teamID AND BookedSeats_1.empID = TeamEmployeeMasterWithName_0.employeeID AND BookedSeats_1.bookingDate = :IP_DATE) THEN 'Booked' ELSE 'Not Booked' END AS BookingStatus
 FROM SeatBooking_TeamEmployeeMasterWithName AS TeamEmployeeMasterWithName_0

@@ -2653,84 +2653,105 @@
           }
         }
       ],
-      "projection": {
-        "from": {
-          "ref": [
-            "SeatBooking.Booking"
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "SeatBooking.Booking"
+            ]
+          },
+          "columns": [
+            {
+              "ref": [
+                "Booking",
+                "ID"
+              ]
+            },
+            {
+              "ref": [
+                "Booking",
+                "employeeID",
+                "employeeID",
+                "ID"
+              ],
+              "as": "empID"
+            },
+            {
+              "ref": [
+                "Booking",
+                "seatID"
+              ]
+            },
+            {
+              "ref": [
+                "Booking",
+                "bookedBy"
+              ]
+            },
+            {
+              "ref": [
+                "Booking",
+                "bookingDate"
+              ]
+            },
+            {
+              "ref": [
+                "Booking",
+                "dayCode"
+              ]
+            },
+            {
+              "ref": [
+                "Booking",
+                "status"
+              ]
+            },
+            {
+              "ref": [
+                "Booking",
+                "employeeID",
+                "teamID"
+              ],
+              "as": "teamID"
+            },
+            {
+              "ref": [
+                "Booking",
+                "employeeID",
+                "employeeID",
+                "name"
+              ],
+              "as": "EmpName"
+            },
+            {
+              "ref": [
+                "Booking",
+                "status",
+                "description"
+              ],
+              "as": "BookingStatusDesc"
+            },
+            {
+              "ref": [
+                "Booking",
+                "isDeleted"
+              ],
+              "as": "isDeleted"
+            }
+          ],
+          "where": [
+            {
+              "ref": [
+                "Booking",
+                "isDeleted"
+              ]
+            },
+            "=",
+            {
+              "val": false
+            }
           ]
-        },
-        "columns": [
-          {
-            "ref": [
-              "Booking",
-              "ID"
-            ]
-          },
-          {
-            "ref": [
-              "Booking",
-              "employeeID",
-              "employeeID",
-              "ID"
-            ],
-            "as": "empID"
-          },
-          {
-            "ref": [
-              "Booking",
-              "seatID"
-            ]
-          },
-          {
-            "ref": [
-              "Booking",
-              "bookedBy"
-            ]
-          },
-          {
-            "ref": [
-              "Booking",
-              "bookingDate"
-            ]
-          },
-          {
-            "ref": [
-              "Booking",
-              "dayCode"
-            ]
-          },
-          {
-            "ref": [
-              "Booking",
-              "status"
-            ]
-          },
-          {
-            "ref": [
-              "Booking",
-              "employeeID",
-              "teamID"
-            ],
-            "as": "teamID"
-          },
-          {
-            "ref": [
-              "Booking",
-              "employeeID",
-              "employeeID",
-              "name"
-            ],
-            "as": "EmpName"
-          },
-          {
-            "ref": [
-              "Booking",
-              "status",
-              "description"
-            ],
-            "as": "BookingStatusDesc"
-          }
-        ]
+        }
       },
       "elements": {
         "ID": {
@@ -2838,6 +2859,10 @@
         "BookingStatusDesc": {
           "type": "cds.String",
           "length": 20
+        },
+        "isDeleted": {
+          "@title": "Deleted(Y/N)",
+          "type": "cds.Boolean"
         }
       }
     },
