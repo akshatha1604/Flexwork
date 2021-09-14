@@ -1,0 +1,27 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core" core:require="{ext : 'seatbookingui/ext/controllers/planBooking'}"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:l="sap.ui.layout">
+    <Dialog title="{modelData>/Property/bookingForOtherTitle}">
+
+        <content>
+            <VBox width="200px" height="120px">
+                <!-- <Text text='Group booking/ my booking/ booking of behalf'/> -->
+                <l:VerticalLayout class="sapUiContentPadding" width="100%">
+                    <Label text="Select Teammate" labelFor="ComboBoxEMP1" />
+                    <ComboBox id="ComboBoxEMP1" selectedKey="{modelData>/Property/bookingForOtherEmp}"	showSecondaryValues= "true"
+					filterSecondaryValues= "true" items="{
+					path: 'modelData>/MyTeamEmpList',
+					sorter: { path: 'modelData>employeeName' }
+				}">
+                        <core:ListItem key="{modelData>employeeID}" text="{modelData>employeeName}" additionalText="{modelData>employeeID}" />
+                    </ComboBox>
+                </l:VerticalLayout>
+            </VBox>
+        </content>
+        <buttons>
+            <Button text="Book" type="Default" iconFirst="true" enabled="true" iconDensityAware="false" press="ext.BookingOthers"/>
+            <Button text="Close" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="ext.BookingOtherCancelPress"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

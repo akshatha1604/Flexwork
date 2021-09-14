@@ -128,7 +128,7 @@
                                         "UpdateBooking": {
                                             "press": "seatbookingui.ext.controllers.UpdateBooking.OpenUpdateBookingDialog",
                                             "text": "{i18n>UpdateBooking}",
-                                            "enabled": true,
+                                            "enabled":  "seatbookingui.ext.controllers.UpdateBooking.UpdateBtnHandling",
                                             "visible": true
                                         },
                                         "ShowImage": {
