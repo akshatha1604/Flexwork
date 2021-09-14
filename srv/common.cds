@@ -1,16 +1,20 @@
 using {app.schema_flexwork as me} from '../db/schema';
 using {
+    Country,
+    managed,
+    cuid,
     User,
     sap
 } from '@sap/cds/common';
+
 using AdminService as service from './service';
-using SeatBooking as SeatBookingservice from './service';
+using SeatBooking as booking from './service';
 
 // aspect managed {
 //   createdAt     : Timestamp @cds.on.insert : $now;
 //   createdBy     : User      @cds.on.insert : $user;
-//   LastChangedAt : Timestamp @cds.on.insert : $now  @cds.on.update : $now;
-//   LastChangedBy : User      @cds.on.insert : $user @cds.on.update : $user;
+//   modifiedAt : Timestamp @cds.on.insert : $now  @cds.on.update : $now;
+//   modifiedBy : User      @cds.on.insert : $user @cds.on.update : $user;
 // }
 
 annotate SeatBooking.Booking with {
@@ -82,4 +86,10 @@ annotate service.SAPOfficeData with {
         TextArrangement : #TextOnly
     //  ValueListWithFixedValues
     };
+};
+
+annotate  booking.Booking with  {
+    employeeID @Common : {
+        FilterDefaultValue : 'I073083'
+    }
 };

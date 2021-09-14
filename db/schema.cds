@@ -4,7 +4,8 @@ using {
     Country,
     managed,
     cuid,
-    User
+    User,
+    sap
 } from '@sap/cds/common';
 
 // context app.schema_flexwork {
@@ -58,7 +59,7 @@ using {
             teamName                 : String(50);
             employeeCount            : Integer;
             maxSeatPercent           : Integer default 80;
-            manager                  : Association to Users @FieldControl.Mandatory;
+            manager                  : Association to Users @Mandatory; //@FieldControl.Mandatory
             headManager              : Association to Users;
             createdAt                : Timestamp            @cds.on.insert : $now;
             createdBy                : User                 @cds.on.insert : $user;
@@ -111,8 +112,8 @@ using {
 
     entity Booking : cuid, managed {
         key seatID         : Association to TeamSeatMapping;
-            employeeID     : Association to TeamEmployeeMaster;
-            bookedBy       : Association to Users;
+            employeeID     : Association to TeamEmployeeMaster;// @Consumption.filter.defaultValue : $user;
+            bookedBy       : Association to Users;//  @Consumption.filter.defaultValue : $user;
             bookingDate    : Date;
             dayCode        : Association to DayCodes;
             status         : Association to BookingStatus;

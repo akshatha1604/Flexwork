@@ -286,7 +286,7 @@
           }
         },
         "manager": {
-          "@FieldControl.Mandatory": true,
+          "@Mandatory": true,
           "type": "cds.Association",
           "target": "app.schema_flexwork.Users",
           "keys": [
@@ -1408,7 +1408,7 @@
               "ValueListProperty": "name"
             }
           ],
-          "@FieldControl.Mandatory": true,
+          "@Mandatory": true,
           "type": "cds.Association",
           "target": "AdminService.Users",
           "keys": [
@@ -1730,7 +1730,11 @@
           "=": "status_bookingStatus"
         },
         {
+<<<<<<< HEAD
           "=": "employeeID_employeeID_ID"
+=======
+          "=": "employeeID.employeeID.ID"
+>>>>>>> 5ad5692e9b4d8228305d3352bddfae736f4a354f
         },
         {
           "=": "bookedBy_ID"
@@ -1759,7 +1763,12 @@
         },
         {
           "Value": {
-            "=": "employeeID_employeeID_ID"
+            "=": "employeeID.employeeID_ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "bookedBy_ID"
           }
         },
         {
@@ -2285,7 +2294,7 @@
           }
         },
         "manager": {
-          "@FieldControl.Mandatory": true,
+          "@Mandatory": true,
           "type": "cds.Association",
           "target": "SeatBooking.Users",
           "keys": [
@@ -2603,7 +2612,11 @@
           "=": "status_bookingStatus"
         },
         {
+<<<<<<< HEAD
           "=": "employeeID_employeeID_ID"
+=======
+          "=": "employeeID.employeeID.ID"
+>>>>>>> 5ad5692e9b4d8228305d3352bddfae736f4a354f
         },
         {
           "=": "bookedBy_ID"
@@ -2666,84 +2679,105 @@
           }
         }
       ],
-      "projection": {
-        "from": {
-          "ref": [
-            "SeatBooking.Booking"
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "SeatBooking.Booking"
+            ]
+          },
+          "columns": [
+            {
+              "ref": [
+                "Booking",
+                "ID"
+              ]
+            },
+            {
+              "ref": [
+                "Booking",
+                "employeeID",
+                "employeeID",
+                "ID"
+              ],
+              "as": "empID"
+            },
+            {
+              "ref": [
+                "Booking",
+                "seatID"
+              ]
+            },
+            {
+              "ref": [
+                "Booking",
+                "bookedBy"
+              ]
+            },
+            {
+              "ref": [
+                "Booking",
+                "bookingDate"
+              ]
+            },
+            {
+              "ref": [
+                "Booking",
+                "dayCode"
+              ]
+            },
+            {
+              "ref": [
+                "Booking",
+                "status"
+              ]
+            },
+            {
+              "ref": [
+                "Booking",
+                "employeeID",
+                "teamID"
+              ],
+              "as": "teamID"
+            },
+            {
+              "ref": [
+                "Booking",
+                "employeeID",
+                "employeeID",
+                "name"
+              ],
+              "as": "EmpName"
+            },
+            {
+              "ref": [
+                "Booking",
+                "status",
+                "description"
+              ],
+              "as": "BookingStatusDesc"
+            },
+            {
+              "ref": [
+                "Booking",
+                "isDeleted"
+              ],
+              "as": "isDeleted"
+            }
+          ],
+          "where": [
+            {
+              "ref": [
+                "Booking",
+                "isDeleted"
+              ]
+            },
+            "=",
+            {
+              "val": false
+            }
           ]
-        },
-        "columns": [
-          {
-            "ref": [
-              "Booking",
-              "ID"
-            ]
-          },
-          {
-            "ref": [
-              "Booking",
-              "employeeID",
-              "employeeID",
-              "ID"
-            ],
-            "as": "empID"
-          },
-          {
-            "ref": [
-              "Booking",
-              "seatID"
-            ]
-          },
-          {
-            "ref": [
-              "Booking",
-              "bookedBy"
-            ]
-          },
-          {
-            "ref": [
-              "Booking",
-              "bookingDate"
-            ]
-          },
-          {
-            "ref": [
-              "Booking",
-              "dayCode"
-            ]
-          },
-          {
-            "ref": [
-              "Booking",
-              "status"
-            ]
-          },
-          {
-            "ref": [
-              "Booking",
-              "employeeID",
-              "teamID"
-            ],
-            "as": "teamID"
-          },
-          {
-            "ref": [
-              "Booking",
-              "employeeID",
-              "employeeID",
-              "name"
-            ],
-            "as": "EmpName"
-          },
-          {
-            "ref": [
-              "Booking",
-              "status",
-              "description"
-            ],
-            "as": "BookingStatusDesc"
-          }
-        ]
+        }
       },
       "elements": {
         "ID": {
@@ -2863,6 +2897,10 @@
         "BookingStatusDesc": {
           "type": "cds.String",
           "length": 20
+        },
+        "isDeleted": {
+          "@title": "Deleted(Y/N)",
+          "type": "cds.Boolean"
         }
       }
     },

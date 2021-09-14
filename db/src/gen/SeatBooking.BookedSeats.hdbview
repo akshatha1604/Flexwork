@@ -9,8 +9,10 @@ VIEW SeatBooking_BookedSeats AS SELECT
   Booking_0.status_bookingStatus,
   employeeID_1.teamID AS teamID,
   employeeID_2.name AS EmpName,
-  status_3.description AS BookingStatusDesc
+  status_3.description AS BookingStatusDesc,
+  Booking_0.isDeleted AS isDeleted
 FROM (((SeatBooking_Booking AS Booking_0 LEFT JOIN SeatBooking_TeamEmployeeMaster AS employeeID_1 ON Booking_0.employeeID_employeeID_ID = employeeID_1.employeeID_ID) LEFT JOIN SeatBooking_Users AS employeeID_2 ON employeeID_1.employeeID_ID = employeeID_2.ID) LEFT JOIN SeatBooking_BookingStatus AS status_3 ON Booking_0.status_bookingStatus = status_3.bookingStatus)
+WHERE Booking_0.isDeleted = FALSE
 WITH ASSOCIATIONS (
   MANY TO ONE JOIN SeatBooking_TeamSeatMapping AS seatID ON (seatID.seatID = seatID_seatID),
   MANY TO ONE JOIN SeatBooking_Users AS bookedBy ON (bookedBy.ID = bookedBy_ID),

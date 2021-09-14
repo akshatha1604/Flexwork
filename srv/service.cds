@@ -24,6 +24,8 @@ service AdminService @(impl : './adminService.js') {
     entity Buildings          as projection on me.Buildings;
     entity Users              as projection on me.Users;
     entity TeamSeatImage      as projection on me.TeamSeatingImage;
+
+    
 }
 
 
@@ -41,9 +43,18 @@ service SeatBooking @(impl : './SeatBookingService.js') {
     entity Users                                                     as projection on me.Users;
     entity TeamMemberRole                                            as projection on me.TeamMemberRoles;
 
-    entity BookedSeats                                               as projection on Booking {
-        Booking.ID, Booking.employeeID.employeeID.ID as empID, Booking.seatID, Booking.bookedBy, Booking.bookingDate, Booking.dayCode, Booking.status, Booking.employeeID.teamID as teamID, Booking.employeeID.employeeID.name as EmpName, Booking.status.description as BookingStatusDesc
-    };
+    entity BookedSeats                                               as select from Booking {
+        Booking.ID,
+        Booking.employeeID.employeeID.ID as empID,
+        Booking.seatID, Booking.bookedBy,
+        Booking.bookingDate,
+        Booking.dayCode,
+        Booking.status,
+        Booking.employeeID.teamID as teamID,
+        Booking.employeeID.employeeID.name as EmpName,
+        Booking.status.description as BookingStatusDesc,
+        Booking.isDeleted as isDeleted
+    } where Booking.isDeleted = false;
 
 
     entity TeamEmployeeMasterWithName                                as projection on TeamEmployeeMaster {
@@ -58,14 +69,14 @@ service SeatBooking @(impl : './SeatBookingService.js') {
         select from TeamEmployeeMasterWithName {
             employeeID,
             employeeName,
-            teamID,
+            teamID,            
             @Core.Computed case
                 when
                     exists(select from BookedSeats
                     where
                         BookedSeats.teamID          = TeamEmployeeMasterWithName.teamID
                         and BookedSeats.empID       = TeamEmployeeMasterWithName.employeeID
-                        and BookedSeats.bookingDate = : ip_date
+                        and BookedSeats.bookingDate = : ip_date                        
                     )
                 then
                     'Booked'
@@ -86,7 +97,7 @@ service SeatBooking @(impl : './SeatBookingService.js') {
                     where
                         BookedSeats.seatID.seatID   = TeamSeatMapping.seatID
                         and BookedSeats.teamID      = TeamSeatMapping.teamID
-                        and BookedSeats.bookingDate = : ip_date
+                        and BookedSeats.bookingDate = : ip_date                        
                     )
                 then
                     true
