@@ -1730,11 +1730,7 @@
           "=": "status_bookingStatus"
         },
         {
-<<<<<<< HEAD
-          "=": "employeeID_employeeID_ID"
-=======
           "=": "employeeID.employeeID.ID"
->>>>>>> 5ad5692e9b4d8228305d3352bddfae736f4a354f
         },
         {
           "=": "bookedBy_ID"
@@ -1774,11 +1770,6 @@
         {
           "Value": {
             "=": "bookingDate"
-          }
-        },
-        {
-          "Value": {
-            "=": "bookedBy_ID"
           }
         },
         {
@@ -1894,13 +1885,14 @@
           "@Common.TextArrangement": {
             "#": "TextFirst"
           },
+          "@Common.FilterDefaultValue": "I073083",
           "@title": "Booked For",
           "@Common.ValueList.Label": "{i18n>BookedFor}",
           "@Common.ValueList.CollectionPath": "Users",
           "@Common.ValueList.Parameters": [
             {
               "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": "employeeID_employeeID_ID",
+              "LocalDataProperty": "ID",
               "ValueListProperty": "ID"
             },
             {
@@ -1923,7 +1915,7 @@
             "=": "bookedBy.name"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
           "@title": "Booked By",
           "@Common.ValueList.Label": "{i18n>BookedBy}",
@@ -1991,7 +1983,7 @@
             "=": "status.description"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
           "@title": "Booking Status",
           "type": "cds.Association",
@@ -2009,7 +2001,7 @@
             "=": "attendance.description"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
           "@title": "Attended",
           "@Common.ValueList.Label": "Attendence Status",
@@ -2612,11 +2604,7 @@
           "=": "status_bookingStatus"
         },
         {
-<<<<<<< HEAD
-          "=": "employeeID_employeeID_ID"
-=======
           "=": "employeeID.employeeID.ID"
->>>>>>> 5ad5692e9b4d8228305d3352bddfae736f4a354f
         },
         {
           "=": "bookedBy_ID"
@@ -2645,17 +2633,17 @@
         },
         {
           "Value": {
-            "=": "employeeID_employeeID_ID"
-          }
-        },
-        {
-          "Value": {
-            "=": "bookingDate"
+            "=": "employeeID.employeeID_ID"
           }
         },
         {
           "Value": {
             "=": "bookedBy_ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "bookingDate"
           }
         },
         {
@@ -2806,7 +2794,7 @@
             "=": "bookedBy.name"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
           "@title": "Booked By",
           "@Common.ValueList.Label": "{i18n>BookedBy}",
@@ -2874,7 +2862,7 @@
             "=": "status.description"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
           "@title": "Booking Status",
           "type": "cds.Association",

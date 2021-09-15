@@ -203,6 +203,7 @@ sap.ui.define(
 
             PlanBookingCancelPress: function () {
                 this._oDialogonPlanBooking.close();
+                 this._controller.getView().getModel().refresh();
             },
 
 
@@ -437,6 +438,7 @@ sap.ui.define(
                                     sap.m.MessageToast.show("Selected seat is booked!");
                                       that._oDialogonPlanBookingOthers.close();
                                     getSeatbasedOnFilter(that);
+                                     that._controller.getView().getModel().refresh();
 
                                 }, async: false
                             });
@@ -455,6 +457,7 @@ sap.ui.define(
             },
             BookingOtherCancelPress: function (oContext) {
                 this._oDialogonPlanBookingOthers.close();
+                 that._controller.getView().getModel().refresh();
             },
 
             DialogBookOtherPress: function (oContext) {

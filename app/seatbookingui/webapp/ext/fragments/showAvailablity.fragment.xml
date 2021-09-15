@@ -1,0 +1,80 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core" core:require="{ext : 'seatbookingui/ext/controllers/ShowAvailability'}"
+    xmlns:fb="sap.ui.comp.filterbar">
+    <Dialog title='Show Availability'>
+        <content>
+            <VBox width="400px" height="360px">
+                <!-- <Text text='Group booking/ my booking/ booking of behalf'/> -->
+
+                <VBox visible="{modelDataShowA>/Property/MyBooking}">
+
+                    <HBox width="400px">
+                        <fb:FilterBar reset="onReset" search="ext.searchSeatFilter" useToolbar="false" showGoOnFB="true">
+                            <fb:filterItems>
+                                <fb:FilterItem name="D" label="Date" visibleInFilterBar='true'>
+                                    <fb:control>
+                                        <DatePicker required="true" change = "ext.MonitorChange" valueFormat="yyyy-MM-dd" value="{modelDataShowA>/Property/date}" width="180px"/>
+                                    </fb:control>
+                                </fb:FilterItem>
+
+                                <fb:FilterItem name="C" label="Monitors">
+                                    <fb:control>
+                                        <Select id="slTewed2y1pe" forceSelection="true" change="ext.MonitorChange" selectedKey="{modelDataShowA>/Property/monitorCountFilter}" width="30px">
+                                            <items>
+                                                <core:Item key="" text="All"/>
+                                                <core:Item key="2" text="2"/>
+                                                <core:Item key="1" text="1"/>
+                                                <core:Item key="0" text="0"/>
+                                            </items>
+                                        </Select>
+                                    </fb:control>
+                                </fb:FilterItem>
+                            </fb:filterItems>
+                        </fb:FilterBar>
+                    </HBox>
+                    <HBox>
+                        <Table width="auto" enableSelectAll="false" noDataText="No Data Found" showSeparators="All" items="{modelDataShowA>/Seats}" id="tabel1e1" sticky="HeaderToolbar" selectionChange='ext.onTableSelectionChangeMyBooking' enableBusyIndicator="true">
+                            <headerToolbar>
+                                <OverflowToolbar width="auto" height="auto" visible="true" enabled="true">
+                                    <content>
+                                        <Title text="Seat Count" titleStyle="Auto" width="auto" textAlign="Begin" visible="true"/>
+                                    </content>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column width="33%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+                                    <header>
+                                        <Text text="2-Monitors Seats" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+                                    </header>
+                                </Column>
+                                <Column width="33%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+                                    <header>
+                                        <Text text="1-Monitor Seats" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+                                    </header>
+                                </Column>
+                                <Column width="33%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+                                    <header>
+                                        <Text text="0-Monitor Seats" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+                                    </header>
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem type="Active">
+                                    <cells>
+                                        <Button text="{modelDataShowA>M2}" press="ext.M2Press"/>
+                                        <Button text="{modelDataShowA>M1}" press="ext.M1Press"/>
+                                        <Button text="{modelDataShowA>M0}" press="ext.M0Press"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </HBox>
+                </VBox>
+
+            </VBox>
+        </content>
+        <buttons>
+            <Button text="Cancel" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="ext.showAvailablityCancelPress"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

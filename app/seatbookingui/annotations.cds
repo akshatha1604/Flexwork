@@ -29,7 +29,6 @@ annotate service.Booking with @( // header-level annotations
         bookedBy_ID,
         bookingDate,
         attendance_attendanceStatus,
-        dayCode_dayCode,
         isGroupBooking,
         isDeleted
     ],
@@ -59,7 +58,8 @@ annotate service.Booking with @( // header-level annotations
         // },
 
         {Value : seatID_seatID},
-        {Value : employeeID.employeeID_ID},
+        {Value : employeeID.employeeID_ID,
+        Label : 'Booked For'},
         {Value : bookedBy_ID},
         {Value : bookingDate},
        // {Value : bookedBy_ID},
@@ -92,13 +92,14 @@ annotate service.Booking with @( // header-level annotations
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : 'ID',
+                LocalDataProperty : 'employeeID.employeeID_ID',
                 ValueListProperty : 'ID'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'name'
             },
+            
         ]
     }});
 
@@ -159,6 +160,6 @@ annotate service.Booking with @( // header-level annotations
     }});
 
 // employeeID @(Common : {FilterDefaultValue : self.User});
-// isDeleted @(Common : {FilterDefaultValue : '0'});
+ isDeleted @(Common : {FilterDefaultValue : false });
 
 };
