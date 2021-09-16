@@ -4,7 +4,8 @@ using User as self from '@sap/cds/common';
 annotate service.Booking // header-level annotations
 {
     seatID         @title : 'Seat ID';
-    employeeID     @title : 'Booked For';
+    employeeID_employeeID_ID     @title : 'Booked For';
+    employeeID  @title : 'Booked For';
     bookedBy       @title : 'Booked By';
     bookingDate    @title : 'Booking Date';
     dayCode        @title : 'Timing';
@@ -25,12 +26,12 @@ annotate service.Booking with @( // header-level annotations
     UI.SelectionFields : [
         seatID_seatID,
         status_bookingStatus,
-        employeeID.employeeID.ID,
+        employeeID_employeeID_ID,
         bookedBy_ID,
         bookingDate,
         attendance_attendanceStatus,
         isGroupBooking,
-        isDeleted
+       isDeleted
     ],
 
     UI.LineItem        : [
@@ -58,7 +59,7 @@ annotate service.Booking with @( // header-level annotations
         // },
 
         {Value : seatID_seatID},
-        {Value : employeeID.employeeID_ID,
+        {Value : employeeID_employeeID_ID,
         Label : 'Booked For'},
         {Value : bookedBy_ID},
         {Value : bookingDate},
@@ -87,12 +88,12 @@ annotate service.Booking with @( // header-level annotations
     }});
 
     employeeID    @(Common : {ValueList : {
-        Label          : '{i18n>BookedFor}',
+        Label          : 'Booked For',
         CollectionPath : 'Users',
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : 'employeeID.employeeID_ID',
+                LocalDataProperty : 'employeeID_employeeID_ID',
                 ValueListProperty : 'ID'
             },
             {

@@ -1730,7 +1730,7 @@
           "=": "status_bookingStatus"
         },
         {
-          "=": "employeeID.employeeID.ID"
+          "=": "employeeID_employeeID_ID"
         },
         {
           "=": "bookedBy_ID"
@@ -1742,13 +1742,7 @@
           "=": "attendance_attendanceStatus"
         },
         {
-          "=": "dayCode_dayCode"
-        },
-        {
           "=": "isGroupBooking"
-        },
-        {
-          "=": "isDeleted"
         }
       ],
       "@UI.LineItem": [
@@ -1759,8 +1753,9 @@
         },
         {
           "Value": {
-            "=": "employeeID.employeeID_ID"
-          }
+            "=": "employeeID_employeeID_ID"
+          },
+          "Label": "Booked For"
         },
         {
           "Value": {
@@ -1785,11 +1780,6 @@
         {
           "Value": {
             "=": "isGroupBooking"
-          }
-        },
-        {
-          "Value": {
-            "=": "isDeleted"
           }
         }
       ],
@@ -1883,16 +1873,16 @@
             "=": "employeeID.employeeID.name"
           },
           "@Common.TextArrangement": {
-            "#": "TextFirst"
+            "#": "TextOnly"
           },
-          "@Common.FilterDefaultValue": "I073083",
+          "@Common.FilterDefaultValue": "DEFAULT_USER",
           "@title": "Booked For",
-          "@Common.ValueList.Label": "{i18n>BookedFor}",
+          "@Common.ValueList.Label": "Booked For",
           "@Common.ValueList.CollectionPath": "Users",
           "@Common.ValueList.Parameters": [
             {
               "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": "ID",
+              "LocalDataProperty": "employeeID_employeeID_ID",
               "ValueListProperty": "ID"
             },
             {
@@ -2033,6 +2023,7 @@
         },
         "isDeleted": {
           "@title": "Deleted(Y/N)",
+          "@Common.FilterDefaultValue": false,
           "type": "cds.Boolean"
         }
       }
@@ -2604,7 +2595,7 @@
           "=": "status_bookingStatus"
         },
         {
-          "=": "employeeID.employeeID.ID"
+          "=": "employeeID_employeeID_ID"
         },
         {
           "=": "bookedBy_ID"
@@ -2616,13 +2607,7 @@
           "=": "attendance_attendanceStatus"
         },
         {
-          "=": "dayCode_dayCode"
-        },
-        {
           "=": "isGroupBooking"
-        },
-        {
-          "=": "isDeleted"
         }
       ],
       "@UI.LineItem": [
@@ -2633,8 +2618,9 @@
         },
         {
           "Value": {
-            "=": "employeeID.employeeID_ID"
-          }
+            "=": "employeeID_employeeID_ID"
+          },
+          "Label": "Booked For"
         },
         {
           "Value": {
@@ -2659,11 +2645,6 @@
         {
           "Value": {
             "=": "isGroupBooking"
-          }
-        },
-        {
-          "Value": {
-            "=": "isDeleted"
           }
         }
       ],
@@ -2888,6 +2869,7 @@
         },
         "isDeleted": {
           "@title": "Deleted(Y/N)",
+          "@Common.FilterDefaultValue": false,
           "type": "cds.Boolean"
         }
       }
@@ -4089,6 +4071,9 @@
     {
       "annotate": "SeatBooking.Booking",
       "elements": {
+        "employeeID_employeeID_ID": {
+          "@title": "Booked For"
+        },
         "bookingStatus": {
           "@Common.ValueList.Label": "Booking Status",
           "@Common.ValueList.CollectionPath": "BookingStatus",

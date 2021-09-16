@@ -25,7 +25,7 @@ annotate SeatBooking.Booking with {
 
     employeeID @Common : {
         Text            : employeeID.employeeID.name,
-        TextArrangement : #TextFirst //#TextFirst
+        TextArrangement : #TextOnly //#TextFirst
     };
 
     attendance @Common : {
@@ -90,6 +90,6 @@ annotate service.SAPOfficeData with {
 
 annotate  booking.Booking with  {
     employeeID @Common : {
-        FilterDefaultValue : 'I073083'
+        FilterDefaultValue : 'DEFAULT_USER'
     }
 };
