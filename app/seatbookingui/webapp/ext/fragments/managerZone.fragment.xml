@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:fb="sap.ui.comp.filterbar" core:require="{ext : 'seatbookingui/ext/controllers/managerZone'}">
-	<Dialog title='Plan a booking'>
+	<Dialog title='Manager Zone'>
 		<content>
 			<VBox width="630px" height="480px">
 				<!--<Text text='Group booking/ my booking/ booking of behalf'/>-->

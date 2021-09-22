@@ -23,6 +23,7 @@ sap.ui.define(
             },
 
             quickBooking: function (oContext) {
+                sap.ui.core.BusyIndicator.show(0);
                 var Currentdata;
                 var MyDate = new Date();
                 var MyDateString;
@@ -34,22 +35,10 @@ sap.ui.define(
                     //Getting next day
                     MyDate.setDate(MyDate.getDate() + 1);
                 }
-                else {
-                    // MyDateString = (MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '-'
-                    //     + ('0' + MyDate.getDate()).slice(-2));
-                }
                 MyDateString = (MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '-'
                     + ('0' + MyDate.getDate()).slice(-2));
-
-                     $.get({
-                    url: "/seat-booking/getFreeSeat(employeeID='I334183', bookingDate='2021-08-31')"
-                    
-                //     success: function (data){
-                       
-                //     }, async: false
-                });  
-
-                var sFilterQuery = `employeeID_ID eq '${sap.ushell.Container.getService("UserInfo").getId()}' and bookingDate eq ${MyDateString}`;
+                //Check if any booking already for that day.  
+                var sFilterQuery = `employeeID_employeeID_ID eq '${sap.ushell.Container.getService("UserInfo").getId()}' and bookingDate eq ${MyDateString} and isDeleted eq false`;
                 $.get({
                     url: "/seat-booking/Booking",
                     headers: {
@@ -80,15 +69,13 @@ sap.ui.define(
                         });
                         if (Currentdata.value) {
                             if (Currentdata.value.length > 0) {
-                                myTeamID = Currentdata.value.teamID;
+                                myTeamID = Currentdata.value[0].teamID;
 
-                                // Get all seats for my team..         
-                                var sFilterQuery = `teamID eq '${myTeamID}'`;
+                                // Get free seats for my team for selected day
+                                var url = `/seat-booking/SeatStatus(ip_teamID='${myTeamID}',ip_date=${MyDateString})/Set`;
+                                //var sFilterQuery = `teamID eq '${myTeamID}'`;
                                 $.get({
-                                    url: "/seat-booking/TeamSeatMapping",
-                                    data: {
-                                        $filter: sFilterQuery
-                                    },
+                                    url: url,
                                     success: function (data) {
                                         Currentdata = data;
                                     }, async: false
@@ -96,27 +83,40 @@ sap.ui.define(
                                 if (Currentdata.value) {
                                     if (Currentdata.value.length > 0) {
 
-                                        // Get all booking for my team for that day.. 
+                                        var data =
+                                        {
+                                            "attendance_attendanceStatus": "1",
+                                            "bookedBy_ID": sap.ushell.Container.getService("UserInfo").getId(),
+                                            "bookingDate": MyDateString,
+                                            "createdBy": sap.ushell.Container.getService("UserInfo").getId(),
+                                            "employeeID_employeeID_ID": sap.ushell.Container.getService("UserInfo").getId(),
+                                            "isGroupBooking": false,
+                                            "seatID_seatID": Currentdata.value[0].seatID,
+                                            "status_bookingStatus": "1",
+                                            "isDeleted": false,
+                                        }
+
+                                        $.post({
+                                            url: "/seat-booking/Booking",
+                                            headers: {
+                                                //  "x-csrf-token": csrfToken,
+                                                "Content-Type": "application/json"
+                                            },
+                                            data: JSON.stringify(data),
+                                            success: function (data) {
+                                                sap.m.MessageToast.show(`Seat ID: ${data.seatID_seatID} is booked for you!`);
+                                            }, async: false
+                                        });
 
                                     }
                                 }
                             }
                         }
-                        else {
-                            sap.m.MessageToast.show(`You`);
-                        }
 
-
-
-
-
-                        // Get all booking for that day..
-
-                        //Check if any seat is available.. 
-
-                        //Create one entry here.. 
                     }
                 }
+                this._controller.getView().getModel().refresh();
+                sap.ui.core.BusyIndicator.hide();
             }
         };
     }

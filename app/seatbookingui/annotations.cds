@@ -4,7 +4,8 @@ using User as self from '@sap/cds/common';
 annotate service.Booking // header-level annotations
 {
     seatID         @title : 'Seat ID';
-    employeeID     @title : 'Booked For';
+    employeeID_employeeID_ID     @title : 'Booked For';
+    employeeID  @title : 'Booked For';
     bookedBy       @title : 'Booked By';
     bookingDate    @title : 'Booking Date';
     dayCode        @title : 'Timing';
@@ -24,14 +25,13 @@ annotate service.Booking with @( // header-level annotations
 
     UI.SelectionFields : [
         seatID_seatID,
-        status_bookingStatus,
-        employeeID.employeeID.ID,        
+        status_bookingStatus,              
+        employeeID_employeeID_ID,
         bookedBy_ID,
         bookingDate,
         attendance_attendanceStatus,
-        dayCode_dayCode,
         isGroupBooking,
-        isDeleted
+       isDeleted
     ],
 
     UI.LineItem        : [
@@ -59,17 +59,19 @@ annotate service.Booking with @( // header-level annotations
         // },
 
         {Value : seatID_seatID},
-        {Value : employeeID.employeeID.ID},
+        {Value : employeeID_employeeID_ID,
+        Label : 'Booked For'},
         {Value : bookedBy_ID},
         {Value : bookingDate},
-        {Value : dayCode_dayCode},
+       // {Value : bookedBy_ID},
+        //   {Value : dayCode_dayCode},
         {Value : status_bookingStatus},
         {Value : attendance_attendanceStatus},
         {Value : isGroupBooking},
         {Value : isDeleted}
     ],
 ) {
-    bookedBy   @(Common : {ValueList : {
+    bookedBy      @(Common : {ValueList : {
         Label          : '{i18n>BookedBy}',
         CollectionPath : 'Users',
         Parameters     : [
@@ -85,23 +87,24 @@ annotate service.Booking with @( // header-level annotations
         ]
     }});
 
-    employeeID @(Common : {ValueList : {
-        Label          : '{i18n>BookedFor}',
+    employeeID    @(Common : {ValueList : {
+        Label          : 'Booked For',
         CollectionPath : 'Users',
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : 'ID',
+                LocalDataProperty : 'employeeID_employeeID_ID',
                 ValueListProperty : 'ID'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'name'
             },
+            
         ]
     }});
 
-  bookingStatus @(Common : {ValueList : {
+    bookingStatus @(Common : {ValueList : {
         Label          : 'Booking Status',
         CollectionPath : 'BookingStatus',
         Parameters     : [
@@ -117,7 +120,7 @@ annotate service.Booking with @( // header-level annotations
         ]
     }});
 
-attendance @(Common : {ValueList : {
+    attendance    @(Common : {ValueList : {
         Label          : 'Attendence Status',
         CollectionPath : 'AttendanceStatus',
         Parameters     : [
@@ -133,7 +136,7 @@ attendance @(Common : {ValueList : {
         ]
     }});
 
-dayCode @(Common : {ValueList : {
+    dayCode       @(Common : {ValueList : {
         Label          : 'Timing',
         CollectionPath : 'DayCodes',
         Parameters     : [
@@ -143,13 +146,13 @@ dayCode @(Common : {ValueList : {
                 ValueListProperty : 'dayCode'
             },
             {
-                $Type             : 'Common.ValueListParameterFilterOnly',                
+                $Type             : 'Common.ValueListParameterFilterOnly',
                 ValueListProperty : 'fromTime'
             },
             {
-                $Type             : 'Common.ValueListParameterFilterOnly',                
+                $Type             : 'Common.ValueListParameterFilterOnly',
                 ValueListProperty : 'toTime'
-            },             
+            },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'description'
@@ -158,6 +161,6 @@ dayCode @(Common : {ValueList : {
     }});
 
 // employeeID @(Common : {FilterDefaultValue : self.User});
-// isDeleted @(Common : {FilterDefaultValue : '0'});
+ isDeleted @(Common : {FilterDefaultValue : false });
 
 };

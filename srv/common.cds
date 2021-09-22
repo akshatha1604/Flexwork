@@ -17,12 +17,33 @@ using SeatBooking as booking from './service';
 //   modifiedBy : User      @cds.on.insert : $user @cds.on.update : $user;
 // }
 
+annotate SeatBooking.Booking with {
+    bookedBy   @Common : {
+        Text            : bookedBy.name,
+        TextArrangement : #TextOnly //#TextFirst
+    };
+
+    employeeID @Common : {
+        Text            : employeeID.employeeID.name,
+        TextArrangement : #TextOnly //#TextFirst
+    };
+
+    attendance @Common : {
+        Text            : attendance.description,
+        TextArrangement : #TextOnly //#TextFirst
+    };
+
+    status     @Common : {
+        Text            : status.description,
+        TextArrangement : #TextOnly //#TextFirst
+    };
+};
 
 annotate service.Teams with {
     manager     @Common : {
         Text            : manager.name,
         TextArrangement : #TextFirst //#TextOnly
-        
+
     //  ValueListWithFixedValues
 
     };
@@ -32,7 +53,7 @@ annotate service.Teams with {
         TextArrangement : #TextFirst //#TextOnly
     //  ValueListWithFixedValues
     };
-        
+
 };
 
 annotate service.SAPOfficeData with {
@@ -69,6 +90,6 @@ annotate service.SAPOfficeData with {
 
 annotate  booking.Booking with  {
     employeeID @Common : {
-        FilterDefaultValue : 'I073083'
+        FilterDefaultValue : 'DEFAULT_USER'
     }
 };

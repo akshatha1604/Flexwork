@@ -171,7 +171,7 @@ sap.ui.define(
                             //  Newdata.empList = Currentdata.value ;
                            // var empName = _getEmployeeName();
                             Currentdata.value.forEach(element => {
-                                employee.employeeID_ID = element.employeeID_ID;
+                                employee.employeeID_ID = element.employeeID;
                                 employee.role_roleCode = element.role_roleCode;
                                 employee.empIDEdit = false;
                                 employee.name = element.employeeName;

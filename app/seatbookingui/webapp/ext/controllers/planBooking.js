@@ -30,6 +30,38 @@ sap.ui.define(
             }
         }
 
+        function _getDateFormat(inputDate) {
+            if (inputDate !== "")
+                return (inputDate.getFullYear() + '-' + ('0' + (inputDate.getMonth() + 1)).slice(-2) + '-'
+                    + ('0' + inputDate.getDate()).slice(-2));
+            else
+                return inputDate;
+        }
+
+        function getSeatbasedOnFilter(that) {
+            var modelRef = that._controller.getView().getModel("modelData");
+            var newDate = modelRef.getProperty("/Property/individualBooking");
+            var monitorCount = modelRef.getProperty("/Property/monitorCountFilter");
+            that._controller.getView().byId("tabele1").removeSelections();
+            if (newDate) {
+                var todaysDate = new Date();
+                var formatedDate = _getDateFormat(todaysDate);
+
+                if (formatedDate <= newDate) {
+                    var SeatList = _getMyTeamSeatDetails(modelRef.getProperty("/userDetails/teamID"), newDate, monitorCount);
+                    modelRef.setProperty("/Seats", SeatList);
+                } else {
+                    SeatList = [];
+                    modelRef.setProperty("/Seats", SeatList);
+                    sap.m.MessageToast.show("Please provide a valid future date to get the results.");
+                }
+            }
+            else {
+                SeatList = [];
+                modelRef.setProperty("/Seats", SeatList); sap.m.MessageToast.show("Please provide a valid date to get the results.");
+            }
+        }
+
 
         function _getEmployeeNameByID(userid) {
             var Currentdata;
@@ -70,6 +102,35 @@ sap.ui.define(
             }
         }
 
+        function _getMyTeamSeatDetails(teamID, date, monitorCount) {
+
+            var Currentdata = [], sFilterQuery;
+            var url = `/seat-booking/SeatStatus(ip_teamID='${teamID}',ip_date=${date})/Set`
+            if (monitorCount) {
+                sFilterQuery = `monitorCount eq ${parseInt(monitorCount)}`;
+                $.get({
+                    url: url,
+                    data: {
+                        $filter: sFilterQuery
+                    },
+                    success: function (data, status, xhr) {
+                        Currentdata = data;
+                    }, async: false
+                });
+            }
+            else {
+                $.get({
+                    url: url,
+                    success: function (data, status, xhr) {
+                        Currentdata = data;
+                    }, async: false
+                });
+            }
+            if (Currentdata.value) {
+                return Currentdata.value;
+            }
+        }
+
 
         return {
 
@@ -77,6 +138,10 @@ sap.ui.define(
                 sap.ui.core.BusyIndicator.show(0);
 
                 var userDetails = _getUserDetails();
+
+                var todaysDate = new Date();
+                todaysDate.setDate(todaysDate.getDate() + 1)
+                var NextDayDate = _getDateFormat(todaysDate);
 
                 var Newdata = {
                     "radiobutton": [{
@@ -89,7 +154,11 @@ sap.ui.define(
                         "MyBooking": true,
                         "OnBehalfBooking": false,
                         "GroupBooking": false,
-                        "GroupBookingDate": ""
+                        "GroupBookingDate": NextDayDate,
+                        "individualBooking": NextDayDate,
+                        "monitorCountFilter": "",
+                        "bookingForOtherTitle": "Booking Seat for others",
+                        "bookingForOtherEmp": ''
                     },
                     "userDetails": {
                         "employeeID_ID": userDetails.employeeID_ID,
@@ -97,46 +166,21 @@ sap.ui.define(
                         "teamID": userDetails.teamID
                     },
                     "Seats": [{
-                        "Date": "12.06.2021",
-                        "SeatNo": "BLR04-2F-001",
-                        "monitors": "2",
-                        "others": "power,ext",
-                        "available": "Full Day",
-                        "Seat": "11"
-                    }, {
-                        "Date": "12.06.2021",
-                        "SeatNo": "BLR04-2F-004",
-                        "monitors": "2",
-                        "others": "power,ext",
-                        "available": "1st Half Day",
-                        "Seat": "11"
-                    }, {
-                        "Date": "12.06.2021",
-                        "SeatNo": "BLR04-2F-008",
-                        "monitors": "1",
-                        "others": "power,ext",
-                        "available": "1st Half Day",
-                        "Seat": "11"
-                    }, {
-                        "Date": "12.06.2021",
-                        "SeatNo": "BLR04-2F-001",
-                        "monitors": "2",
-                        "others": "power,ext",
-                        "available": "Full Day",
-                        "Seat": "9"
-                    }, {
-                        "Date": "13.06.2021",
-                        "SeatNo": "BLR04-2F-001",
-                        "monitors": "1",
-                        "others": "power,ext",
-                        "available": "Full Day",
-                        "Seat": "9"
+                        // // "Date": "12.06.2021",
+                        // "seatID": "BLR04-2F-001",
+                        // "monitorCount": "2",
+                        // "facility1": "power,ext",
+                        //  "facility2": "power,ext",
+                        // // "available": "Full Day",
+                        // // "Seat": "11"
                     }],
-                    "empList": [
-                        // "EmpName": "Sara Mohanti",
-                        // "BookingStatus": "Not Booked"
-                    ]
+                    "empList": [],
+                    "MyTeamEmpList": []
                 };
+
+                // Getting Seat Details:
+                Newdata.Seats = _getMyTeamSeatDetails(userDetails.teamID, NextDayDate, Newdata.Property.monitorCountFilter);
+
                 var oView = this._controller.getView();
                 var oNewChatModel = new sap.ui.model.json.JSONModel(Newdata);
                 oView.setModel(oNewChatModel, "modelData");
@@ -159,6 +203,7 @@ sap.ui.define(
 
             PlanBookingCancelPress: function () {
                 this._oDialogonPlanBooking.close();
+                 this._controller.getView().getModel().refresh();
             },
 
 
@@ -177,8 +222,21 @@ sap.ui.define(
                         modelRef.setProperty("/Property/GroupBooking", true);
 
                         if (modelRef.getProperty("/empList").length === 0) {
-                            var employeeList = _getMyTeamMatesBooking(userDetails.teamID, modelRef.getProperty("/Property/GroupBookingDate"));
+                            var newDate = modelRef.getProperty("/Property/GroupBookingDate");
+                            if (newDate)
+                                var todaysDate = new Date();
+                            var formatedDate = _getDateFormat(todaysDate);
+
+                            if (formatedDate <= newDate) {
+                                var employeeList = _getMyTeamMatesBooking(userDetails.teamID, newDate);
+                                modelRef.setProperty("/empList", employeeList);
+                            }
+                            else {
+                                employeeList = [];
+                                modelRef.setProperty("/empList", employeeList);
+                            }
                         }
+
 
                     }
                 }
@@ -189,232 +247,280 @@ sap.ui.define(
                     modelRef.setProperty("/Property/index", 0);
                     sap.m.MessageToast.show("This feature is not available yet for members");
                 }
-            }
+            },
+            DialogBookPress: function (oContext) {
+                var that = this;
+                var selectedItem = this._controller.getView().byId("tabele1").getSelectedItem();
+                if (selectedItem) {
+                    var selectedRow = selectedItem.getBindingContext("modelData").getObject();
+                    var modelRef = this._controller.getView().getModel("modelData");
+                    var newDate = modelRef.getProperty("/Property/individualBooking");
 
-            // openPlanBookingDialog: function (oContext) {
-            // //    var contextData = oContext.getObject(oContext.sPath);
+                    // Check if same user have any active booking already for same day. 
+                    var Currentdata = [];
+                    var sFilterQuery = `employeeID_employeeID_ID eq '${sap.ushell.Container.getService("UserInfo").getId()}' and bookingDate eq ${newDate} and isDeleted eq false`;
+                    $.get({
+                        url: "/seat-booking/Booking",
+                        data: {
+                            $filter: sFilterQuery
+                        },
 
-            //  //   var locationID = contextData.locationID_locationID;
-            //  //   var teamID = contextData.teamID;
+                        success: function (data) {
+                            Currentdata = data;
 
-            //     //   var title = `Allocate new seats for location -${locationID} & Team -${teamID}`;
+                        }, async: false
+                    });
 
-            //     var Newdata = {
-            //         "radiobutton": [{
-            //             "Seat": `Seat Range(0001-0005)`
-            //         }, {
-            //             "Seat": "Multiple seats, comma separated(0001,0002)"
-            //         }, {
-            //             "Seat": "Single Seat(0001)"
-            //         }],
-            //         "Property": {
-            //             "inputField": "",
-            //             "SelectedIndex": -1,
-            //             "locationID": locationID,
-            //             "teamID": teamID,
-            //             "title": `Allocate new seats for location- ${locationID} & Team- ${teamID}`,
-            //             "placeHolder": "Select desired format and provide data"
-            //         }
-            //     };
-            //     var oModel = new sap.ui.model.json.JSONModel(Newdata);
-            //     this._controller.getView().setModel(oModel, "NewModel");
+                    if (Currentdata.value && Currentdata.value.length === 0) {
 
-            //     var oView = this._controller.getView();
+                        var data =
+                        {
+                            "attendance_attendanceStatus": "1",
+                            "bookedBy_ID": sap.ushell.Container.getService("UserInfo").getId(),
+                            "bookingDate": newDate,
+                            "createdBy": sap.ushell.Container.getService("UserInfo").getId(),
+                            "employeeID_employeeID_ID": sap.ushell.Container.getService("UserInfo").getId(),
+                            "isGroupBooking": false,
+                            "seatID_seatID": selectedRow.seatID,
+                            "status_bookingStatus": "1",
+                            "isDeleted": false,
+                        }
 
-            //     if (!this._oDialogonAddSeats) {
+                        $.post({
+                            url: "/seat-booking/Booking",
+                            headers: {
+                                //  "x-csrf-token": csrfToken,
+                                "Content-Type": "application/json"
+                            },
+                            data: JSON.stringify(data),
+                            success: function (data) {
+                                sap.m.MessageToast.show("Selected seat is booked for you!");
+                                getSeatbasedOnFilter(that);
 
-            //         this._oDialogonAddSeats = sap.ui.xmlfragment(oView.getId(), "adminui.ext.fragments.addSeats",
-            //             this);
+                            }, async: false
+                        });
+                    }
+                    else {
+                        sap.m.MessageToast.show("You already have a booking for same day!");
+                    }
+                }
+                else {
+                    sap.m.MessageToast.show("Select a free seat to book!!");
+                }
+            },
 
-            //         oView.addDependent(this._oDialogonAddSeats);
-            //     }
-            //     this._oDialogonAddSeats.open();
-            // },
+            SearchGroupBooking: function (oContext) {
+                var modelRef = this._controller.getView().getModel("modelData");
+                var newDate = modelRef.getProperty("/Property/GroupBookingDate");
+                if (newDate) {
+                    var todaysDate = new Date();
+                    var formatedDate = _getDateFormat(todaysDate);
 
-            // AddSeatCancelPress: function () {
-            //     this._oDialogonAddSeats.close();
-            // },
-            // onCustomValueSelected: function () {
-            //     var oData = this._controller.getView().getModel("NewModel").getData();
-            //     var placeHolder;
-            //     switch (oData.Property.SelectedIndex) {
-            //         case -1:
-            //             sap.m.MessageToast.show("No option selected, kindly select an option above");
-            //             break;
-            //         case 0:
-            //             placeHolder = "Enter the only seat no. (Exp: 0001-9999) as the currently selected format.";
-            //             break;
-            //         case 1:
-            //             placeHolder = "Enter the only seat no. (Exp: 0001,0002,..) as the currently selected format."
-            //             break;
-            //         case 2:
-            //             placeHolder = "Enter the only seat no.(Exp: 0001) as the currently selected format.";
-            //             break;
-            //     }
-            //     this._controller.getView().getModel("NewModel").setProperty("/Property/placeHolder", placeHolder);
-            // },
+                    if (formatedDate <= newDate) {
+                        var employeeList = _getMyTeamMatesBooking(modelRef.getProperty("/userDetails/teamID"), newDate);
+                        modelRef.setProperty("/empList", employeeList);
+                    } else {
+                        employeeList = [];
+                        modelRef.setProperty("/empList", employeeList);
+                        sap.m.MessageToast.show("Please provide a valid future date to get the results.");
+                    }
+                }
+                else {
+                    employeeList = [];
+                    modelRef.setProperty("/empList", employeeList); sap.m.MessageToast.show("Please provide a valid date to get the results.");
+                }
+            },
 
-            // postDataToDB: function (modelData, seatNos) {
+            GroupBooking: function (oContext) {
+                sap.m.MessageToast.show("Booking is made for selected colleagues");
+            },
 
-            //     var csrfToken, Currentdata = [], newData = {
-            //         "seatID": "",
-            //         "locationID": "",
-            //         "teamID": "",
-            //         "monitorCount": "",
-            //         "facility1": "",
-            //         "facility2": "",
-            //         "facility3": ""
-            //     };
-            //     $.get({
-            //         url: "/admin/TeamSeatMapping",
-            //         headers: {
-            //             "x-csrf-token": "fetch"
-            //         },
-            //         success: function (data, status, xhr) {
-            //             csrfToken = xhr.getResponseHeader("x-csrf-token");
-            //             Currentdata = data;
-            //             // if (status === that.Constants.STATUS.SUCCESS && data &&
-            //             // 	data.value && data.value.length !== 0) {
-            //             // 	resolve(data.value);
-            //             // } else {
-            //             // 	reject();
-            //             // }
-            //         }, async: false
-            //     });
-            //     if (Currentdata !== '') {
-            //         //Check given seat no. in current data
-            //         newData = Currentdata.value[0];
-            //         newData.seatID = seatNos[0];
-            //     }
+            searchSeatFilter: function (oContext) {
+                var modelRef = this._controller.getView().getModel("modelData");
+                var newDate = modelRef.getProperty("/Property/individualBooking");
+                var monitorCount = modelRef.getProperty("/Property/monitorCountFilter");
+                if (newDate) {
+                    var todaysDate = new Date();
+                    var formatedDate = _getDateFormat(todaysDate);
 
-            //     $.post({
-            //         url: "/admin/TeamSeatMapping",
-            //         headers: {
-            //             "x-csrf-token": csrfToken,
-            //             "Content-Type": "application/json"
-            //         },
-            //         data: JSON.stringify(newData),
-            //         success: function (data) {
-            //         }, async: false
-            //     });
-            // },
+                    if (formatedDate <= newDate) {
+                        var SeatList = _getMyTeamSeatDetails(modelRef.getProperty("/userDetails/teamID"), newDate, monitorCount);
+                        modelRef.setProperty("/Seats", SeatList);
+                    } else {
+                        SeatList = [];
+                        modelRef.setProperty("/Seats", SeatList);
+                        sap.m.MessageToast.show("Please provide a valid future date to get the results.");
+                    }
+                }
+                else {
+                    SeatList = [];
+                    modelRef.setProperty("/Seats", SeatList); sap.m.MessageToast.show("Please provide a valid date to get the results.");
+                }
+
+            },
+
+            MonitorChange: function () {
+                getSeatbasedOnFilter(this);
+            },
+
+            BookedByPress: function (oContext) {
+                var bookedSeatID = oContext.getSource().getBindingContext("modelData").getObject().seatID;
+                var modelRef = this._controller.getView().getModel("modelData");
+                var newDate = modelRef.getProperty("/Property/individualBooking");
+
+                // Get name of person. 
+                var Currentdata = [], sFilterQuery;
+                var url = `/seat-booking/BookedSeats`
+
+                var sFilterQuery = `seatID_seatID eq '${bookedSeatID}' and bookingDate eq ${newDate}`;
+                $.get({
+                    url: url,
+                    data: {
+                        $filter: sFilterQuery
+                    },
+                    success: function (data, status, xhr) {
+                        Currentdata = data;
+                    }, async: false
+                });
+
+                if (Currentdata.value && Currentdata.value[0].EmpName) {
+                    sap.m.MessageToast.show(`Clicked seat-'${Currentdata.value[0].seatID_seatID}' is booked for '${Currentdata.value[0].EmpName}'.`);
+                }
+            },
+
+            BookingOthers: function () {
+                var that = this;
+                var selectedItem = this._controller.getView().byId("tabele1").getSelectedItem();
+                if (selectedItem) {
+                    var selectedRow = selectedItem.getBindingContext("modelData").getObject();
+                    var modelRef = this._controller.getView().getModel("modelData");
+                    var newDate = modelRef.getProperty("/Property/individualBooking");
+                    var emp = modelRef.getProperty("/Property/bookingForOtherEmp");
+                    if (emp) {
+                        // Check if same user have any active booking already for same day. 
+                        var Currentdata = [];
+                        var sFilterQuery = `employeeID_employeeID_ID eq '${emp}' and bookingDate eq ${newDate} and isDeleted eq false`;
+                        $.get({
+                            url: "/seat-booking/Booking",
+                            data: {
+                                $filter: sFilterQuery
+                            },
+
+                            success: function (data) {
+                                Currentdata = data;
+
+                            }, async: false
+                        });
+
+                        if (Currentdata.value && Currentdata.value.length === 0) {
+
+                            var data =
+                            {
+                                "attendance_attendanceStatus": "1",
+                                "bookedBy_ID": sap.ushell.Container.getService("UserInfo").getId(),
+                                "bookingDate": newDate,
+                                "createdBy": sap.ushell.Container.getService("UserInfo").getId(),
+                                "employeeID_employeeID_ID": emp,
+                                "isGroupBooking": false,
+                                "seatID_seatID": selectedRow.seatID,
+                                "status_bookingStatus": "1",
+                                "isDeleted": false,
+                            }
+
+                            $.post({
+                                url: "/seat-booking/Booking",
+                                headers: {
+                                    //  "x-csrf-token": csrfToken,
+                                    "Content-Type": "application/json"
+                                },
+                                data: JSON.stringify(data),
+                                success: function (data) {
+                                    sap.m.MessageToast.show("Selected seat is booked!");
+                                      that._oDialogonPlanBookingOthers.close();
+                                    getSeatbasedOnFilter(that);
+                                     that._controller.getView().getModel().refresh();
+
+                                }, async: false
+                            });
+                        }
+                        else {
+                            sap.m.MessageToast.show("Selected teammate already have a booking for same day!");
+                        }
+                    }
+                    else {
+                        sap.m.MessageToast.show("Select a teammate to book!!");
+                    }
+                }
+                else {
+                    sap.m.MessageToast.show("Select a free seat to book!!");
+                }
+            },
+            BookingOtherCancelPress: function (oContext) {
+                this._oDialogonPlanBookingOthers.close();
+                 that._controller.getView().getModel().refresh();
+            },
+
+            DialogBookOtherPress: function (oContext) {
+                var selectedItem = this._controller.getView().byId("tabele1").getSelectedItem();
+                var modelRef = this._controller.getView().getModel("modelData");
+                if (selectedItem) {
+                    var selectedRow = selectedItem.getBindingContext("modelData").getObject();
+
+                    modelRef.setProperty("/Property/bookingForOtherTitle", `Booking Seat: ${selectedRow.seatID}`);
+                    var oView = this._controller.getView();
+                    var MyTeamEmpList = [], Currentdata = [], sFilterQuery;
+                    var url = `/seat-booking/TeamEmployeeMasterWithName`
+
+                    var sFilterQuery = `teamID eq '${modelRef.getProperty("/userDetails/teamID")}'`;
+                    $.get({
+                        url: url,
+                        data: {
+                            $filter: sFilterQuery
+                        },
+                        success: function (data, status, xhr) {
+                            Currentdata = data;
+                        }, async: false
+                    });
+
+                    if (Currentdata.value) {
+                        if (Currentdata.value.length) {
+                            MyTeamEmpList = Currentdata.value;
+                        }
+                    }
+
+                    modelRef.setProperty("/MyTeamEmpList", MyTeamEmpList);
+
+                    if (!this._oDialogonPlanBookingOthers) {
+
+                        this._oDialogonPlanBookingOthers = sap.ui.xmlfragment(oView.getId(), "seatbookingui.ext.fragments.PlanBookingOther",
+                            this);
+
+                        oView.addDependent(this._oDialogonPlanBookingOthers);
+                    }
+                    this._oDialogonPlanBookingOthers.open();
+                }
+                else
+                    sap.m.MessageToast.show('Select a free seat to book');
+            },
+
+            onTableSelectionChangeMyBooking: function (oContext) {
+                if (oContext.getParameter('selected')) {
+                    if (oContext.getParameter('listItem').getBindingContext('modelData').getObject().booked_seat) {
+                        sap.m.MessageToast.show('Selected seat is already booked and cannot be selected');
+                        oContext.getParameter('listItem').setSelected(false);
+                    }
+                }
+
+            },
+
+            onTableSelectionChangeGrpBooking: function (oContext) {
 
 
-            // SaveSeatPress: function (oContext, aSelectedContexts) {
-            //     var seatNo;
-            //     var seatNos = [];
-            //     var that = this;
-            //     var newData = {
-            //         "seatID": "",
-            //         "locationID": "",
-            //         "teamID": "",
-            //         "monitorCount": 0,
-            //         "facility1": 0,
-            //         "facility2": 0,
-            //         "facility3": 0
-            //     };
-
-            //     var oData = this._controller.getView().getModel("NewModel").getData();
-            //     newData.locationID = oData.Property.locationID;
-            //     newData.teamID = oData.Property.teamID;
-            //     if (oData.Property.inputField !== "") {
-            //         switch (oData.Property.SelectedIndex) {
-            //             case -1:
-            //                 sap.m.MessageToast.show("No option selected, kindly select and try again");
-            //                 break;
-            //             case 0:
-            //                 if (oData.Property.inputField.includes("-")) {
-            //                     //add logic
-            //                     sap.m.MessageToast.show("Development in-progress, Please use single seat option");
-            //                  //   this._oDialogonAddSeats.close();
-            //                 } else {
-            //                     //add logic
-            //                     sap.m.MessageToast.show("Selected format and input is not same, Please retry in correct format");
-            //                 }
-            //                 break;
-            //             case 1:
-            //                 if (oData.Property.inputField.includes(",")) {
-            //                     //add logic
-            //                      sap.m.MessageToast.show("Development in-progress, Please use single seat option");
-            //                   //  this._oDialogonAddSeats.close();
-            //                 } else {
-            //                     //add logic
-            //                     sap.m.MessageToast.show("Selected format and input is not same, Please retry in correct format!");
-            //                 }
-            //                 break;
-            //             case 2:
-            //                 if (oData.Property.inputField.length === 4) {
-            //                     seatNo = oData.Property.locationID + oData.Property.inputField;
-            //                     seatNos.push(seatNo);
-
-            //                     //   this.postDataToDB(oData, seatNos);
-
-            //                     //Get a call to find if given seat is valid seat like below. 
-            //                     var csrfToken, Currentdata = [], newData;
-            //                     var sFilterQuery = `seatID eq '${seatNo}'`;
-            //                     $.get({
-            //                         url: "/admin/TeamSeatMapping",
-            //                         headers: {
-            //                             "x-csrf-token": "fetch"
-            //                         }, data: {
-            //                             $filter: sFilterQuery
-            //                         },
-            //                         success: function (data, status, xhr) {
-            //                             csrfToken = xhr.getResponseHeader("x-csrf-token");
-            //                             Currentdata = data;
-
-            //                         }, async: false
-            //                     });
-            //                     if (Currentdata.value.length !== 0) {
-            //                         var seatAlreadyAdded = Currentdata.value.find(function (item) {
-            //                             return item.seatID === seatNo;
-            //                         });
-
-            //                     }
-            //                     if (!seatAlreadyAdded) {
-            //                         newData.seatID = seatNos[0];
-
-            //                         $.post({
-            //                             url: "/admin/TeamSeatMapping",
-            //                             headers: {
-            //                                 "x-csrf-token": csrfToken,
-            //                                 "Content-Type": "application/json"
-            //                             },
-            //                             data: JSON.stringify(newData),
-            //                             success: function (data) {
-            //                                 //   csrfToken = xhr.getResponseHeader("x-csrf-token");
-            //                                 //   Currentdata = data;
-            //                                 // if (status === that.Constants.STATUS.SUCCESS && data &&
-            //                                 // 	data.value && data.value.length !== 0) {
-            //                                 // 	resolve(data.value);
-            //                                 // } else {
-            //                                 // 	reject();
-            //                                 // }
-            //                                 sap.m.MessageToast.show("Seat added successfully");
-            //                             }, async: false
-            //                         });
+            },
 
 
-            //                         sap.m.MessageToast.show("Seat added successfully");
-            //                         this._oDialogonAddSeats.close();
-            //                         if (oContext)
-            //                             oContext.getSource().getParent().getParent().getController().getView().getBindingContext().refresh();
-            //                     }
-            //                     else {
-            //                         sap.m.MessageToast.show(`Seat already added for team -${seatAlreadyAdded.teamID}`);
-            //                     }
-            //                 } else {
-            //                     sap.m.MessageToast.show("Please provide the correct seat no.!");
-            //                 }
-            //                 break;
 
-            //             default:
-            //         }
-            //     } else {
-            //         sap.m.MessageToast.show("Please write seat no. in required format!");
-            //     }
 
-            // }
         };
     }
 );
