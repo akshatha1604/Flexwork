@@ -3,168 +3,155 @@ ID: flexwork-app
 description: A simple CAP project.
 version: 1.0.0
 modules:
-- name: flexwork-app-srv
-  type: nodejs
-  path: srv
-  requires:
-  - name: flexwork-app-db
-  provides:
-  - name: srv-api
-    properties:
-      srv-url: ${default-url}
-  parameters:
-    buildpack: nodejs_buildpack
-- name: flexwork-app-db-deployer
-  type: hdb
-  path: db
-  requires:
-  - name: flexwork-app-db
-  parameters:
-    buildpack: nodejs_buildpack
-- name: flexwork-app-destination-content
-  type: com.sap.application.content
-  requires:
-  - name: flexwork-app-destination-service
-    parameters:
-      content-target: true
-  - name: flexwork-app_html_repo_host
-    parameters:
-      service-key:
-        name: flexwork-app_html_repo_host-key
-  - name: uaa_flexwork-app
-    parameters:
-      service-key:
-        name: uaa_flexwork-app-key
-  parameters:
-    content:
-      instance:
-        destinations:
-        - Name: FlexWork_flexwork_app_html_repo_host
-          ServiceKeyName: flexwork-app_html_repo_host-key
-          sap.cloud.service: FlexWork
-        - Authentication: OAuth2UserTokenExchange
-          Name: FlexWork_uaa_flexwork_app
-          ServiceInstanceName: flexwork-app-xsuaa-service
-          ServiceKeyName: uaa_flexwork-app-key
-          sap.cloud.service: FlexWork
-        existing_destinations_policy: ignore
-  build-parameters:
-    no-source: true
-- name: flexwork-app-app-content
-  type: com.sap.application.content
-  path: .
-  requires:
-  - name: flexwork-app_html_repo_host
-    parameters:
-      content-target: true
-  build-parameters:
-    build-result: resources
+  - name: flexwork-app-srv
+    type: nodejs
+    path: srv
     requires:
-    - artifacts:
-      - adminui.zip
-      name: adminui
-      target-path: resources/
-    - artifacts:
-      - manageofficeseatsaddseats.zip
-      name: manageofficeseatsaddseats
-      target-path: resources/
-    - artifacts:
-      - bookseatseatooking.zip
-      name: bookseatseatooking
-      target-path: resources/
-    - artifacts:
-      - seatbookingui.zip
-      name: seatbookingui
-      target-path: resources/
-- name: adminui
-  type: html5
-  path: app/adminui
-  build-parameters:
-    build-result: dist
-    builder: custom
-    commands:
-    - npm install
-    - npm run build:cf
-    supported-platforms: []
-- name: manageofficeseatsaddseats
-  type: html5
-  path: app/addseats
-  build-parameters:
-    build-result: dist
-    builder: custom
-    commands:
-    - npm install
-    - npm run build:cf
-    supported-platforms: []
-- name: bookseatseatooking
-  type: html5
-  path: app/seatooking
-  build-parameters:
-    build-result: dist
-    builder: custom
-    commands:
-    - npm install
-    - npm run build:cf
-    supported-platforms: []
-- name: seatbookingui
-  type: html5
-  path: app/seatbookingui
-  build-parameters:
-    build-result: dist
-    builder: custom
-    commands:
-    - npm install
-    - npm run build:cf
-    supported-platforms: []
-resources:
-- name: flexwork-app-db
-  type: com.sap.xs.hdi-container
-  parameters:
-    service: hana
-    service-plan: hdi-shared
-  properties:
-    hdi-service-name: ${service-name}
-- name: flexwork-app_html_repo_runtime
-  type: org.cloudfoundry.managed-service
-  parameters:
-    service: html5-apps-repo
-    service-plan: app-runtime
-- name: uaa_flexwork-app
-  type: org.cloudfoundry.managed-service
-  parameters:
-    path: ./xs-security.json
-    service: xsuaa
-    service-name: flexwork-app-xsuaa-service
-    service-plan: application
-- name: flexwork-app_html_repo_host
-  type: org.cloudfoundry.managed-service
-  parameters:
-    service: html5-apps-repo
-    service-plan: app-host
-- name: flexwork-app-destination-service
-  type: org.cloudfoundry.managed-service
-  parameters:
-    config:
-      HTML5Runtime_enabled: true
-      init_data:
+      - name: flexwork-app-db
+      - name: uaa_flexwork-app
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    parameters:
+      buildpack: nodejs_buildpack
+      host: ${appname}
+    build-parameters:
+      ignore: [".env", "./node_modules"]
+  - name: flexwork-app-db-deployer
+    type: hdb
+    path: db
+    requires:
+      - name: flexwork-app-db
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      ignore: [".env", "./node_modules"]
+  - name: flexwork-app-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: flexwork-app-destination-service
+        parameters:
+          content-target: true
+      - name: flexwork-app_html_repo_host
+        parameters:
+          service-key:
+            name: flexwork-app_html_repo_host-key
+      - name: uaa_flexwork-app
+        parameters:
+          service-key:
+            name: uaa_flexwork-app-key
+    parameters:
+      content:
         instance:
           destinations:
-          - Authentication: NoAuthentication
-            Name: ui5
-            ProxyType: Internet
-            Type: HTTP
-            URL: https://ui5.sap.com
-          existing_destinations_policy: update
-      version: 1.0.0
-    service: destination
-    service-name: flexwork-app-destination-service
-    service-plan: lite
+            - Name: FlexWork_flexwork_app_html_repo_host
+              ServiceInstanceName: flexwork-app_html_repo_host
+              ServiceKeyName: flexwork-app_html_repo_host-key
+              sap.cloud.service: FlexWork
+            - Authentication: OAuth2UserTokenExchange
+              Name: FlexWork_uaa_flexwork_app
+              ServiceInstanceName: flexwork-app-xsuaa-service
+              ServiceKeyName: uaa_flexwork-app-key
+              sap.cloud.service: FlexWork
+          existing_destinations_policy: ignore
+    build-parameters:
+      no-source: true
+  - name: flexwork-app-app-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: flexwork-app_html_repo_host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - adminui.zip
+          name: adminui
+          target-path: resources/        
+        - artifacts:
+            - seatbookingui.zip
+          name: seatbookingui
+          target-path: resources/
+  - name: adminui
+    type: html5
+    path: app/adminui
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms: []  
+  - name: seatbookingui
+    type: html5
+    path: app/seatbookingui
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms: []
+resources:
+  - name: flexwork-app-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+    properties:
+      hdi-service-name: ${service-name}
+  - name: flexwork-app_html_repo_runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
+  - name: uaa_flexwork-app
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service: xsuaa
+      service-name: flexwork-app-xsuaa-service
+      service-plan: application
+  - name: flexwork-app_html_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+  - name: flexwork-app-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Authentication: NoAuthentication
+                Name: ui5
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://ui5.sap.com
+              - Name: srv-api-flexwork1
+                Authentication: NoAuthentication
+                ProxyType: Internet
+                HTML5.ForwardAuthToken: true
+                HTML5.DynamicDestination: true
+                Type: HTTP
+                URL: https://${appname}.${default-domain}              
+            existing_destinations_policy: update
+        version: 1.0.0
+      service: destination
+      service-name: flexwork-app-destination-service
+      service-plan: lite
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true
+  appname: flexwork-app
 build-parameters:
   before-all:
-  - builder: custom
-    commands:
-    - npm install --production
-    - npx -p @sap/cds-dk cds build --production
+    - builder: custom
+      commands:
+        - npm install --production
+        - npx -p @sap/cds-dk cds build --production

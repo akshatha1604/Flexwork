@@ -25,4 +25,10 @@ module.exports = function (srv) {
     //                       where ({teamID: req.data.teamID, bookingDate: req.data.bookingDate, free_seat : 'TRUE' });
     //     return freeSeats1;
     // })
+ this.before('READ','Booking',async(context)=>{
+     console.log(context.query);
+		const tx = db.tx(context);
+     console.log('hello');
+     console.log('TX' + tx);
+ } )
 }

@@ -1,6 +1,7 @@
 using {app.schema_flexwork as me} from '../db/schema';
 
-service AdminService @(impl : './adminService.js') {
+@requires:'admin'
+ service AdminService  @(impl : './adminService.js') {
     entity SAPOfficeData      as projection on me.SAPOfficeData;
     entity TeamEmployeeMaster as projection on me.TeamEmployeeMaster;
 
@@ -28,7 +29,7 @@ service AdminService @(impl : './adminService.js') {
     
 }
 
-
+// @requires:'admin'
 service SeatBooking @(impl : './SeatBookingService.js') {
     entity Booking                                                   as projection on me.Booking;
     entity TeamSeatMapping                                           as projection on me.TeamSeatMapping;

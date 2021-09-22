@@ -16,7 +16,10 @@
     "passport": "^0.4.1"
   },
   "scripts": {
-    "start": "cds run"
+    "start": "cds serve gen/csn.json"
+  },
+  "engines": {
+    "node": "^12.0.0 || ^14.0.0"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
@@ -57,11 +60,7 @@
     }
   },
   "sapux": [
-    "app/admin_data",
-    "app/admin_lrop",
     "app/adminui",
-    "app/addseats",
-    "app/seatooking",
     "app/seatbookingui"
   ],
   "devDependencies": {

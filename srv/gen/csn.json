@@ -733,6 +733,7 @@
     "AdminService": {
       "@source": "service.cds",
       "kind": "service",
+      "@requires": "admin",
       "@impl": "./adminService.js"
     },
     "AdminService.SAPOfficeData": {
@@ -1759,7 +1760,7 @@
         },
         {
           "Value": {
-            "=": "employeeID.employeeID_ID"
+            "=": "employeeID.employeeID.ID"
           }
         },
         {
@@ -2614,7 +2615,7 @@
         },
         {
           "Value": {
-            "=": "employeeID.employeeID_ID"
+            "=": "employeeID.employeeID.ID"
           }
         },
         {

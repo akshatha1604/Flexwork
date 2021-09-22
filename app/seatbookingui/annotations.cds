@@ -25,7 +25,7 @@ annotate service.Booking with @( // header-level annotations
     UI.SelectionFields : [
         seatID_seatID,
         status_bookingStatus,
-        employeeID.employeeID.ID,
+        employeeID.employeeID.ID,        
         bookedBy_ID,
         bookingDate,
         attendance_attendanceStatus,
@@ -59,7 +59,7 @@ annotate service.Booking with @( // header-level annotations
         // },
 
         {Value : seatID_seatID},
-        {Value : employeeID.employeeID_ID},
+        {Value : employeeID.employeeID.ID},
         {Value : bookedBy_ID},
         {Value : bookingDate},
         {Value : dayCode_dayCode},

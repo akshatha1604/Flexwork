@@ -1,0 +1,284 @@
+{
+    "_version": "1.32.0",
+    "sap.app": {
+        "id": "adminui",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "dataSources": {
+            "mainService": {
+                "uri": "admin/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            }
+        },
+        "offline": false,
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "ui5template.fiorielements.v4.lrop",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "adminui-inbound": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "admin",
+                    "action": "Manage",
+                    "title": "Admin : Manage SAP Office Data",
+                    "subTitle": "Admin : Manage SAP Office Data",
+                    "icon": ""
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "1.76.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.fe.templates": {},
+                "sap.f": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            }
+        },
+        "routing": {
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "SAPOfficeDataList",
+                    "target": [
+                        "SAPOfficeDataList"
+                    ]
+                },
+                {
+                    "pattern": "SAPOfficeData({key}):?query:",
+                    "name": "SAPOfficeDataObjectPage",
+                    "target": [
+                        "SAPOfficeDataList",
+                        "SAPOfficeDataObjectPage"
+                    ]
+                },
+                {
+                    "pattern": "SAPOfficeData({key})/Teams({key2}):?query:",
+                    "name": "TeamsObjectPage",
+                    "target": [
+                        "SAPOfficeDataList",
+                        "SAPOfficeDataObjectPage",
+                        "TeamsObjectPage"
+                    ]
+                }
+            ],
+            "targets": {
+                "SAPOfficeDataList": {
+                    "type": "Component",
+                    "id": "SAPOfficeDataList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "entitySet": "SAPOfficeData",
+                            "variantManagement": "Page",
+                            "controlConfiguration": {
+                                "SAPOfficeData/@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "type": "ResponsiveTable",
+                                        "selectionMode": "Single"
+                                    }
+                                },
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "enableExport": true
+                                    }
+                                }
+                            },
+                            "navigation": {
+                                "SAPOfficeData": {
+                                    "detail": {
+                                        "route": "SAPOfficeDataObjectPage"
+                                    }
+                                }
+                            },
+                            "initialLoad": "Enabled"
+                        }
+                    },
+                    "controlAggregation": "beginColumnPages",
+                    "contextPattern": ""
+                },
+                "SAPOfficeDataObjectPage": {
+                    "type": "Component",
+                    "id": "SAPOfficeDataObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "SAPOfficeData",
+                            "controlConfiguration": {
+                                "Teams/@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "selectionMode": "Single"
+                                    },
+                                    "actions": {
+                                        "UploadSeatImage": {
+                                            "press": "adminui.ext.controller.ObjectPageExt.UploadSeatImage",
+                                            "text": "Upload Seat map",
+                                            "enabled": "{= ${ui>/editMode} === 'Editable'}"
+                                        }
+                                    }
+                                }
+                            },
+                            "navigation": {
+                                "Teams": {
+                                    "detail": {
+                                        "route": "TeamsObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "controlAggregation": "midColumnPages",
+                    "contextPattern": "/SAPOfficeData({key})"
+                },
+                "TeamsObjectPage": {
+                    "type": "Component",
+                    "id": "TeamsObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "Teams",
+                            "controlConfiguration": {
+                                "to_Seats/@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "selectionMode": "Single"
+                                    },
+                                    "actions": {
+                                        "addSeat": {
+                                            "press": "adminui.ext.controller.ObjectPageExt.openAddSeatDialog",
+                                            "text": "{i18n>addSeat}",
+                                            "enabled": "{= ${ui>/editMode} === 'Editable'}",
+                                            "visible": "{= ${ui>/editMode} === 'Editable'}"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "controlAggregation": "endColumnPages",
+                    "contextPattern": "/SAPOfficeData({key})/Teams({key2})"
+                }
+            },
+            "config": {
+                "flexibleColumnLayout": {
+                    "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                    "defaultThreeColumnLayoutType": "ThreeColumnsEndExpanded"
+                },
+                "routerClass": "sap.f.routing.Router"
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "rootView": {
+            "viewName": "sap.fe.templates.RootContainer.view.Fcl",
+            "type": "XML",
+            "async": true,
+            "id": "appRootView"
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "adminui.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "Teams": {
+                                "EntitySet": "Teams",
+                                "Sections": {
+                                    "to_Seats::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_Seats::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionTeamDataSetSections12": {
+                                                "id": "ActionTeamDataSetSections1button2",
+                                                "text": "Add SeatsUI",
+                                                "press": "onClickActionAddSeats"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|SAPOfficeData|Teams": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "adminui.ext.fragments.addSeats"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.platform.hcp": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": [],
+        "archeType": "transactional"
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "FlexWork"
+    }
+}

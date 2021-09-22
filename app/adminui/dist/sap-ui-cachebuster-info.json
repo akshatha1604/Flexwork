@@ -1,0 +1,16 @@
+{
+  "index.html": 1626784780940,
+  "ext/controller/ObjectPageExt.js": 1630594147877,
+  "manifest.json": 1631623309016,
+  "utils/locate-reuse-libs.js": 1626784780944,
+  "Component.js": 1626784780936,
+  "manifest-bundle.zip": 1631623309037,
+  "Component-preload.js": 1631623309768,
+  "ext/controller/ObjectPageExt-dbg.js": 1630594147877,
+  "utils/locate-reuse-libs-dbg.js": 1626784780944,
+  "Component-dbg.js": 1626784780936,
+  "ext/fragments/addSeats.fragment.xml": 1629096919292,
+  "ext/fragments/addImage.fragment.xml": 1630594147877,
+  "custom/CustomSection.view.xml": 1628672022118,
+  "i18n/i18n.properties": 1628672022118
+}

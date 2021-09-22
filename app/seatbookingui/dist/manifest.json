@@ -1,0 +1,176 @@
+{
+    "_version": "1.32.0",
+    "sap.app": {
+        "id": "seatbookingui",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "dataSources": {
+            "mainService": {
+                "uri": "seat-booking/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            }
+        },
+        "offline": false,
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "ui5template.fiorielements.v4.lrop",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "seatbookingui-inbound": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "seatbooking",
+                    "action": "display",
+                    "title": "Book Seat",
+                    "subTitle": "Book your seat in the office",
+                    "icon": ""
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "1.76.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            }
+        },
+        "routing": {
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "BookingList",
+                    "target": "BookingList"
+                }
+            ],
+            "targets": {
+                "BookingList": {
+                    "type": "Component",
+                    "id": "BookingList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "entitySet": "Booking",
+                            "variantManagement": "Page",
+                            "controlConfiguration": {
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "selectionMode": "Single"
+                                    },
+                                    "actions": {
+                                        "QuickBook": {
+                                            "press": "seatbookingui.ext.controllers.quickBook.quickBooking",
+                                            "text": "{i18n>quickBook}",
+                                            "enabled": true,
+                                            "visible": true
+                                        },
+                                        "PlanBooking": {
+                                            "press": "seatbookingui.ext.controllers.planBooking.openPlanBookingDialog",
+                                            "text": "{i18n>PlanABooking}",
+                                            "enabled": true,
+                                            "visible": true
+                                        },
+                                        "ShowAvailability": {
+                                            "press": "seatbookingui.ext.controllers.ShowAvailability.OpenAvailabilityDialog",
+                                            "text": "{i18n>ShowAvailability}",
+                                            "enabled": true,
+                                            "visible": true
+                                        },
+                                        "UpdateBooking": {
+                                            "press": "seatbookingui.ext.controllers.UpdateBooking.OpenUpdateBookingDialog",
+                                            "text": "{i18n>UpdateBooking}",
+                                            "enabled": true,
+                                            "visible": true
+                                        },
+                                        "ShowImage": {
+                                            "press": "seatbookingui.ext.controllers.quickBook.OpenImageDialog",
+                                            "text": "{i18n>ShowImage}",
+                                            "enabled": true,
+                                            "visible": true
+                                        },
+                                        "ManagerZone": {
+                                            "press": "seatbookingui.ext.controllers.managerZone.openManagerZoneDialog",
+                                            "text": "{i18n>ManagerZone}",
+                                            "enabled": "seatbookingui.ext.controllers.managerZone.ManagerBtnHandling",
+                                            "visible": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.platform.abap": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.platform.hcp": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": [],
+        "archeType": "transactional"
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "FlexWork"
+    }
+}

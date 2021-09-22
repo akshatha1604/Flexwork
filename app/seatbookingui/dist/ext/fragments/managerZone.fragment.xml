@@ -1,0 +1,161 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:fb="sap.ui.comp.filterbar" core:require="{ext : 'seatbookingui/ext/controllers/managerZone'}">
+	<Dialog title='Plan a booking'>
+		<content>
+			<VBox width="630px" height="480px">
+				<!--<Text text='Group booking/ my booking/ booking of behalf'/>-->
+				<HBox>
+					<RadioButtonGroup buttons="{modelData>/radiobutton}" columns="3" selectedIndex="{modelData>/Property/MainRadioBtnIndex}" select="ext.ManagerTypeSelection">
+						<buttons>
+							<RadioButton text="{modelData>type}"/>
+						</buttons>
+					</RadioButtonGroup>
+				</HBox>
+				<VBox visible="{modelData>/Property/SeatDetails}">
+					<HeaderContainer>
+						<!--<Text text='Booking for self' textAlign="Center" width="600px"/>-->
+					</HeaderContainer>
+					<HBox>
+						<Table width="auto" noDataText="No Data Found" showSeparators="All" growing="true" growingThreshold="200" growingScrollToLoad="true"
+							items="{modelData>/Seats}" id="Manager1" sticky="HeaderToolbar" enableBusyIndicator="true">
+							<headerToolbar>
+								<OverflowToolbar width="auto" height="auto" visible="true" enabled="true">
+									<content>
+										<Title text="Seat List" titleStyle="Auto" width="auto" textAlign="Begin" visible="true"/>
+										<ToolbarSpacer width=""/>
+										<!--<Button icon='sap-icon://employee' press='ShowPOdata' tooltip="Click to see Product Owner information"-->
+										<!--	enabled="{ModelConnection>/POdetailButton}"/>-->
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column width="30%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+									mergeDuplicates="false">
+									<header>
+										<Text text="Seat No." width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+								<Column width="20%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+									mergeDuplicates="false">
+									<header>
+										<Text text="Monitors" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+								<Column width="25%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+									mergeDuplicates="false">
+									<header>
+										<Text text="Other Facility1" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+                                <Column width="25%" hAlign="Left" visible='true' vAlign="Middle" mergeDuplicates="false">
+									<header>
+										<Text text="Other Facility2" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem type="Active">
+									<cells>
+										<Text  text="{modelData>seatID}"/>
+										<Select forceSelection="true"  selectedKey="{modelData>monitorCount}" >
+											<items>
+												<core:Item key="0" text="0"/>
+												<core:Item key="1" text="1"/>
+												<core:Item key="2" text="2"/>
+											</items>
+										</Select>
+                                        <Select forceSelection="true"  selectedKey="{modelData>facility1}" >
+											<items>
+                                                <core:Item key='0' text="Nothing extra"/>
+												<core:Item key='1' text="Power extension"/>
+												<core:Item key='2' text="Extra space"/>
+												<core:Item key='3' text="LAN Cable"/>
+											</items>
+										</Select>
+                                           <Select forceSelection="true"  selectedKey="{modelData>facility2}" >
+											<items>
+                                                <core:Item key='0' text="Nothing extra"/>
+												<core:Item key='1' text="Power extension"/>
+												<core:Item key='2' text="Extra space"/>
+												<core:Item key='3' text="LAN Cable"/>
+											</items>
+										</Select>
+										
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</HBox>
+				</VBox>
+				<!--<HBox visible="{modelData>/Property/OnBehalfBooking}">-->
+				<!--	<Text text='Booking on behalf'/>-->
+				<!--</HBox>-->
+				<VBox visible="{modelData>/Property/EmployeeList}">
+					<HeaderContainer>
+						<Text text='Update Details' textAlign="Center" width="600px"/>
+					</HeaderContainer>
+					
+					<HBox class="sapUiSmallMargin">
+						<Table width="auto" noDataText="No Data Found" showSeparators="All" growing="true" growingThreshold="5" growingScrollToLoad="true"
+							items="{modelData>/empList}" id="Managere1" sticky="HeaderToolbar" mode="SingleSelectLeft" selectionChange='ext.onEmpListSelectionChange'
+							enableBusyIndicator="true">
+							<headerToolbar>
+								<OverflowToolbar width="auto" height="auto" visible="true" enabled="true">
+									<content>
+										<Title text="Employee List" titleStyle="Auto" width="auto" textAlign="Begin" visible="true"/>
+										<ToolbarSpacer width=""/>
+										<Button icon='sap-icon://add-employee' text="Add" press='ext.AddEmployee' tooltip="Add new employee"/>
+										<Button icon='sap-icon://delete' text="Delete"  enabled="{modelData>/Property/DeleteEmpBtn}" press="ext.DeleteEmp" tooltip="{modelData>/Property/DeleteEmpBtnTT}"/>
+										<Button icon='sap-icon://synchronize' text="Sync Data" press='ext.SyncData' tooltip="Sync data with SAP DB"/>
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column width="30%" hAlign="Left" visible='true' minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Employee ID" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+                                <Column width="45%" hAlign="Left" visible='true' minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Name" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+								<Column width="25%" hAlign="Left" visible='true' minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Role" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem type="Active">
+									<cells>
+										<Input value="{modelData>employeeID_ID}" editable="{modelData>empIDEdit}" submit="ext.ShowEmpName"/>
+                                        <Text text="{modelData>name}"/>     
+										<Select selectedKey="{modelData>role_roleCode}" items="{ path: 'modelData>/userRoleDetails' , templateShareable:false}"   enabled="{= ${modelData>role_roleCode} !== '01' }" >
+											<items>
+												<core:Item key="{modelData>roleCode}" text="{modelData>description}"/>
+											</items>
+										</Select>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+
+                       
+					</HBox>
+				</VBox>
+				<VBox visible="{modelData>/Property/usageAnalytics}">
+					<HeaderContainer>
+						<Text text='Table with usage analytics will be shown here, given day how many seats are booked.....' textAlign="Center" width="600px"/>
+					</HeaderContainer>
+					<HBox></HBox>
+				</VBox>
+			</VBox>
+		</content>
+		<buttons>
+			<Button text="Save Employee"  type="Default" iconFirst="true" enabled="true"  visible="{modelData>/Property/EmployeeList}" iconDensityAware="false" press="ext.SaveEmployee"/>
+			<Button text="Save Seats" type="Default" iconFirst="true" enabled="true" visible="{modelData>/Property/SeatDetails}" iconDensityAware="false" press="ext.SaveSeat"/>
+		    <Button text="Close" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="ext.CancelManagerBooking"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

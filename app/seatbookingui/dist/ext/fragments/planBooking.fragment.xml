@@ -1,0 +1,194 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" core:require="{ext : 'seatbookingui/ext/controllers/planBooking'}" xmlns:fb="sap.ui.comp.filterbar">
+	<Dialog title='Plan a booking'>  
+		<content>
+			<VBox width="630px" height="630px">
+				<!-- <Text text='Group booking/ my booking/ booking of behalf'/> -->
+				<HBox>
+					<RadioButtonGroup buttons="{modelData>/radiobutton}" columns="3" selectedIndex="{modelData>/Property/index}" select="ext.BookingTypeSelection">
+						<buttons>
+							<RadioButton text="{modelData>type}"/>
+						</buttons>
+					</RadioButtonGroup>
+				</HBox>
+				<VBox visible="{modelData>/Property/MyBooking}">
+					<HeaderContainer>
+						<Text text='Booking for self' textAlign="Center" width="600px"/>
+					</HeaderContainer>
+					<HBox width="600px">
+						<fb:FilterBar reset="onReset" search="ext.onSelectChange" useToolbar="false" showGoOnFB="true">
+							<fb:filterItems>
+								<fb:FilterItem name="D" label="Date" visibleInFilterBar='true'>
+									<fb:control>
+                                     <DatePicker required="true" value="{modelData>/Property>GroupBookingDate}" width="180px"/>
+										</fb:control>
+								</fb:FilterItem>
+								<!-- <fb:FilterItem name="A" label="Day">
+									<fb:control>
+										<Select id="sledeT1ype" forceSelection="true" width="50px">
+											<items>
+												<core:Item key="0" text="Full day"/>
+												<core:Item key="1" text="1st Half"/>
+												<core:Item key="2" text="2nd Half"/>
+											</items>
+										</Select>
+									</fb:control>
+								</fb:FilterItem> -->
+								<fb:FilterItem name="C" label="Monitors">
+									<fb:control>
+										<Select id="slTewed2ype" forceSelection="true" width="30px">
+											<items>
+												<core:Item key="2" text="2"/>
+												<core:Item key="1" text="1"/>
+												<core:Item key="0" text="0"/>
+											</items>
+										</Select>
+									</fb:control>
+								</fb:FilterItem>
+							</fb:filterItems>
+						</fb:FilterBar>
+					</HBox>
+					<HBox>
+						<Table width="auto" noDataText="No Data Found" showSeparators="All" growing="true" growingThreshold="4" growingScrollToLoad="true"
+							items="{modelData>/Seats}" id="tabele1" sticky="HeaderToolbar" mode="MultiSelect" selectionChange='onTableSelectionChange'
+							enableBusyIndicator="true">
+							<headerToolbar>
+								<OverflowToolbar width="auto" height="auto" visible="true" enabled="true">
+									<content>
+										<Title text="Available Seat List" titleStyle="Auto" width="auto" textAlign="Begin" visible="true"/>
+										<ToolbarSpacer width=""/>
+										<!--<Button icon='sap-icon://employee' press='ShowPOdata' tooltip="Click to see Product Owner information"-->
+										<!--	enabled="{ModelConnection>/POdetailButton}"/>-->
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column width="20%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+									mergeDuplicates="false">
+									<header>
+										<Text text="Date" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+								<Column width="20%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+									mergeDuplicates="false">
+									<header>
+										<Text text="Seat No" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+								<Column width="20%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+									mergeDuplicates="false">
+									<header>
+										<Text text="Availability" tooltip="1st half(before lunch)" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+								<Column width="20%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+									mergeDuplicates="false">
+									<header>
+										<Text text="Monitors" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+								<Column width="20%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+									mergeDuplicates="false">
+									<header>
+										<Text text="Other facility" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem type="Active">
+									<cells>
+										<Text text="{modelData>Date}"/>
+										<Text text="{modelData>SeatNo}"/>
+										<Text text="{modelData>available}"/>
+										<Text text="{modelData>monitors}"/>
+										<Text text="{modelData>others}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</HBox>
+				</VBox>
+				<!--<HBox visible="{modelData>/Property/OnBehalfBooking}">-->
+				<!--	<Text text='Booking on behalf'/>-->
+				<!--</HBox>-->
+				<VBox visible="{modelData>/Property/GroupBooking}">
+					<HeaderContainer>
+						<Text text='Group Booking' textAlign="Center" width="600px"/>
+					</HeaderContainer>
+					<HBox width="auto" class="sapUiSmallMargin">
+						<fb:FilterBar reset="onReset" search="onSelectChange" useToolbar="false" showGoOnFB="true">
+						<fb:filterItems>
+							<fb:FilterItem name="D" label="Date" visibleInFilterBar='true'>
+									<fb:control>
+                                    <DatePicker required="true" value="{modelData>/Property>GroupBookingDate}" width="180px"/>
+						
+									</fb:control>
+						</fb:FilterItem>
+						<!--		<fb:FilterItem name="A" label="Day">-->
+						<!--			<fb:control>-->
+						<!-- <VBox width="250px">
+							<Text text='Select day*'  width="200px"/>
+							<Select id="sl3e1ype"  forceSelection="true">
+								<items>
+									<core:Item key="0" text="Full day"/>
+									<core:Item key="1" text="1st Half"/>
+									<core:Item key="2" text="2nd Half"/>
+								</items>
+							</Select>
+						</VBox> -->
+						<!--			</fb:control>-->
+						<!--		</fb:FilterItem>-->
+							</fb:filterItems>
+						</fb:FilterBar>
+					</HBox>
+					<HBox class="sapUiSmallMargin">
+						<Table width="auto" noDataText="No Data Found" showSeparators="All" growing="true" growingThreshold="4" growingScrollToLoad="true"
+							items="{modelData>/empList}" id="tawebe3le1" sticky="HeaderToolbar" mode="MultiSelect" selectionChange='onTableSelectionChange'
+							enableBusyIndicator="true">
+							<headerToolbar>
+								<OverflowToolbar width="auto" height="auto" visible="true" enabled="true">
+									<content>
+										<Title text="Colleague List" titleStyle="Auto" width="auto" textAlign="Begin" visible="true"/>
+										<ToolbarSpacer width=""/>
+										<!--<Button icon='sap-icon://employee' press='ShowPOdata' tooltip="Click to see Product Owner information"-->
+										<!--	enabled="{ModelConnection>/POdetailButton}"/>-->
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column width="50%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+									mergeDuplicates="false">
+									<header>
+										<Text text="Employee Name" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+								<Column width="50%" hAlign="Left" visible='true' vAlign="Middle" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+									mergeDuplicates="false">
+									<header>
+										<Text text="Status for selected date" width="auto" wrapping="true" textAlign="Begin" textDirection="Inherit"/>
+									</header>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem type="Active">
+									<cells>
+										<Text text="{modelData>EmpName}"/>
+										<Text text="{modelData>BookingStatus}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</HBox>
+				</VBox>
+			</VBox>
+		</content>
+		<buttons>
+			<Button text="Book for self" type="Default" iconFirst="true" enabled="true" visible="{modelData>/Property/MyBooking}"
+				iconDensityAware="false" press="ext.DialogBookPress"/>
+			<Button text="Book on behalf" type="Default" iconFirst="true" enabled="true" visible="{modelData>/Property/MyBooking}"
+				iconDensityAware="false" press="ext.DialogBookOtherPress"/>
+			<Button text="Book for selection" type="Default" iconFirst="true" enabled="true" visible="{modelData>/Property/GroupBooking}"
+				iconDensityAware="false" press="ext.GroupBooking"/>
+			<Button text="Cancel" type="Default" iconFirst="true" enabled="true" visible="true" iconDensityAware="false" press="ext.PlanBookingCancelPress"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>
