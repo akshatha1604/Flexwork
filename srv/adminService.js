@@ -32,7 +32,8 @@ module.exports = function (srv) {
         return Promise.all(req.Teams.map(async team => {
             var managerExists = await SELECT.one.from(this.entities.TeamEmployeeMaster).where({ teamID: team.teamID });
             if (managerExists == null) {
-                const managerRecInserted = INSERT.into(TeamEmployeeMaster, [{ employeeID_ID: team.manager_ID, teamID: team.teamID, role_roleCode: '01' }])
+                const query = INSERT.into(TeamEmployeeMaster, [{ employeeID_ID: team.manager_ID, teamID: team.teamID, role_roleCode: '01' }])
+                const managerRecInserted = await cds.run (query)
                 if (managerRecInserted > 0) {
                     req.notify(200, 'Employee Successfully inserted');
                 }

@@ -733,7 +733,6 @@
     "AdminService": {
       "@source": "service.cds",
       "kind": "service",
-      "@requires": "admin",
       "@impl": "./adminService.js"
     },
     "AdminService.SAPOfficeData": {
@@ -1744,6 +1743,9 @@
         },
         {
           "=": "isGroupBooking"
+        },
+        {
+          "=": "isDeleted"
         }
       ],
       "@UI.LineItem": [
@@ -1781,6 +1783,11 @@
         {
           "Value": {
             "=": "isGroupBooking"
+          }
+        },
+        {
+          "Value": {
+            "=": "isDeleted"
           }
         }
       ],
@@ -2609,6 +2616,9 @@
         },
         {
           "=": "isGroupBooking"
+        },
+        {
+          "=": "isDeleted"
         }
       ],
       "@UI.LineItem": [
@@ -2646,6 +2656,11 @@
         {
           "Value": {
             "=": "isGroupBooking"
+          }
+        },
+        {
+          "Value": {
+            "=": "isDeleted"
           }
         }
       ],

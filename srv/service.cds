@@ -1,6 +1,6 @@
 using {app.schema_flexwork as me} from '../db/schema';
 
-@requires:'admin'
+// @requires:'admin'
  service AdminService  @(impl : './adminService.js') {
     entity SAPOfficeData      as projection on me.SAPOfficeData;
     entity TeamEmployeeMaster as projection on me.TeamEmployeeMaster;
